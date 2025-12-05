@@ -1,21 +1,32 @@
 :root {
   /* Premium Financial Palette */
-  --bg-primary: #020617; /* Slate 950 */
-  --bg-secondary: #0f172a; /* Slate 900 */
-  --bg-card: #1e293b; /* Slate 800 */
-  
-  --text-primary: #f8fafc; /* Slate 50 */
-  --text-secondary: #cbd5e1; /* Slate 300 */
-  --text-muted: #64748b; /* Slate 500 */
+  --bg-primary: #020617;
+  /* Slate 950 */
+  --bg-secondary: #0f172a;
+  /* Slate 900 */
+  --bg-card: #1e293b;
+  /* Slate 800 */
 
-  --accent-gold: #fbbf24; /* Amber 400 */
-  --accent-gold-hover: #d97706; /* Amber 600 */
-  
-  --accent-green: #10b981; /* Emerald 500 */
-  --accent-danger: #ef4444; /* Red 500 */
+  --text-primary: #f8fafc;
+  /* Slate 50 */
+  --text-secondary: #cbd5e1;
+  /* Slate 300 */
+  --text-muted: #64748b;
+  /* Slate 500 */
 
-  --border-color: #334155; /* Slate 700 */
-  
+  --accent-gold: #fbbf24;
+  /* Amber 400 */
+  --accent-gold-hover: #d97706;
+  /* Amber 600 */
+
+  --accent-green: #21af24;
+  /* Emerald 500 */
+  --accent-danger: #ef4444;
+  /* Red 500 */
+
+  --border-color: #334155;
+  /* Slate 700 */
+
   --radius-sm: 4px;
   --radius-md: 8px;
   --radius-lg: 16px;

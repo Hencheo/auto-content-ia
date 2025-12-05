@@ -2,7 +2,7 @@
 
 import React, { useState, useRef } from 'react';
 import { generateCarouselContent } from '@/lib/gemini';
-import { Slide } from './Slide';
+import { Slide, TemplateId } from './Slide';
 import { toPng } from 'html-to-image';
 import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
@@ -19,6 +19,7 @@ export function CarouselGenerator() {
     const [name, setName] = useState('Seu Nome');
     const [handle, setHandle] = useState('@seu_usuario');
     const [image, setImage] = useState<string | null>(null);
+    const [selectedTemplate, setSelectedTemplate] = useState<TemplateId>('financial-dark');
 
     // Carousel Navigation State
     const [currentSlide, setCurrentSlide] = useState(0);
@@ -157,6 +158,44 @@ export function CarouselGenerator() {
                     </div>
                 </div>
 
+                {/* Seleção de Template */}
+                <div className="card" style={{ marginBottom: '2rem' }}>
+                    <h3 style={{ marginBottom: '1rem', color: 'var(--text-secondary)' }}>Escolha o Estilo</h3>
+                    <div style={{ display: 'flex', gap: '1rem' }}>
+                        <button
+                            onClick={() => setSelectedTemplate('financial-dark')}
+                            style={{
+                                flex: 1,
+                                padding: '1rem',
+                                borderRadius: 'var(--radius-md)',
+                                border: `2px solid ${selectedTemplate === 'financial-dark' ? 'var(--accent-gold)' : 'var(--border-color)'}`,
+                                backgroundColor: 'var(--bg-primary)',
+                                color: 'white',
+                                cursor: 'pointer',
+                                textAlign: 'center'
+                            }}
+                        >
+                            Financial Dark
+                        </button>
+                        <button
+                            onClick={() => setSelectedTemplate('modern-clean')}
+                            style={{
+                                flex: 1,
+                                padding: '1rem',
+                                borderRadius: 'var(--radius-md)',
+                                border: `2px solid ${selectedTemplate === 'modern-clean' ? 'var(--accent-gold)' : 'var(--border-color)'}`,
+                                backgroundColor: '#f1f5f9',
+                                color: '#0f172a',
+                                cursor: 'pointer',
+                                textAlign: 'center',
+                                fontWeight: 'bold'
+                            }}
+                        >
+                            Modern Clean
+                        </button>
+                    </div>
+                </div>
+
                 {/* Input de Geração */}
                 <form onSubmit={handleGenerate} style={{ display: 'flex', gap: '1rem' }}>
                     <input
@@ -187,7 +226,7 @@ export function CarouselGenerator() {
                         <button
                             type="submit"
                             className="btn btn-primary"
-                            style={{ minWidth: '120px' }}
+                            style={{ minWidth: '120px', backgroundColor: 'var(--accent-green)', color: 'white' }}
                         >
                             Gerar
                         </button>
@@ -215,7 +254,7 @@ export function CarouselGenerator() {
                                         alert('Legenda copiada!');
                                     }}
                                     className="btn"
-                                    style={{ backgroundColor: 'var(--bg-primary)', border: '1px solid var(--border-color)', fontSize: '0.9rem', padding: '0.5rem 1rem' }}
+                                    style={{ backgroundColor: 'var(--accent-green)', color: 'white', border: '1px solid var(--border-color)', fontSize: '0.9rem', padding: '0.5rem 1rem' }}
                                 >
                                     Copiar Texto
                                 </button>
@@ -257,6 +296,7 @@ export function CarouselGenerator() {
                                 total={carouselData.slides.length}
                                 profile={{ name, handle, image }}
                                 scale={0.4}
+                                templateId={selectedTemplate}
                             />
                         </div>
 
@@ -285,6 +325,7 @@ export function CarouselGenerator() {
                                 total={carouselData.slides.length}
                                 profile={{ name, handle, image }}
                                 scale={1}
+                                templateId={selectedTemplate}
                             />
                         ))}
                     </div>
