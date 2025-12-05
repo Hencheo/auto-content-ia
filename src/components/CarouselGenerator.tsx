@@ -198,21 +198,28 @@ export function CarouselGenerator() {
 
                 {/* Input de Geração */}
                 <form onSubmit={handleGenerate} className="flex-responsive">
-                    <input
-                        type="text"
-                        value={topic}
-                        onChange={(e) => setTopic(e.target.value)}
-                        placeholder="Digite o tema (ex: Empresário sem tempo...)"
-                        style={{
-                            flex: 1,
-                            padding: '1rem',
-                            borderRadius: 'var(--radius-md)',
-                            border: '1px solid var(--border-color)',
-                            backgroundColor: 'var(--bg-card)',
-                            color: 'var(--text-primary)',
-                            fontSize: '1rem'
-                        }}
-                    />
+                    {loading ? (
+                        <div className="progress-bar-container">
+                            <div className="progress-bar-fill" />
+                            <span className="progress-text">Gerando conteúdo estratégico...</span>
+                        </div>
+                    ) : (
+                        <input
+                            type="text"
+                            value={topic}
+                            onChange={(e) => setTopic(e.target.value)}
+                            placeholder="Digite o tema (ex: Empresário sem tempo...)"
+                            style={{
+                                flex: 1,
+                                padding: '1rem',
+                                borderRadius: 'var(--radius-md)',
+                                border: '1px solid var(--border-color)',
+                                backgroundColor: 'var(--bg-card)',
+                                color: 'var(--text-primary)',
+                                fontSize: '1rem'
+                            }}
+                        />
+                    )}
                     {loading ? (
                         <button
                             type="button"
