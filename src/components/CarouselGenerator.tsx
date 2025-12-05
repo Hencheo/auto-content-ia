@@ -335,6 +335,91 @@ export function CarouselGenerator() {
                         Slide {currentSlide + 1} de {carouselData.slides.length}
                     </div>
 
+                    {/* Editor de Slide */}
+                    <div className="card" style={{ marginBottom: '2rem', border: '1px solid var(--border-color)' }}>
+                        <h3 style={{ marginBottom: '1rem', color: 'var(--text-secondary)', fontSize: '1.1rem' }}>
+                            Editar Conteúdo do Slide {currentSlide + 1}
+                        </h3>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                            {/* Título */}
+                            <div>
+                                <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', color: 'var(--text-muted)' }}>
+                                    Título
+                                </label>
+                                <input
+                                    type="text"
+                                    value={carouselData.slides[currentSlide].title || ''}
+                                    onChange={(e) => {
+                                        const newSlides = [...carouselData.slides];
+                                        newSlides[currentSlide] = { ...newSlides[currentSlide], title: e.target.value };
+                                        setCarouselData({ ...carouselData, slides: newSlides });
+                                    }}
+                                    style={{
+                                        width: '100%',
+                                        padding: '0.75rem',
+                                        borderRadius: 'var(--radius-md)',
+                                        border: '1px solid var(--border-color)',
+                                        background: 'var(--bg-primary)',
+                                        color: 'white'
+                                    }}
+                                />
+                            </div>
+
+                            {/* Subtítulo (se houver) */}
+                            {carouselData.slides[currentSlide].subtitle !== undefined && (
+                                <div>
+                                    <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', color: 'var(--text-muted)' }}>
+                                        Subtítulo
+                                    </label>
+                                    <input
+                                        type="text"
+                                        value={carouselData.slides[currentSlide].subtitle || ''}
+                                        onChange={(e) => {
+                                            const newSlides = [...carouselData.slides];
+                                            newSlides[currentSlide] = { ...newSlides[currentSlide], subtitle: e.target.value };
+                                            setCarouselData({ ...carouselData, slides: newSlides });
+                                        }}
+                                        style={{
+                                            width: '100%',
+                                            padding: '0.75rem',
+                                            borderRadius: 'var(--radius-md)',
+                                            border: '1px solid var(--border-color)',
+                                            background: 'var(--bg-primary)',
+                                            color: 'white'
+                                        }}
+                                    />
+                                </div>
+                            )}
+
+                            {/* Corpo (se houver) */}
+                            {carouselData.slides[currentSlide].body !== undefined && (
+                                <div>
+                                    <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', color: 'var(--text-muted)' }}>
+                                        Texto Principal
+                                    </label>
+                                    <textarea
+                                        value={carouselData.slides[currentSlide].body || ''}
+                                        onChange={(e) => {
+                                            const newSlides = [...carouselData.slides];
+                                            newSlides[currentSlide] = { ...newSlides[currentSlide], body: e.target.value };
+                                            setCarouselData({ ...carouselData, slides: newSlides });
+                                        }}
+                                        rows={4}
+                                        style={{
+                                            width: '100%',
+                                            padding: '0.75rem',
+                                            borderRadius: 'var(--radius-md)',
+                                            border: '1px solid var(--border-color)',
+                                            background: 'var(--bg-primary)',
+                                            color: 'white',
+                                            resize: 'vertical'
+                                        }}
+                                    />
+                                </div>
+                            )}
+                        </div>
+                    </div>
+
                     {/* Hidden Container for Export (Full Scale) */}
                     <div style={{ position: 'absolute', top: '-9999px', left: '-9999px' }}>
                         {carouselData.slides.map((slide: any, index: number) => (
