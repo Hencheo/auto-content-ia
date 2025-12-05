@@ -126,7 +126,7 @@ export function CarouselGenerator() {
     return (
         <div className="container" style={{ padding: '4rem 0' }}>
             <div style={{ maxWidth: '800px', margin: '0 auto 4rem auto' }}>
-                <h1 style={{ fontSize: '2.5rem', marginBottom: '2rem', color: 'var(--accent-gold)', textAlign: 'center' }}>
+                <h1 className="page-title" style={{ fontSize: '2.5rem', marginBottom: '2rem', color: 'var(--accent-gold)', textAlign: 'center' }}>
                     Gerador de Carrossel 360º
                 </h1>
 
