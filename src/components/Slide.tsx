@@ -17,9 +17,10 @@ interface SlideProps {
         handle: string;
         image: string | null;
     };
+    scale?: number;
 }
 
-export function Slide({ data, index, total, id, profile }: SlideProps) {
+export function Slide({ data, index, total, id, profile, scale = 0.4 }: SlideProps) {
     return (
         <div
             id={id}
@@ -37,7 +38,7 @@ export function Slide({ data, index, total, id, profile }: SlideProps) {
                 overflow: 'hidden',
                 border: '1px solid var(--border-color)',
                 marginBottom: '2rem',
-                transform: 'scale(0.4)',
+                transform: `scale(${scale})`,
                 transformOrigin: 'top left',
             }}
         >
@@ -74,7 +75,7 @@ export function Slide({ data, index, total, id, profile }: SlideProps) {
                     <span style={{ fontSize: '32px', color: 'var(--text-muted)', marginTop: '8px' }}>{profile.handle}</span>
                 </div>
 
-                {/* Contador (Opcional, mantido no topo direito) */}
+                {/* Contador */}
                 <div style={{ marginLeft: 'auto', fontSize: '24px', opacity: 0.5 }}>
                     {index + 1}/{total}
                 </div>

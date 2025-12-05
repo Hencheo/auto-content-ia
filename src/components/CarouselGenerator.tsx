@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { generateCarouselContent } from '@/lib/gemini';
 import { Slide } from './Slide';
 import { toPng } from 'html-to-image';
@@ -12,10 +12,28 @@ export function CarouselGenerator() {
     const [loading, setLoading] = useState(false);
     const [carouselData, setCarouselData] = useState<any>(null);
 
+    // Abort Controller Ref
+    const abortControllerRef = useRef<AbortController | null>(null);
+
     // Profile State
     const [name, setName] = useState('Seu Nome');
     const [handle, setHandle] = useState('@seu_usuario');
     const [image, setImage] = useState<string | null>(null);
+
+    // Carousel Navigation State
+    const [currentSlide, setCurrentSlide] = useState(0);
+
+    const nextSlide = () => {
+        if (carouselData && currentSlide < carouselData.slides.length - 1) {
+            setCurrentSlide(curr => curr + 1);
+        }
+    };
+
+    const prevSlide = () => {
+        if (currentSlide > 0) {
+            setCurrentSlide(curr => curr - 1);
+        }
+    };
 
     const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
@@ -25,17 +43,53 @@ export function CarouselGenerator() {
         }
     };
 
-    const handleGenerate = async () => {
+    const handleGenerate = async (e?: React.FormEvent) => {
+        if (e) e.preventDefault();
         if (!topic) return;
-        setLoading(true);
-        try {
-            const data = await generateCarouselContent(topic);
-            setCarouselData(data);
-        } catch (error) {
-            alert('Erro ao gerar conteúdo. Verifique sua API Key.');
-        } finally {
-            setLoading(false);
+
+        // Cancel previous request if exists
+        if (abortControllerRef.current) {
+            abortControllerRef.current.abort();
         }
+
+        // Create new controller
+        const controller = new AbortController();
+        abortControllerRef.current = controller;
+
+        setLoading(true);
+        setCarouselData(null); // Clear previous data
+        setCurrentSlide(0); // Reset slide
+
+        try {
+            const data = await generateCarouselContent(topic, controller.signal);
+            if (controller.signal.aborted) return;
+            setCarouselData(data);
+        } catch (error: any) {
+            if (error.name === 'AbortError') {
+                console.log('Geração cancelada pelo usuário.');
+            } else {
+                alert('Erro ao gerar conteúdo. Verifique sua API Key.');
+                console.error(error);
+            }
+        } finally {
+            if (abortControllerRef.current === controller) {
+                setLoading(false);
+                abortControllerRef.current = null;
+            }
+        }
+    };
+
+    const handleCancel = () => {
+        console.log('Cancelando geração...');
+        if (abortControllerRef.current) {
+            abortControllerRef.current.abort();
+            abortControllerRef.current = null;
+        }
+        // Garante que o estado seja atualizado no próximo ciclo de renderização
+        setTimeout(() => {
+            setLoading(false);
+            console.log('Estado de loading definido para false.');
+        }, 0);
     };
 
     const handleDownload = async () => {
@@ -104,7 +158,7 @@ export function CarouselGenerator() {
                 </div>
 
                 {/* Input de Geração */}
-                <div style={{ display: 'flex', gap: '1rem' }}>
+                <form onSubmit={handleGenerate} style={{ display: 'flex', gap: '1rem' }}>
                     <input
                         type="text"
                         value={topic}
@@ -120,15 +174,25 @@ export function CarouselGenerator() {
                             fontSize: '1rem'
                         }}
                     />
-                    <button
-                        onClick={handleGenerate}
-                        disabled={loading}
-                        className="btn btn-primary"
-                        style={{ minWidth: '120px' }}
-                    >
-                        {loading ? 'Gerando...' : 'Gerar'}
-                    </button>
-                </div>
+                    {loading ? (
+                        <button
+                            type="button"
+                            onClick={handleCancel}
+                            className="btn"
+                            style={{ minWidth: '120px', backgroundColor: 'var(--accent-danger)', color: 'white' }}
+                        >
+                            Cancelar
+                        </button>
+                    ) : (
+                        <button
+                            type="submit"
+                            className="btn btn-primary"
+                            style={{ minWidth: '120px' }}
+                        >
+                            Gerar
+                        </button>
+                    )}
+                </form>
             </div>
 
             {carouselData && (
@@ -174,22 +238,54 @@ export function CarouselGenerator() {
                         </div>
                     )}
 
-                    <div style={{
-                        display: 'grid',
-                        gridTemplateColumns: 'repeat(auto-fit, minmax(450px, 1fr))',
-                        gap: '2rem',
-                        justifyItems: 'center'
-                    }}>
+                    {/* Carousel View */}
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1rem', marginBottom: '2rem' }}>
+                        <button
+                            onClick={prevSlide}
+                            disabled={currentSlide === 0}
+                            className="btn"
+                            style={{ padding: '1rem', borderRadius: '50%', opacity: currentSlide === 0 ? 0.5 : 1 }}
+                        >
+                            &lt;
+                        </button>
+
+                        <div style={{ width: '450px', height: '560px', overflow: 'hidden', border: '1px solid #333', borderRadius: 'var(--radius-md)' }}>
+                            <Slide
+                                id="preview-slide"
+                                data={carouselData.slides[currentSlide]}
+                                index={currentSlide}
+                                total={carouselData.slides.length}
+                                profile={{ name, handle, image }}
+                                scale={0.4}
+                            />
+                        </div>
+
+                        <button
+                            onClick={nextSlide}
+                            disabled={currentSlide === carouselData.slides.length - 1}
+                            className="btn"
+                            style={{ padding: '1rem', borderRadius: '50%', opacity: currentSlide === carouselData.slides.length - 1 ? 0.5 : 1 }}
+                        >
+                            &gt;
+                        </button>
+                    </div>
+
+                    <div style={{ textAlign: 'center', marginBottom: '2rem', color: 'var(--text-secondary)' }}>
+                        Slide {currentSlide + 1} de {carouselData.slides.length}
+                    </div>
+
+                    {/* Hidden Container for Export (Full Scale) */}
+                    <div style={{ position: 'absolute', top: '-9999px', left: '-9999px' }}>
                         {carouselData.slides.map((slide: any, index: number) => (
-                            <div key={index} style={{ width: '450px', height: '560px', overflow: 'hidden', border: '1px solid #333' }}>
-                                <Slide
-                                    id={`slide-${index}`}
-                                    data={slide}
-                                    index={index}
-                                    total={carouselData.slides.length}
-                                    profile={{ name, handle, image }}
-                                />
-                            </div>
+                            <Slide
+                                key={index}
+                                id={`slide-${index}`}
+                                data={slide}
+                                index={index}
+                                total={carouselData.slides.length}
+                                profile={{ name, handle, image }}
+                                scale={1}
+                            />
                         ))}
                     </div>
                 </div>

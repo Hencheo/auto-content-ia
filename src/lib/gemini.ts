@@ -39,14 +39,29 @@ REGRAS DA LEGENDA (CAPTION):
 5. Inclua 5-10 hashtags estratégicas no final (ex: #gestaofinanceira #empresario #lucro).
 `;
 
-export async function generateCarouselContent(topic: string) {
+export async function generateCarouselContent(topic: string, signal?: AbortSignal) {
   if (!API_KEY) {
     throw new Error("API Key não configurada.");
   }
 
   try {
     const prompt = `${SYSTEM_PROMPT}\n\nTEMA DO USUÁRIO: ${topic}\n\nGere o conteúdo do carrossel em JSON.`;
-    const result = await model.generateContent(prompt);
+
+    const generationPromise = model.generateContent(prompt);
+
+    if (signal) {
+      const abortPromise = new Promise((_, reject) => {
+        signal.addEventListener('abort', () => reject(new DOMException('Aborted', 'AbortError')));
+      });
+
+      const result = await Promise.race([generationPromise, abortPromise]) as any;
+      const response = result.response;
+      const text = response.text();
+      const jsonString = text.replace(/```json/g, "").replace(/```/g, "").trim();
+      return JSON.parse(jsonString);
+    }
+
+    const result = await generationPromise;
     const response = result.response;
     const text = response.text();
 
