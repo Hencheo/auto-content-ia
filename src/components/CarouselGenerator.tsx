@@ -133,7 +133,7 @@ export function CarouselGenerator() {
                 {/* Configuração do Perfil */}
                 <div className="card" style={{ marginBottom: '2rem' }}>
                     <h3 style={{ marginBottom: '1rem', color: 'var(--text-secondary)' }}>Configuração do Perfil</h3>
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1rem' }}>
+                    <div className="grid-responsive" style={{ marginBottom: '1rem' }}>
                         <input
                             type="text"
                             value={name}
@@ -149,7 +149,7 @@ export function CarouselGenerator() {
                             style={{ padding: '0.75rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)', background: 'var(--bg-primary)', color: 'white' }}
                         />
                     </div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                    <div className="flex-responsive" style={{ alignItems: 'center' }}>
                         <label className="btn" style={{ backgroundColor: 'var(--bg-primary)', border: '1px solid var(--border-color)', color: 'var(--text-secondary)' }}>
                             Escolher Foto
                             <input type="file" accept="image/png, image/jpeg, image/jpg" onChange={handleImageUpload} style={{ display: 'none' }} />
@@ -197,7 +197,7 @@ export function CarouselGenerator() {
                 </div>
 
                 {/* Input de Geração */}
-                <form onSubmit={handleGenerate} style={{ display: 'flex', gap: '1rem' }}>
+                <form onSubmit={handleGenerate} className="flex-responsive">
                     <input
                         type="text"
                         value={topic}
@@ -278,7 +278,7 @@ export function CarouselGenerator() {
                     )}
 
                     {/* Carousel View */}
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1rem', marginBottom: '2rem' }}>
+                    <div className="preview-wrapper">
                         <button
                             onClick={prevSlide}
                             disabled={currentSlide === 0}
@@ -288,7 +288,7 @@ export function CarouselGenerator() {
                             &lt;
                         </button>
 
-                        <div style={{ width: '450px', height: '560px', overflow: 'hidden', border: '1px solid #333', borderRadius: 'var(--radius-md)' }}>
+                        <div className="preview-container">
                             <Slide
                                 id="preview-slide"
                                 data={carouselData.slides[currentSlide]}
