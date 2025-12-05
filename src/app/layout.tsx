@@ -15,6 +15,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "AutoContent 360",
   description: "Gere conteúdos automaticamente para redes sociais",
+  icons: {
+    icon: process.env.NODE_ENV === 'production' ? '/auto-content-ia/favicon.ico' : '/favicon.ico',
+  },
 };
 
 export default function RootLayout({
