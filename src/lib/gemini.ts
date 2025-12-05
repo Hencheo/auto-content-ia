@@ -137,3 +137,38 @@ export async function generateStoryContent(articleContent: string, signal?: Abor
     throw error;
   }
 }
+
+export async function generateCarouselFromArticle(articleContent: string, signal?: AbortSignal) {
+  if (!API_KEY) {
+    throw new Error("API Key não configurada.");
+  }
+
+  try {
+    const prompt = `${SYSTEM_PROMPT}\n\nCONTEÚDO DO ARTIGO:\n${articleContent}\n\nTAREFA: Analise o artigo acima, extraia os principais insights estratégicos e crie um carrossel educativo seguindo as regras de conteúdo. Gere o JSON.`;
+
+    const generationPromise = model.generateContent(prompt);
+
+    if (signal) {
+      const abortPromise = new Promise((_, reject) => {
+        signal.addEventListener('abort', () => reject(new DOMException('Aborted', 'AbortError')));
+      });
+
+      const result = await Promise.race([generationPromise, abortPromise]) as any;
+      const response = result.response;
+      const text = response.text();
+      const jsonString = text.replace(/```json/g, "").replace(/```/g, "").trim();
+      return JSON.parse(jsonString);
+    }
+
+    const result = await generationPromise;
+    const response = result.response;
+    const text = response.text();
+
+    const jsonString = text.replace(/```json/g, "").replace(/```/g, "").trim();
+    return JSON.parse(jsonString);
+
+  } catch (error) {
+    console.error("Erro ao gerar carrossel via URL:", error);
+    throw error;
+  }
+}

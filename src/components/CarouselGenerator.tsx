@@ -1,15 +1,18 @@
 "use client";
 
 import React, { useState, useRef } from 'react';
-import { generateCarouselContent } from '@/lib/gemini';
+import { generateCarouselContent, generateCarouselFromArticle } from '@/lib/gemini';
 import { Slide, TemplateId } from './Slide';
 import { toPng } from 'html-to-image';
 import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
 
 export function CarouselGenerator() {
+    const [inputType, setInputType] = useState<'topic' | 'url'>('topic');
     const [topic, setTopic] = useState('');
+    const [url, setUrl] = useState('');
     const [loading, setLoading] = useState(false);
+    const [loadingStep, setLoadingStep] = useState('');
     const [carouselData, setCarouselData] = useState<any>(null);
 
     // Abort Controller Ref
@@ -46,7 +49,8 @@ export function CarouselGenerator() {
 
     const handleGenerate = async (e?: React.FormEvent) => {
         if (e) e.preventDefault();
-        if (!topic) return;
+        if (inputType === 'topic' && !topic) return;
+        if (inputType === 'url' && !url) return;
 
         // Cancel previous request if exists
         if (abortControllerRef.current) {
@@ -62,7 +66,31 @@ export function CarouselGenerator() {
         setCurrentSlide(0); // Reset slide
 
         try {
-            const data = await generateCarouselContent(topic, controller.signal);
+            let data;
+
+            if (inputType === 'topic') {
+                setLoadingStep('Gerando conteúdo estratégico...');
+                data = await generateCarouselContent(topic, controller.signal);
+            } else {
+                // URL Flow
+                setLoadingStep('Lendo o artigo...');
+                const scrapeRes = await fetch('/api/scrape', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ url }),
+                    signal: controller.signal
+                });
+
+                if (!scrapeRes.ok) throw new Error('Falha ao ler a notícia');
+                const scrapeData = await scrapeRes.json();
+
+                if (controller.signal.aborted) return;
+
+                setLoadingStep('Transformando em carrossel...');
+                const content = `TÍTULO: ${scrapeData.title}\n\nCONTEÚDO: ${scrapeData.content}`;
+                data = await generateCarouselFromArticle(content, controller.signal);
+            }
+
             if (controller.signal.aborted) return;
             setCarouselData(data);
         } catch (error: any) {
@@ -75,6 +103,7 @@ export function CarouselGenerator() {
         } finally {
             if (abortControllerRef.current === controller) {
                 setLoading(false);
+                setLoadingStep('');
                 abortControllerRef.current = null;
             }
         }
@@ -211,47 +240,104 @@ export function CarouselGenerator() {
                 </div>
 
                 {/* Input de Geração */}
-                <form onSubmit={handleGenerate} className="flex-responsive">
-                    {loading ? (
-                        <div className="progress-bar-container">
-                            <div className="progress-bar-fill" />
-                            <span className="progress-text">Gerando conteúdo estratégico...</span>
-                        </div>
-                    ) : (
-                        <input
-                            type="text"
-                            value={topic}
-                            onChange={(e) => setTopic(e.target.value)}
-                            placeholder="Digite o tema (ex: Empresário sem tempo...)"
-                            style={{
-                                flex: 1,
-                                padding: '1rem',
-                                borderRadius: 'var(--radius-md)',
-                                border: '1px solid var(--border-color)',
-                                backgroundColor: 'var(--bg-card)',
-                                color: 'var(--text-primary)',
-                                fontSize: '1rem'
-                            }}
-                        />
-                    )}
-                    {loading ? (
+                <form onSubmit={handleGenerate} className="flex-responsive" style={{ flexDirection: 'column', gap: '1rem' }}>
+
+                    {/* Toggle Input Type */}
+                    <div style={{ display: 'flex', gap: '1rem', marginBottom: '0.5rem' }}>
                         <button
                             type="button"
-                            onClick={handleCancel}
-                            className="btn"
-                            style={{ minWidth: '120px', backgroundColor: 'var(--accent-danger)', color: 'white' }}
+                            onClick={() => setInputType('topic')}
+                            style={{
+                                flex: 1,
+                                padding: '0.5rem',
+                                borderRadius: 'var(--radius-md)',
+                                border: 'none',
+                                backgroundColor: inputType === 'topic' ? 'var(--accent-gold)' : 'var(--bg-card)',
+                                color: inputType === 'topic' ? 'black' : 'var(--text-secondary)',
+                                cursor: 'pointer',
+                                fontWeight: 'bold'
+                            }}
                         >
-                            Cancelar
+                            Digitar Tema
                         </button>
-                    ) : (
                         <button
-                            type="submit"
-                            className="btn btn-primary"
-                            style={{ minWidth: '120px', backgroundColor: 'var(--accent-green)', color: 'white' }}
+                            type="button"
+                            onClick={() => setInputType('url')}
+                            style={{
+                                flex: 1,
+                                padding: '0.5rem',
+                                borderRadius: 'var(--radius-md)',
+                                border: 'none',
+                                backgroundColor: inputType === 'url' ? 'var(--accent-gold)' : 'var(--bg-card)',
+                                color: inputType === 'url' ? 'black' : 'var(--text-secondary)',
+                                cursor: 'pointer',
+                                fontWeight: 'bold'
+                            }}
                         >
-                            Gerar
+                            Colar Link
                         </button>
-                    )}
+                    </div>
+
+                    <div style={{ display: 'flex', gap: '1rem', width: '100%' }}>
+                        {loading ? (
+                            <div className="progress-bar-container" style={{ flex: 1 }}>
+                                <div className="progress-bar-fill" />
+                                <span className="progress-text">{loadingStep || 'Gerando conteúdo...'}</span>
+                            </div>
+                        ) : (
+                            inputType === 'topic' ? (
+                                <input
+                                    type="text"
+                                    value={topic}
+                                    onChange={(e) => setTopic(e.target.value)}
+                                    placeholder="Digite o tema (ex: Empresário sem tempo...)"
+                                    style={{
+                                        flex: 1,
+                                        padding: '1rem',
+                                        borderRadius: 'var(--radius-md)',
+                                        border: '1px solid var(--border-color)',
+                                        backgroundColor: 'var(--bg-card)',
+                                        color: 'var(--text-primary)',
+                                        fontSize: '1rem'
+                                    }}
+                                />
+                            ) : (
+                                <input
+                                    type="url"
+                                    value={url}
+                                    onChange={(e) => setUrl(e.target.value)}
+                                    placeholder="Cole o link da notícia (https://...)"
+                                    style={{
+                                        flex: 1,
+                                        padding: '1rem',
+                                        borderRadius: 'var(--radius-md)',
+                                        border: '1px solid var(--border-color)',
+                                        backgroundColor: 'var(--bg-card)',
+                                        color: 'var(--text-primary)',
+                                        fontSize: '1rem'
+                                    }}
+                                />
+                            )
+                        )}
+                        {loading ? (
+                            <button
+                                type="button"
+                                onClick={handleCancel}
+                                className="btn"
+                                style={{ minWidth: '120px', backgroundColor: 'var(--accent-danger)', color: 'white' }}
+                            >
+                                Cancelar
+                            </button>
+                        ) : (
+                            <button
+                                type="submit"
+                                className="btn btn-primary"
+                                style={{ minWidth: '120px', backgroundColor: 'var(--accent-green)', color: 'white' }}
+                            >
+                                Gerar
+                            </button>
+                        )}
+                    </div>
                 </form>
             </div>
 
