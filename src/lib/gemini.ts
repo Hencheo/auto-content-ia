@@ -15,6 +15,7 @@ ESTRUTURA DO CARROSSEL (JSON):
 Deve retornar APENAS um JSON com a seguinte estrutura:
 {
   "theme": "Título do Tema",
+  "caption": "Legenda completa para o Instagram...",
   "slides": [
     { "type": "cover", "title": "Gancho Forte", "subtitle": "Subtítulo provocativo" },
     { "type": "content", "title": "Título do Slide", "body": "Texto curto e direto." },
@@ -29,6 +30,13 @@ REGRAS DE CONTEÚDO:
 3. Foque em: Separação PF/PJ, Lucro Real, Investimentos, Construção de Patrimônio.
 4. Evite clichês de "economizar cafezinho". Fale de grandes números.
 5. O carrossel deve ter entre 5 a 7 slides.
+
+REGRAS DA LEGENDA (CAPTION):
+1. Use o método AIDA (Atenção, Interesse, Desejo, Ação).
+2. Comece com uma pergunta ou afirmação polêmica.
+3. Desenvolva o raciocínio em parágrafos curtos.
+4. Finalize com uma CTA clara pedindo comentário ou direct.
+5. Inclua 5-10 hashtags estratégicas no final (ex: #gestaofinanceira #empresario #lucro).
 `;
 
 export async function generateCarouselContent(topic: string) {

@@ -83,14 +83,14 @@ export function CarouselGenerator() {
                             type="text"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
-                            placeholder="Nome (ex: Gabriel Belizario)"
+                            placeholder="Nome (ex: Primeiro nome Segundo nome)"
                             style={{ padding: '0.75rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)', background: 'var(--bg-primary)', color: 'white' }}
                         />
                         <input
                             type="text"
                             value={handle}
                             onChange={(e) => setHandle(e.target.value)}
-                            placeholder="Usuário (ex: @gabrielbelizarioo)"
+                            placeholder="Usuário (ex: @seu_usuario)"
                             style={{ padding: '0.75rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)', background: 'var(--bg-primary)', color: 'white' }}
                         />
                     </div>
@@ -139,6 +139,40 @@ export function CarouselGenerator() {
                             Baixar ZIP com Imagens
                         </button>
                     </div>
+
+                    {/* Legenda Gerada */}
+                    {carouselData.caption && (
+                        <div className="card" style={{ marginBottom: '2rem' }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+                                <h3 style={{ color: 'var(--text-secondary)' }}>Legenda Sugerida (Copywriting)</h3>
+                                <button
+                                    onClick={() => {
+                                        navigator.clipboard.writeText(carouselData.caption);
+                                        alert('Legenda copiada!');
+                                    }}
+                                    className="btn"
+                                    style={{ backgroundColor: 'var(--bg-primary)', border: '1px solid var(--border-color)', fontSize: '0.9rem', padding: '0.5rem 1rem' }}
+                                >
+                                    Copiar Texto
+                                </button>
+                            </div>
+                            <textarea
+                                readOnly
+                                value={carouselData.caption}
+                                style={{
+                                    width: '100%',
+                                    height: '200px',
+                                    backgroundColor: 'var(--bg-primary)',
+                                    color: 'var(--text-primary)',
+                                    border: '1px solid var(--border-color)',
+                                    borderRadius: 'var(--radius-md)',
+                                    padding: '1rem',
+                                    fontSize: '1rem',
+                                    resize: 'vertical'
+                                }}
+                            />
+                        </div>
+                    )}
 
                     <div style={{
                         display: 'grid',
