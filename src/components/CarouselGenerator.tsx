@@ -99,11 +99,25 @@ export function CarouselGenerator() {
         const zip = new JSZip();
         const slides = carouselData.slides;
 
+        // Workaround para iOS/Safari: O primeiro slide muitas vezes perde a imagem.
+        // Fazemos uma captura "falsa" do primeiro slide para "aquecer" o renderizador.
+        const firstNode = document.getElementById('slide-0');
+        if (firstNode) {
+            try {
+                await toPng(firstNode, { pixelRatio: 1 });
+            } catch (e) {
+                console.log('Warmup capture failed', e);
+            }
+        }
+
         // Adicionar cada slide ao ZIP
         for (let i = 0; i < slides.length; i++) {
             const node = document.getElementById(`slide-${i}`);
             if (node) {
                 try {
+                    // Pequeno delay para garantir renderização em dispositivos móveis
+                    await new Promise(resolve => setTimeout(resolve, 50));
+
                     const dataUrl = await toPng(node, { pixelRatio: 1 });
                     // Remover o prefixo data:image/png;base64, para o JSZip
                     const base64Data = dataUrl.split(',')[1];
