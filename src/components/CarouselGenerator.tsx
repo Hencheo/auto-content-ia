@@ -12,6 +12,19 @@ export function CarouselGenerator() {
     const [loading, setLoading] = useState(false);
     const [carouselData, setCarouselData] = useState<any>(null);
 
+    // Profile State
+    const [name, setName] = useState('Seu Nome');
+    const [handle, setHandle] = useState('@seu_usuario');
+    const [image, setImage] = useState<string | null>(null);
+
+    const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            const url = URL.createObjectURL(file);
+            setImage(url);
+        }
+    };
+
     const handleGenerate = async () => {
         if (!topic) return;
         setLoading(true);
@@ -57,20 +70,46 @@ export function CarouselGenerator() {
 
     return (
         <div className="container" style={{ padding: '4rem 0' }}>
-            <div style={{ maxWidth: '600px', margin: '0 auto 4rem auto', textAlign: 'center' }}>
-                <h1 style={{ fontSize: '2.5rem', marginBottom: '1rem', color: 'var(--accent-gold)' }}>
+            <div style={{ maxWidth: '800px', margin: '0 auto 4rem auto' }}>
+                <h1 style={{ fontSize: '2.5rem', marginBottom: '2rem', color: 'var(--accent-gold)', textAlign: 'center' }}>
                     Gerador de Carrossel 360º
                 </h1>
-                <p style={{ marginBottom: '2rem', color: 'var(--text-secondary)' }}>
-                    Digite o tema ou a dor do seu cliente (ex: "Mistura PF/PJ").
-                </p>
 
+                {/* Configuração do Perfil */}
+                <div className="card" style={{ marginBottom: '2rem' }}>
+                    <h3 style={{ marginBottom: '1rem', color: 'var(--text-secondary)' }}>Configuração do Perfil</h3>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1rem' }}>
+                        <input
+                            type="text"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            placeholder="Nome (ex: Gabriel Belizario)"
+                            style={{ padding: '0.75rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)', background: 'var(--bg-primary)', color: 'white' }}
+                        />
+                        <input
+                            type="text"
+                            value={handle}
+                            onChange={(e) => setHandle(e.target.value)}
+                            placeholder="Usuário (ex: @gabrielbelizarioo)"
+                            style={{ padding: '0.75rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)', background: 'var(--bg-primary)', color: 'white' }}
+                        />
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                        <label className="btn" style={{ backgroundColor: 'var(--bg-primary)', border: '1px solid var(--border-color)', color: 'var(--text-secondary)' }}>
+                            Escolher Foto
+                            <input type="file" accept="image/png, image/jpeg, image/jpg" onChange={handleImageUpload} style={{ display: 'none' }} />
+                        </label>
+                        {image ? <span style={{ color: 'var(--accent-green)' }}>Foto carregada!</span> : <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Recomendado: JPG ou PNG (Quadrado)</span>}
+                    </div>
+                </div>
+
+                {/* Input de Geração */}
                 <div style={{ display: 'flex', gap: '1rem' }}>
                     <input
                         type="text"
                         value={topic}
                         onChange={(e) => setTopic(e.target.value)}
-                        placeholder="Ex: Empresário sem tempo..."
+                        placeholder="Digite o tema (ex: Empresário sem tempo...)"
                         style={{
                             flex: 1,
                             padding: '1rem',
@@ -114,6 +153,7 @@ export function CarouselGenerator() {
                                     data={slide}
                                     index={index}
                                     total={carouselData.slides.length}
+                                    profile={{ name, handle, image }}
                                 />
                             </div>
                         ))}

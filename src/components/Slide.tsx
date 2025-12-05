@@ -1,5 +1,6 @@
 import React from 'react';
 import { clsx } from 'clsx';
+import { BadgeCheck } from 'lucide-react';
 
 interface SlideProps {
     data: {
@@ -10,10 +11,15 @@ interface SlideProps {
     };
     index: number;
     total: number;
-    id: string; // ID para exportação
+    id: string;
+    profile: {
+        name: string;
+        handle: string;
+        image: string | null;
+    };
 }
 
-export function Slide({ data, index, total, id }: SlideProps) {
+export function Slide({ data, index, total, id, profile }: SlideProps) {
     return (
         <div
             id={id}
@@ -29,16 +35,49 @@ export function Slide({ data, index, total, id }: SlideProps) {
                 justifyContent: 'space-between',
                 position: 'relative',
                 overflow: 'hidden',
-                border: '1px solid var(--border-color)', // Para visualização na tela, pode ser removido na exportação se desejar
+                border: '1px solid var(--border-color)',
                 marginBottom: '2rem',
-                transform: 'scale(0.4)', // Scale down for preview
+                transform: 'scale(0.4)',
                 transformOrigin: 'top left',
             }}
         >
-            {/* Header / Brand */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', opacity: 0.5 }}>
-                <span style={{ fontSize: '24px', fontWeight: 600 }}>@SEU_INSTAGRAM</span>
-                <span style={{ fontSize: '24px' }}>{index + 1}/{total}</span>
+            {/* Header Estilo Twitter */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '24px', marginBottom: '40px' }}>
+                {/* Avatar */}
+                <div style={{
+                    width: '120px',
+                    height: '120px',
+                    borderRadius: '50%',
+                    overflow: 'hidden',
+                    backgroundColor: '#334155', // Placeholder color
+                    flexShrink: 0
+                }}>
+                    {profile.image ? (
+                        <img
+                            src={profile.image}
+                            alt="Profile"
+                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                        />
+                    ) : (
+                        <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '40px' }}>
+                            {profile.name.charAt(0)}
+                        </div>
+                    )}
+                </div>
+
+                {/* Info */}
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                        <span style={{ fontSize: '36px', fontWeight: 700, lineHeight: 1 }}>{profile.name}</span>
+                        <BadgeCheck size={40} fill="#1d9bf0" color="white" />
+                    </div>
+                    <span style={{ fontSize: '32px', color: 'var(--text-muted)', marginTop: '8px' }}>{profile.handle}</span>
+                </div>
+
+                {/* Contador (Opcional, mantido no topo direito) */}
+                <div style={{ marginLeft: 'auto', fontSize: '24px', opacity: 0.5 }}>
+                    {index + 1}/{total}
+                </div>
             </div>
 
             {/* Content */}
