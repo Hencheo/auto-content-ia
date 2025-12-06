@@ -1,6 +1,6 @@
 :root {
   /* Premium Financial Palette */
-  --bg-primary: #020617;
+  --bg-primary: #131e1f;
   /* Slate 950 */
   --bg-secondary: #0f172a;
   /* Slate 900 */
@@ -11,7 +11,7 @@
   /* Slate 50 */
   --text-secondary: #cbd5e1;
   /* Slate 300 */
-  --text-muted: #64748b;
+  --text-muted: #31353c;
   /* Slate 500 */
 
   --accent-gold: #fbbf24;
@@ -24,7 +24,7 @@
   --accent-danger: #ef4444;
   /* Red 500 */
 
-  --border-color: #334155;
+  --border-color: #096372;
   /* Slate 700 */
 
   --radius-sm: 4px;
@@ -216,3 +216,11 @@ a {
     opacity: 0.6;
   }
 }
+
+@media (max-width: 768px) {
+  .hide-on-mobile {
+    display: none !important;
+  }
+}
+.logo-img { height: 24px; object-fit: contain; }
+@media (max-width: 768px) { .logo-img { height: 16px; } }

@@ -11,6 +11,7 @@
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
     "@types/file-saver": "^2.0.7",
+    "@types/styled-components": "^5.1.36",
     "cheerio": "^1.1.2",
     "clsx": "^2.1.1",
     "file-saver": "^2.0.5",
@@ -19,7 +20,8 @@
     "lucide-react": "^0.555.0",
     "next": "16.0.7",
     "react": "19.2.0",
-    "react-dom": "19.2.0"
+    "react-dom": "19.2.0",
+    "styled-components": "^6.1.19"
   },
   "devDependencies": {
     "@types/node": "^20",
