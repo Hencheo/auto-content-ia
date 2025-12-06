@@ -4,12 +4,9 @@ import React, { useState, useRef } from 'react';
 import Link from "next/link";
 import { useUser } from '@/contexts/UserContext';
 import { ChatInterface } from '@/components/ChatInterface';
-import { CarouselEditor } from '@/components/CarouselEditor';
-import { StoryEditor } from '@/components/StoryEditor';
+import { Header } from '@/components/Header';
+import { ResultDisplay } from '@/components/ResultDisplay';
 import { generateCarouselContent, generateCarouselFromArticle, generateStoryContent } from '@/lib/gemini';
-import { themes, getTheme } from '@/styles/themeRegistry';
-import logo from './assets/logo.png';
-import { User } from 'lucide-react';
 
 export default function Home() {
     const { profession, product, audience, avatar } = useUser();
@@ -108,30 +105,11 @@ export default function Home() {
         // Update result theme name for consistency if needed, though visual relies on themeId
     };
 
-    const currentTheme = getTheme(themeId);
+
 
     return (
         <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-            {/* Header Minimalista */}
-            <header style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                padding: '1.5rem 2rem',
-                borderBottom: '1px solid var(--border-color)'
-            }}>
-
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <img src={logo.src} alt="AutoContent Logo" className="logo-img" />
-                </div>
-                <Link href="/profile" className="btn" style={{ padding: '0.5rem', borderRadius: '50%', width: '40px', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', border: '1px solid var(--border-color)' }}>
-                    {avatar ? (
-                        <img src={avatar} alt="Perfil" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                    ) : (
-                        <User size={20} color="var(--text-secondary)" />
-                    )}
-                </Link>
-            </header>
+            <Header compact={!!result} avatar={avatar} />
 
             <main style={{ flex: 1, display: 'flex', flexDirection: 'column', padding: '2rem' }}>
 
@@ -148,54 +126,14 @@ export default function Home() {
                         <ChatInterface onGenerate={handleGenerate} loading={loading} />
                     </div>
                 ) : (
-                    <div style={{ maxWidth: '1200px', margin: '0 auto', width: '100%' }}>
-                        <button
-                            onClick={() => setResult(null)}
-                            style={{
-                                marginBottom: '2rem',
-                                background: 'none',
-                                border: 'none',
-                                color: 'var(--text-secondary)',
-                                cursor: 'pointer',
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '0.5rem'
-                            }}
-                        >
-                            ← Criar Novo Conteúdo
-                        </button>
-
-                        {/* Theme Selector */}
-                        <div style={{ marginBottom: '2rem', padding: '1rem', background: 'var(--bg-card)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)' }}>
-                            <h3 style={{ marginBottom: '1rem', fontSize: '0.9rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Tema Visual</h3>
-                            <div style={{ display: 'flex', gap: '1rem' }}>
-                                {themes.filter(t => t.type === format).map(t => (
-                                    <button
-                                        key={t.id}
-                                        onClick={() => handleThemeChange(t.id)}
-                                        style={{
-                                            padding: '0.5rem 1rem',
-                                            borderRadius: 'var(--radius-sm)',
-                                            border: `1px solid ${themeId === t.id ? 'var(--accent-gold)' : 'var(--border-color)'}`,
-                                            background: themeId === t.id ? 'rgba(251, 191, 36, 0.1)' : 'transparent',
-                                            color: themeId === t.id ? 'var(--accent-gold)' : 'var(--text-secondary)',
-                                            cursor: 'pointer'
-                                        }}
-                                    >
-                                        {t.name}
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
-
-                        {format === 'carousel' && (
-                            <CarouselEditor data={result} theme={currentTheme} onUpdate={handleUpdate} />
-                        )}
-
-                        {format === 'story' && (
-                            <StoryEditor data={result} theme={currentTheme} onUpdate={handleUpdate} />
-                        )}
-                    </div>
+                    <ResultDisplay
+                        result={result}
+                        format={format}
+                        themeId={themeId}
+                        onThemeChange={handleThemeChange}
+                        onBack={() => setResult(null)}
+                        onUpdate={handleUpdate}
+                    />
                 )}
 
             </main>

@@ -36,10 +36,10 @@ export const themes: Theme[] = [
             fontFamily: 'Inter, sans-serif'
         },
         layout: {
-            header: 'minimal',
-            footer: 'simple',
-            cover: 'big-bold',
-            content: 'card'
+            header: 'twitter',
+            footer: 'bar',
+            cover: 'centered',
+            content: 'standard'
         }
     },
 
