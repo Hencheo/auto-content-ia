@@ -163,43 +163,24 @@ export function CarouselGenerator() {
     return (
         <div className="container" style={{ padding: '4rem 0' }}>
             <div style={{ maxWidth: '800px', margin: '0 auto 4rem auto' }}>
-                <h1 className="page-title" style={{ fontSize: '2.5rem', marginBottom: '2rem', color: 'var(--accent-gold)', textAlign: 'center' }}>
+                <h1 className="page-title generator-page-title">
                     Gerador de Carrossel 360º
                 </h1>
 
 
                 {/* Seleção de Template */}
-                <div className="card" style={{ marginBottom: '2rem' }}>
-                    <h3 style={{ marginBottom: '1rem', color: 'var(--text-secondary)' }}>Escolha o Estilo</h3>
-                    <div style={{ display: 'flex', gap: '1rem' }}>
+                <div className="card generator-card">
+                    <h3 className="generator-section-title">Escolha o Estilo</h3>
+                    <div className="template-selection-container">
                         <button
                             onClick={() => setSelectedTemplate('financial-dark')}
-                            style={{
-                                flex: 1,
-                                padding: '1rem',
-                                borderRadius: 'var(--radius-md)',
-                                border: `2px solid ${selectedTemplate === 'financial-dark' ? 'var(--accent-gold)' : 'var(--border-color)'}`,
-                                backgroundColor: 'var(--bg-primary)',
-                                color: 'white',
-                                cursor: 'pointer',
-                                textAlign: 'center'
-                            }}
+                            className={`template-select-btn breaking-news ${selectedTemplate === 'financial-dark' ? 'active' : ''}`}
                         >
                             Financial Dark
                         </button>
                         <button
                             onClick={() => setSelectedTemplate('modern-clean')}
-                            style={{
-                                flex: 1,
-                                padding: '1rem',
-                                borderRadius: 'var(--radius-md)',
-                                border: `2px solid ${selectedTemplate === 'modern-clean' ? 'var(--accent-gold)' : 'var(--border-color)'}`,
-                                backgroundColor: '#f1f5f9',
-                                color: '#0f172a',
-                                cursor: 'pointer',
-                                textAlign: 'center',
-                                fontWeight: 'bold'
-                            }}
+                            className={`template-select-btn modern-clean ${selectedTemplate === 'modern-clean' ? 'active' : ''}`}
                         >
                             Modern Clean
                         </button>
@@ -210,36 +191,18 @@ export function CarouselGenerator() {
                 <form onSubmit={handleGenerate} className="flex-responsive" style={{ flexDirection: 'column', gap: '1rem' }}>
 
                     {/* Toggle Input Type */}
-                    <div style={{ display: 'flex', gap: '1rem', marginBottom: '0.5rem' }}>
+                    <div className="input-type-toggle-container">
                         <button
                             type="button"
                             onClick={() => setInputType('topic')}
-                            style={{
-                                flex: 1,
-                                padding: '0.5rem',
-                                borderRadius: 'var(--radius-md)',
-                                border: 'none',
-                                backgroundColor: inputType === 'topic' ? 'var(--accent-gold)' : 'var(--bg-card)',
-                                color: inputType === 'topic' ? 'black' : 'var(--text-secondary)',
-                                cursor: 'pointer',
-                                fontWeight: 'bold'
-                            }}
+                            className={`input-type-btn ${inputType === 'topic' ? 'active' : ''}`}
                         >
                             Digitar Tema
                         </button>
                         <button
                             type="button"
                             onClick={() => setInputType('url')}
-                            style={{
-                                flex: 1,
-                                padding: '0.5rem',
-                                borderRadius: 'var(--radius-md)',
-                                border: 'none',
-                                backgroundColor: inputType === 'url' ? 'var(--accent-gold)' : 'var(--bg-card)',
-                                color: inputType === 'url' ? 'black' : 'var(--text-secondary)',
-                                cursor: 'pointer',
-                                fontWeight: 'bold'
-                            }}
+                            className={`input-type-btn ${inputType === 'url' ? 'active' : ''}`}
                         >
                             Colar Link
                         </button>
@@ -247,7 +210,7 @@ export function CarouselGenerator() {
 
                     <div style={{ display: 'flex', gap: '1rem', width: '100%' }}>
                         {loading ? (
-                            <div className="progress-bar-container" style={{ flex: 1 }}>
+                            <div className="progress-bar-container">
                                 <div className="progress-bar-fill" />
                                 <span className="progress-text">{loadingStep || 'Gerando conteúdo...'}</span>
                             </div>
@@ -258,15 +221,7 @@ export function CarouselGenerator() {
                                     value={topic}
                                     onChange={(e) => setTopic(e.target.value)}
                                     placeholder="Digite o tema (ex: Empresário sem tempo...)"
-                                    style={{
-                                        flex: 1,
-                                        padding: '1rem',
-                                        borderRadius: 'var(--radius-md)',
-                                        border: '1px solid var(--border-color)',
-                                        backgroundColor: 'var(--bg-card)',
-                                        color: 'var(--text-primary)',
-                                        fontSize: '1rem'
-                                    }}
+                                    className="generator-input"
                                 />
                             ) : (
                                 <input
@@ -274,15 +229,7 @@ export function CarouselGenerator() {
                                     value={url}
                                     onChange={(e) => setUrl(e.target.value)}
                                     placeholder="Cole o link da notícia (https://...)"
-                                    style={{
-                                        flex: 1,
-                                        padding: '1rem',
-                                        borderRadius: 'var(--radius-md)',
-                                        border: '1px solid var(--border-color)',
-                                        backgroundColor: 'var(--bg-card)',
-                                        color: 'var(--text-primary)',
-                                        fontSize: '1rem'
-                                    }}
+                                    className="generator-input"
                                 />
                             )
                         )}
@@ -319,9 +266,9 @@ export function CarouselGenerator() {
 
                     {/* Legenda Gerada */}
                     {carouselData.caption && (
-                        <div className="card" style={{ marginBottom: '2rem' }}>
+                        <div className="card generator-card">
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-                                <h3 style={{ color: 'var(--text-secondary)' }}>Legenda Sugerida (Copywriting)</h3>
+                                <h3 className="generator-section-title">Legenda Sugerida (Copywriting)</h3>
                                 <button
                                     onClick={() => {
                                         navigator.clipboard.writeText(carouselData.caption);
@@ -333,20 +280,12 @@ export function CarouselGenerator() {
                                     Copiar Texto
                                 </button>
                             </div>
+
                             <textarea
                                 readOnly
                                 value={carouselData.caption}
-                                style={{
-                                    width: '100%',
-                                    height: '200px',
-                                    backgroundColor: 'var(--bg-primary)',
-                                    color: 'var(--text-primary)',
-                                    border: '1px solid var(--border-color)',
-                                    borderRadius: 'var(--radius-md)',
-                                    padding: '1rem',
-                                    fontSize: '1rem',
-                                    resize: 'vertical'
-                                }}
+                                className="generator-textarea"
+                                style={{ height: '200px', fontSize: '1rem' }}
                             />
                         </div>
                     )}
@@ -356,13 +295,12 @@ export function CarouselGenerator() {
                         <button
                             onClick={prevSlide}
                             disabled={currentSlide === 0}
-                            className="btn"
-                            style={{ padding: '1rem', borderRadius: '50%', opacity: currentSlide === 0 ? 0.5 : 1 }}
+                            className="btn preview-nav-btn"
                         >
                             &lt;
                         </button>
 
-                        <div className="preview-container">
+                        <div className="preview-slide-container">
                             <Slide
                                 id="preview-slide"
                                 data={carouselData.slides[currentSlide]}
@@ -377,8 +315,7 @@ export function CarouselGenerator() {
                         <button
                             onClick={nextSlide}
                             disabled={currentSlide === carouselData.slides.length - 1}
-                            className="btn"
-                            style={{ padding: '1rem', borderRadius: '50%', opacity: currentSlide === carouselData.slides.length - 1 ? 0.5 : 1 }}
+                            className="btn preview-nav-btn"
                         >
                             &gt;
                         </button>
@@ -389,14 +326,14 @@ export function CarouselGenerator() {
                     </div>
 
                     {/* Editor de Slide */}
-                    <div className="card" style={{ marginBottom: '2rem', border: '1px solid var(--border-color)' }}>
-                        <h3 style={{ marginBottom: '1rem', color: 'var(--text-secondary)', fontSize: '1.1rem' }}>
+                    <div className="card generator-card" style={{ border: '1px solid var(--border-color)' }}>
+                        <h3 className="generator-section-title" style={{ fontSize: '1.1rem' }}>
                             Editar Conteúdo do Slide {currentSlide + 1}
                         </h3>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                             {/* Título */}
                             <div>
-                                <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', color: 'var(--text-muted)' }}>
+                                <label className="editor-label">
                                     Título
                                 </label>
                                 <input
@@ -407,21 +344,15 @@ export function CarouselGenerator() {
                                         newSlides[currentSlide] = { ...newSlides[currentSlide], title: e.target.value };
                                         setCarouselData({ ...carouselData, slides: newSlides });
                                     }}
-                                    style={{
-                                        width: '100%',
-                                        padding: '0.75rem',
-                                        borderRadius: 'var(--radius-md)',
-                                        border: '1px solid var(--border-color)',
-                                        background: 'var(--bg-primary)',
-                                        color: 'white'
-                                    }}
+                                    className="generator-input"
+                                    style={{ padding: '0.75rem', color: 'white', background: 'var(--bg-primary)' }}
                                 />
                             </div>
 
                             {/* Subtítulo (se houver) */}
                             {carouselData.slides[currentSlide].subtitle !== undefined && (
                                 <div>
-                                    <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', color: 'var(--text-muted)' }}>
+                                    <label className="editor-label">
                                         Subtítulo
                                     </label>
                                     <input
@@ -432,14 +363,8 @@ export function CarouselGenerator() {
                                             newSlides[currentSlide] = { ...newSlides[currentSlide], subtitle: e.target.value };
                                             setCarouselData({ ...carouselData, slides: newSlides });
                                         }}
-                                        style={{
-                                            width: '100%',
-                                            padding: '0.75rem',
-                                            borderRadius: 'var(--radius-md)',
-                                            border: '1px solid var(--border-color)',
-                                            background: 'var(--bg-primary)',
-                                            color: 'white'
-                                        }}
+                                        className="generator-input"
+                                        style={{ padding: '0.75rem', color: 'white', background: 'var(--bg-primary)' }}
                                     />
                                 </div>
                             )}
@@ -447,7 +372,7 @@ export function CarouselGenerator() {
                             {/* Corpo (se houver) */}
                             {carouselData.slides[currentSlide].body !== undefined && (
                                 <div>
-                                    <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', color: 'var(--text-muted)' }}>
+                                    <label className="editor-label">
                                         Texto Principal
                                     </label>
                                     <textarea
@@ -458,15 +383,7 @@ export function CarouselGenerator() {
                                             setCarouselData({ ...carouselData, slides: newSlides });
                                         }}
                                         rows={4}
-                                        style={{
-                                            width: '100%',
-                                            padding: '0.75rem',
-                                            borderRadius: 'var(--radius-md)',
-                                            border: '1px solid var(--border-color)',
-                                            background: 'var(--bg-primary)',
-                                            color: 'white',
-                                            resize: 'vertical'
-                                        }}
+                                        className="generator-textarea"
                                     />
                                 </div>
                             )}
@@ -474,7 +391,7 @@ export function CarouselGenerator() {
                     </div>
 
                     {/* Hidden Container for Export (Full Scale) */}
-                    <div style={{ position: 'absolute', top: '-9999px', left: '-9999px' }}>
+                    <div className="export-container-hidden">
                         {carouselData.slides.map((slide: any, index: number) => (
                             <Slide
                                 key={index}
@@ -489,7 +406,9 @@ export function CarouselGenerator() {
                         ))}
                     </div>
                 </div>
-            )}
+            )
+            }
         </div>
     );
 }
+

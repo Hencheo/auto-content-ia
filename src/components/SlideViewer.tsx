@@ -30,9 +30,9 @@ export function SlideViewer({ data, theme, profile, onClose }: SlideViewerProps)
 
             if (mobile) {
                 // Mobile: Full width minus LARGER padding to prevent cut-off
-                // Height minus header (60) and footer controls (100)
-                availableWidth = window.innerWidth - 40; // Increased safety margin
-                availableHeight = window.innerHeight - 200; // Increased safety margin
+                // Height minus header (60) and footer controls (80) = ~140. Using 150 for safety.
+                availableWidth = window.innerWidth - 20; // Reduced margin to use more width
+                availableHeight = window.innerHeight - 150; // Reduced margin (was 200) to let slide be bigger
             } else {
                 // Desktop: Keep original logic as requested ("perfect")
                 const padding = 40;
@@ -65,87 +65,35 @@ export function SlideViewer({ data, theme, profile, onClose }: SlideViewerProps)
     };
 
     return (
-        <div style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: 'rgba(0,0,0,0.95)',
-            zIndex: 100,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: isMobile ? 'flex-start' : 'center', // Mobile starts top to leave room for bottom
-            padding: '1rem'
-        }}>
+        <div className="viewer-overlay">
             {/* Header / Close */}
-            <div style={{
-                position: 'absolute',
-                top: '1rem',
-                right: '1rem',
-                zIndex: 101
-            }}>
+            <div className="viewer-close-container">
                 <button
                     onClick={onClose}
-                    style={{
-                        background: 'rgba(255,255,255,0.1)',
-                        border: 'none',
-                        borderRadius: '50%',
-                        width: '40px',
-                        height: '40px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        color: 'white',
-                        cursor: 'pointer'
-                    }}
+                    className="viewer-round-btn"
                 >
                     <X size={24} />
                 </button>
             </div>
 
             {/* Main Content Area */}
-            <div style={{
-                position: 'relative',
-                width: '100%',
-                height: isMobile ? 'calc(100% - 100px)' : '100%', // Mobile reserves space for footer
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                // overflow: 'hidden', // REMOVED to prevent clipping shadows or edges
-                marginTop: isMobile ? '2rem' : '0'
-            }}>
+            <div className="viewer-content-area">
                 {/* Desktop Navigation Left */}
                 {!isMobile && (
                     <button
                         onClick={prevSlide}
                         disabled={currentIndex === 0}
-                        style={{
-                            position: 'absolute',
-                            left: '1rem',
-                            background: 'none',
-                            border: 'none',
-                            color: 'white',
-                            opacity: currentIndex === 0 ? 0.3 : 1,
-                            cursor: currentIndex === 0 ? 'default' : 'pointer',
-                            zIndex: 102,
-                            padding: '1rem'
-                        }}
+                        className="viewer-nav-btn prev"
                     >
                         <ChevronLeft size={40} />
                     </button>
                 )}
 
                 {/* Slide Container */}
-                <div style={{
-                    width: '1080px',
-                    height: '1350px',
-                    transform: `scale(${scale})`,
-                    transformOrigin: 'center center',
-                    boxShadow: '0 0 40px rgba(0,0,0,0.5)',
-                    flexShrink: 0
-                }}>
+                <div
+                    className="viewer-slide-container"
+                    style={{ transform: `scale(${scale})` }}
+                >
                     <GenericSlide
                         id={`viewer-slide-${currentIndex}`}
                         data={data.slides[currentIndex]}
@@ -162,17 +110,7 @@ export function SlideViewer({ data, theme, profile, onClose }: SlideViewerProps)
                     <button
                         onClick={nextSlide}
                         disabled={currentIndex === totalSlides - 1}
-                        style={{
-                            position: 'absolute',
-                            right: '1rem',
-                            background: 'none',
-                            border: 'none',
-                            color: 'white',
-                            opacity: currentIndex === totalSlides - 1 ? 0.3 : 1,
-                            cursor: currentIndex === totalSlides - 1 ? 'default' : 'pointer',
-                            zIndex: 102,
-                            padding: '1rem'
-                        }}
+                        className="viewer-nav-btn next"
                     >
                         <ChevronRight size={40} />
                     </button>
@@ -181,46 +119,23 @@ export function SlideViewer({ data, theme, profile, onClose }: SlideViewerProps)
 
             {/* Mobile Controls (Bottom) */}
             {isMobile && (
-                <div style={{
-                    height: '80px',
-                    width: '100%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    padding: '0 2rem',
-                    marginTop: 'auto', // Push to bottom
-                    zIndex: 102
-                }}>
+                <div className="viewer-mobile-controls">
                     <button
                         onClick={prevSlide}
                         disabled={currentIndex === 0}
-                        style={{
-                            background: 'none',
-                            border: 'none',
-                            color: 'white',
-                            opacity: currentIndex === 0 ? 0.3 : 1,
-                            cursor: currentIndex === 0 ? 'default' : 'pointer',
-                            padding: '0.5rem'
-                        }}
+                        className="viewer-mobile-nav-btn"
                     >
                         <ChevronLeft size={48} />
                     </button>
 
-                    <span style={{ color: 'white', fontSize: '1.2rem', fontWeight: 'bold' }}>
+                    <span className="viewer-counter-text">
                         {currentIndex + 1} / {totalSlides}
                     </span>
 
                     <button
                         onClick={nextSlide}
                         disabled={currentIndex === totalSlides - 1}
-                        style={{
-                            background: 'none',
-                            border: 'none',
-                            color: 'white',
-                            opacity: currentIndex === totalSlides - 1 ? 0.3 : 1,
-                            cursor: currentIndex === totalSlides - 1 ? 'default' : 'pointer',
-                            padding: '0.5rem'
-                        }}
+                        className="viewer-mobile-nav-btn"
                     >
                         <ChevronRight size={48} />
                     </button>
@@ -229,14 +144,7 @@ export function SlideViewer({ data, theme, profile, onClose }: SlideViewerProps)
 
             {/* Desktop Counter */}
             {!isMobile && (
-                <div style={{
-                    position: 'absolute',
-                    bottom: '2rem',
-                    color: 'white',
-                    fontSize: '1.1rem',
-                    fontWeight: 'bold',
-                    zIndex: 101
-                }}>
+                <div className="viewer-desktop-counter">
                     {currentIndex + 1} / {totalSlides}
                 </div>
             )}

@@ -143,15 +143,15 @@ const StyledWrapper = styled.div<{ $isActive: boolean }>`
 
   /* Colors adapted to project palette */
   .spin-blur::before {
-    background: linear-gradient(90deg, #fbbf24 30%, #0000 50%, #21af24 70%); /* Gold to Green */
+    background: linear-gradient(90deg, #fbbf24 30%, #0000 50%, #ffffffff 70%); /* Gold to Green */
   }
 
   .spin-intense::before {
-    background: linear-gradient(90deg, #fbbf24 20%, #0000 45% 55%, #21af24 80%);
+    background: linear-gradient(90deg, #fbbf24 20%, #0000 45% 55%, #ffffffff 80%);
   }
 
   .spin-inside::before {
-    background: linear-gradient(90deg, #fbbf24 30%, #0000 45% 55%, #21af24 70%);
+    background: linear-gradient(90deg, #fbbf24 30%, #0000 45% 55%, #ffffffff 70%);
   }
 
   @keyframes speen {

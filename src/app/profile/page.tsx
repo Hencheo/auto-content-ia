@@ -26,150 +26,109 @@ export default function ProfilePage() {
     };
 
     return (
-        <div className="container" style={{ padding: '4rem 0' }}>
-            <div style={{ maxWidth: '600px', margin: '0 auto' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '2rem' }}>
-                    <Link href="/" style={{ textDecoration: 'none', color: 'var(--text-secondary)', fontSize: '1.5rem' }}>
-                        &larr;
+        <div className="profile-wrapper">
+            <div className="profile-container">
+                <div className="profile-header">
+                    <Link href="/" className="profile-back-link">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M19 12H5M12 19l-7-7 7-7" />
+                        </svg>
                     </Link>
-                    <h1 className="page-title" style={{ margin: 0, fontSize: '2rem', color: 'var(--accent-gold)' }}>
+                    <h1 className="profile-title">
                         Meu Perfil
                     </h1>
                 </div>
 
-                <div className="card">
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '2rem' }}>
-                        <div
-                            style={{
-                                width: '120px',
-                                height: '120px',
-                                borderRadius: '50%',
-                                overflow: 'hidden',
-                                backgroundColor: 'var(--bg-card)',
-                                border: '2px solid var(--accent-gold)',
-                                marginBottom: '1rem',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center'
-                            }}
-                        >
+                <div className="profile-card">
+                    <div className="profile-avatar-section">
+                        <label className="profile-avatar-wrapper">
                             {avatar ? (
-                                <img src={avatar} alt="Avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                <img src={avatar} alt="Avatar" className="profile-image" />
                             ) : (
-                                <span style={{ fontSize: '3rem', color: 'var(--text-muted)' }}>👤</span>
+                                <span className="profile-avatar-placeholder">👤</span>
                             )}
-                        </div>
-
-                        <label className="btn" style={{ backgroundColor: 'var(--bg-primary)', border: '1px solid var(--border-color)', color: 'var(--text-secondary)' }}>
-                            Alterar Foto
-                            <input type="file" accept="image/*" onChange={handleImageUpload} style={{ display: 'none' }} />
+                            <div className="profile-edit-badge">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+                                    <circle cx="12" cy="13" r="4" />
+                                </svg>
+                            </div>
+                            <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden-input" />
                         </label>
                     </div>
 
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-                        <div>
-                            <label style={{ display: 'block', marginBottom: '0.5rem', color: 'var(--text-secondary)' }}>Nome de Exibição</label>
-                            <input
-                                type="text"
-                                value={name}
-                                onChange={(e) => setName(e.target.value)}
-                                placeholder="Seu Nome"
-                                style={{
-                                    width: '100%',
-                                    padding: '1rem',
-                                    borderRadius: 'var(--radius-md)',
-                                    border: '1px solid var(--border-color)',
-                                    background: 'var(--bg-primary)',
-                                    color: 'white',
-                                    fontSize: '1rem'
-                                }}
-                            />
-                        </div>
-
-                        <div>
-                            <label style={{ display: 'block', marginBottom: '0.5rem', color: 'var(--text-secondary)' }}>Usuário (Arroba)</label>
-                            <input
-                                type="text"
-                                value={handle}
-                                onChange={(e) => setHandle(e.target.value)}
-                                placeholder="@seu_usuario"
-                                style={{
-                                    width: '100%',
-                                    padding: '1rem',
-                                    borderRadius: 'var(--radius-md)',
-                                    border: '1px solid var(--border-color)',
-                                    background: 'var(--bg-primary)',
-                                    color: 'white',
-                                    fontSize: '1rem'
-                                }}
-                            />
-                        </div>
-
-                        <hr style={{ border: 'none', borderTop: '1px solid var(--border-color)', margin: '1rem 0' }} />
-
-                        <h3 style={{ color: 'var(--accent-gold)', marginBottom: '1rem' }}>Configuração do Negócio (IA)</h3>
-
-                        <div>
-                            <label style={{ display: 'block', marginBottom: '0.5rem', color: 'var(--text-secondary)' }}>Sua Profissão / Especialidade</label>
-                            <input
-                                type="text"
-                                value={profession}
-                                onChange={(e) => setProfession(e.target.value)}
-                                placeholder="Ex: Nutricionista Esportivo, Consultor Financeiro..."
-                                style={{
-                                    width: '100%',
-                                    padding: '1rem',
-                                    borderRadius: 'var(--radius-md)',
-                                    border: '1px solid var(--border-color)',
-                                    background: 'var(--bg-primary)',
-                                    color: 'white',
-                                    fontSize: '1rem'
-                                }}
-                            />
-                        </div>
-
-                        <div>
-                            <label style={{ display: 'block', marginBottom: '0.5rem', color: 'var(--text-secondary)' }}>O que você vende? (Produto/Serviço)</label>
-                            <input
-                                type="text"
-                                value={product}
-                                onChange={(e) => setProduct(e.target.value)}
-                                placeholder="Ex: Consultoria de Investimentos, Plano de Emagrecimento..."
-                                style={{
-                                    width: '100%',
-                                    padding: '1rem',
-                                    borderRadius: 'var(--radius-md)',
-                                    border: '1px solid var(--border-color)',
-                                    background: 'var(--bg-primary)',
-                                    color: 'white',
-                                    fontSize: '1rem'
-                                }}
-                            />
-                        </div>
-
-                        <div>
-                            <label style={{ display: 'block', marginBottom: '0.5rem', color: 'var(--text-secondary)' }}>Seu Público Alvo</label>
-                            <input
-                                type="text"
-                                value={audience}
-                                onChange={(e) => setAudience(e.target.value)}
-                                placeholder="Ex: Empresários sem tempo, Mulheres pós-parto..."
-                                style={{
-                                    width: '100%',
-                                    padding: '1rem',
-                                    borderRadius: 'var(--radius-md)',
-                                    border: '1px solid var(--border-color)',
-                                    background: 'var(--bg-primary)',
-                                    color: 'white',
-                                    fontSize: '1rem'
-                                }}
-                            />
-                        </div>
+                    <div className="profile-section-header">
+                        Pessoal
                     </div>
 
-                    <div style={{ marginTop: '2rem', padding: '1rem', backgroundColor: 'rgba(16, 185, 129, 0.1)', borderRadius: 'var(--radius-md)', color: 'var(--accent-green)', textAlign: 'center' }}>
-                        Salvo automaticamente, basta voltar para o menu!
+                    <div className="input-group">
+                        <label className="input-label-modern">Nome de Exibição</label>
+                        <input
+                            type="text"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            placeholder="Seu Nome"
+                            className="input-field-modern"
+                        />
                     </div>
+
+                    <div className="input-group">
+                        <label className="input-label-modern">Usuário (Arroba)</label>
+                        <input
+                            type="text"
+                            value={handle}
+                            onChange={(e) => setHandle(e.target.value)}
+                            placeholder="@seu_usuario"
+                            className="input-field-modern"
+                        />
+                    </div>
+
+                    <div className="profile-section-header">
+                        Negócio & IA
+                    </div>
+
+                    <div className="input-group">
+                        <label className="input-label-modern">Profissão / Especialidade</label>
+                        <input
+                            type="text"
+                            value={profession}
+                            onChange={(e) => setProfession(e.target.value)}
+                            placeholder="Ex: Nutricionista, Consultor..."
+                            className="input-field-modern"
+                        />
+                    </div>
+
+                    <div className="input-group">
+                        <label className="input-label-modern">O que vende?</label>
+                        <input
+                            type="text"
+                            value={product}
+                            onChange={(e) => setProduct(e.target.value)}
+                            placeholder="Ex: Consultoria, E-book..."
+                            className="input-field-modern"
+                        />
+                    </div>
+
+                    <div className="input-group">
+                        <label className="input-label-modern">Público Alvo</label>
+                        <input
+                            type="text"
+                            value={audience}
+                            onChange={(e) => setAudience(e.target.value)}
+                            placeholder="Ex: Iniciantes, Empresários..."
+                            className="input-field-modern"
+                        />
+                    </div>
+
+                    <div style={{ height: '4rem' }}></div>
+                    {/* Spacer for bottom scrolling */}
+                </div>
+
+                <div className="save-indicator">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path d="M20 6L9 17l-5-5" />
+                    </svg>
+                    Alterações salvas
                 </div>
             </div>
         </div>

@@ -58,7 +58,7 @@ export const themes: Theme[] = [
             fontFamily: 'Inter, sans-serif'
         },
         layout: {
-            header: 'news',
+            header: 'none',
             footer: 'progress',
             cover: 'news-headline',
             content: 'news-body'
@@ -78,7 +78,7 @@ export const themes: Theme[] = [
             fontFamily: 'Inter, sans-serif'
         },
         layout: {
-            header: 'minimal',
+            header: 'none',
             footer: 'progress',
             cover: 'minimal',
             content: 'card'

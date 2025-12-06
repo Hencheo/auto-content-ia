@@ -76,6 +76,7 @@ export function StoryEditor({ data, theme, onUpdate }: StoryEditorProps) {
             </div>
 
             {/* Preview Area */}
+            {/* Preview Area */}
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem' }}>
 
                 {/* Navigation */}
@@ -83,8 +84,7 @@ export function StoryEditor({ data, theme, onUpdate }: StoryEditorProps) {
                     <button
                         onClick={prevSlide}
                         disabled={currentSlide === 0}
-                        className="btn"
-                        style={{ padding: '1rem', borderRadius: '50%', opacity: currentSlide === 0 ? 0.5 : 1 }}
+                        className="btn preview-nav-btn"
                     >
                         &lt;
                     </button>
@@ -94,21 +94,20 @@ export function StoryEditor({ data, theme, onUpdate }: StoryEditorProps) {
                     <button
                         onClick={nextSlide}
                         disabled={currentSlide === data.slides.length - 1}
-                        className="btn"
-                        style={{ padding: '1rem', borderRadius: '50%', opacity: currentSlide === data.slides.length - 1 ? 0.5 : 1 }}
+                        className="btn preview-nav-btn"
                     >
                         &gt;
                     </button>
                 </div>
 
                 {/* Slide Preview (Scaled Down) */}
-                <div style={{
-                    width: '360px', // 1080 / 3
-                    height: '640px', // 1920 / 3
-                    border: '1px solid var(--border-color)',
-                    overflow: 'hidden',
-                    position: 'relative'
-                }}>
+                <div
+                    className="preview-slide-container"
+                    style={{
+                        width: '360px', // 1080 / 3
+                        height: '640px', // 1920 / 3
+                    }}
+                >
                     <GenericSlide
                         id="preview-slide"
                         data={data.slides[currentSlide]}
@@ -121,13 +120,13 @@ export function StoryEditor({ data, theme, onUpdate }: StoryEditorProps) {
                 </div>
 
                 {/* Editor de Texto */}
-                <div className="card" style={{ width: '100%', maxWidth: '600px', marginTop: '2rem', border: '1px solid var(--border-color)' }}>
-                    <h3 style={{ marginBottom: '1rem', color: 'var(--text-secondary)', fontSize: '1.1rem' }}>
+                <div className="card generator-card" style={{ width: '100%', maxWidth: '600px', marginTop: '2rem', border: '1px solid var(--border-color)' }}>
+                    <h3 className="generator-section-title" style={{ fontSize: '1.1rem' }}>
                         Editar Slide {currentSlide + 1}
                     </h3>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                         <div>
-                            <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', color: 'var(--text-muted)' }}>Título</label>
+                            <label className="editor-label">Título</label>
                             <input
                                 type="text"
                                 value={data.slides[currentSlide].title || ''}
@@ -136,12 +135,13 @@ export function StoryEditor({ data, theme, onUpdate }: StoryEditorProps) {
                                     newSlides[currentSlide] = { ...newSlides[currentSlide], title: e.target.value };
                                     onUpdate({ ...data, slides: newSlides });
                                 }}
-                                style={{ width: '100%', padding: '0.75rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)', background: 'var(--bg-primary)', color: 'white' }}
+                                className="generator-input"
+                                style={{ padding: '0.75rem', color: 'white', background: 'var(--bg-primary)' }}
                             />
                         </div>
                         {data.slides[currentSlide].body !== undefined && (
                             <div>
-                                <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', color: 'var(--text-muted)' }}>Texto</label>
+                                <label className="editor-label">Texto</label>
                                 <textarea
                                     value={data.slides[currentSlide].body || ''}
                                     onChange={(e) => {
@@ -150,7 +150,7 @@ export function StoryEditor({ data, theme, onUpdate }: StoryEditorProps) {
                                         onUpdate({ ...data, slides: newSlides });
                                     }}
                                     rows={4}
-                                    style={{ width: '100%', padding: '0.75rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)', background: 'var(--bg-primary)', color: 'white', resize: 'vertical' }}
+                                    className="generator-textarea"
                                 />
                             </div>
                         )}
@@ -160,7 +160,7 @@ export function StoryEditor({ data, theme, onUpdate }: StoryEditorProps) {
             </div>
 
             {/* Hidden Container for Export (Full Scale) */}
-            <div style={{ position: 'absolute', top: '-9999px', left: '-9999px' }}>
+            <div className="export-container-hidden">
                 {data.slides.map((slide: any, index: number) => (
                     <GenericSlide
                         key={index}

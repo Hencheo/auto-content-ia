@@ -23,81 +23,51 @@ export function FinancialDark({ data, index, total, id, profile, scale = 0.4 }: 
     return (
         <div
             id={id}
-            className="slide-container"
+            className="slide-container financial-dark-container"
             style={{
-                width: '1080px',
-                height: '1350px', // 4:5 Aspect Ratio
-                backgroundColor: 'var(--bg-secondary)',
-                color: 'var(--text-primary)',
-                padding: '80px',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-                position: 'relative',
-                overflow: 'hidden',
-                border: '1px solid var(--border-color)',
-                marginBottom: '2rem',
                 transform: `scale(${scale})`,
-                transformOrigin: 'top left',
             }}
         >
             {/* Header Estilo Twitter */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '24px', marginBottom: '25px' }}>
+            <div className="financial-dark-header">
                 {/* Avatar */}
-                <div style={{
-                    width: '120px',
-                    height: '120px',
-                    borderRadius: '50%',
-                    overflow: 'hidden',
-                    backgroundColor: '#334155', // Placeholder color
-                    flexShrink: 0
-                }}>
+                <div className="financial-dark-avatar-wrapper">
                     {profile.image ? (
                         <img
                             src={profile.image}
                             alt="Profile"
-                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                            className="financial-dark-avatar-img"
                         />
                     ) : (
-                        <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '40px' }}>
+                        <div className="financial-dark-avatar-placeholder">
                             {profile.name.charAt(0)}
                         </div>
                     )}
                 </div>
 
                 {/* Info */}
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                        <span style={{ fontSize: '36px', fontWeight: 700, lineHeight: 1 }}>{profile.name}</span>
+                <div className="financial-dark-info">
+                    <div className="financial-dark-name-row">
+                        <span className="financial-dark-name">{profile.name}</span>
                         <BadgeCheck size={40} fill="#1d9bf0" color="white" />
                     </div>
-                    <span style={{ fontSize: '32px', color: 'var(--text-muted)', marginTop: '8px' }}>{profile.handle}</span>
+                    <span className="financial-dark-handle">{profile.handle}</span>
                 </div>
 
                 {/* Contador */}
-                <div style={{ marginLeft: 'auto', fontSize: '24px', opacity: 0.5 }}>
+                <div className="financial-dark-counter">
                     {index + 1}/{total}
                 </div>
             </div>
 
             {/* Content */}
-            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+            <div className="financial-dark-content">
                 {data.type === 'cover' && (
-                    <div style={{ textAlign: 'center' }}>
-                        <h1 style={{
-                            fontSize: '96px',
-                            lineHeight: 1.1,
-                            fontWeight: 800,
-                            marginBottom: '40px',
-                            color: 'var(--text-primary)'
-                        }}>
+                    <div className="financial-dark-cover-container">
+                        <h1 className="financial-dark-title-cover">
                             {data.title}
                         </h1>
-                        <p style={{
-                            fontSize: '48px',
-                            color: 'var(--accent-gold)',
-                            fontWeight: 500
-                        }}>
+                        <p className="financial-dark-subtitle">
                             {data.subtitle}
                         </p>
                     </div>
@@ -105,43 +75,24 @@ export function FinancialDark({ data, index, total, id, profile, scale = 0.4 }: 
 
                 {data.type === 'content' && (
                     <div>
-                        <h2 style={{
-                            fontSize: '64px',
-                            marginBottom: '60px',
-                            color: 'var(--accent-gold)',
-                            borderLeft: '10px solid var(--accent-green)',
-                            paddingLeft: '40px'
-                        }}>
+                        <h2 className="financial-dark-title-content">
                             {data.title}
                         </h2>
-                        <p style={{
-                            fontSize: '42px',
-                            lineHeight: 1.4,
-                            color: 'var(--text-secondary)',
-                            whiteSpace: 'pre-wrap'
-                        }}>
+                        <p className="financial-dark-body">
                             {data.body}
                         </p>
                     </div>
                 )}
 
                 {data.type === 'cta' && (
-                    <div style={{ textAlign: 'center' }}>
-                        <h2 style={{ fontSize: '72px', marginBottom: '40px', color: 'var(--accent-green)' }}>
+                    <div className="financial-dark-cta-container">
+                        <h2 className="financial-dark-cta-title">
                             {data.title}
                         </h2>
-                        <p style={{ fontSize: '48px', marginBottom: '80px' }}>
+                        <p className="financial-dark-cta-body">
                             {data.body}
                         </p>
-                        <div style={{
-                            display: 'inline-block',
-                            padding: '30px 60px',
-                            backgroundColor: 'var(--accent-gold)',
-                            color: 'var(--bg-primary)',
-                            fontSize: '48px',
-                            fontWeight: 'bold',
-                            borderRadius: 'var(--radius-lg)'
-                        }}>
+                        <div className="financial-dark-cta-btn">
                             SALVAR
                         </div>
                     </div>
@@ -149,7 +100,7 @@ export function FinancialDark({ data, index, total, id, profile, scale = 0.4 }: 
             </div>
 
             {/* Footer */}
-            <div style={{ height: '20px', background: 'linear-gradient(90deg, var(--accent-gold), var(--accent-green))', marginTop: 'auto' }} />
+            <div className="financial-dark-footer-line" />
         </div>
     );
 }

@@ -108,18 +108,18 @@ export default function Home() {
 
 
     return (
-        <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-            <Header compact={!!result} avatar={avatar} />
+        <div className="home-container">
+            {!result && <Header compact={false} avatar={avatar} />}
 
-            <main style={{ flex: 1, display: 'flex', flexDirection: 'column', padding: '2rem' }}>
+            <main className="main-wrapper">
 
                 {!result ? (
-                    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', alignItems: 'center', paddingBottom: '2rem' }}>
-                        <div className="hide-on-mobile" style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', marginBottom: '2rem', textAlign: 'center' }}>
-                            <h1 style={{ fontSize: '3rem', fontWeight: 'bold', marginBottom: '1rem' }}>
+                    <div className="home-content">
+                        <div className="hide-on-mobile home-intro">
+                            <h1 className="home-title">
                                 O que vamos criar hoje?
                             </h1>
-                            <p style={{ color: 'var(--text-secondary)', fontSize: '1.2rem' }}>
+                            <p className="home-subtitle">
                                 Transforme suas ideias em conteúdo viral em segundos.
                             </p>
                         </div>

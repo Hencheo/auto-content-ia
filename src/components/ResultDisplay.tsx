@@ -1,14 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { themes } from '@/styles/themeRegistry';
 import { ThemePreviewCard } from './ThemePreviewCard';
 import { CaptionDisplay } from './CaptionDisplay';
-import { SlideViewer } from './SlideViewer';
 import { useUser } from '@/contexts/UserContext';
-import JSZip from 'jszip';
-import { saveAs } from 'file-saver';
-import { toPng } from 'html-to-image';
-import { GenericSlide } from './renderer/GenericSlide';
-import { ChevronRight } from 'lucide-react';
+import { ChevronLeft, Edit, Download, Eye, Check, Copy } from 'lucide-react';
+// import { saveAs } from 'file-saver'; // Will implement logic later
+// import { toPng } from 'html-to-image'; // Will implement logic later
 
 interface ResultDisplayProps {
     result: any;
@@ -28,152 +25,217 @@ export function ResultDisplay({
     onUpdate
 }: ResultDisplayProps) {
     const { name, handle, avatar: image } = useUser();
-    const [selectedThemeId, setSelectedThemeId] = useState<string | null>(null);
-    const [viewingSlidesTheme, setViewingSlidesTheme] = useState<any | null>(null);
-    const [showScrollHint, setShowScrollHint] = useState(true);
+    const [selectedThemeId, setSelectedThemeId] = useState<string>(themeId || 'financial-dark');
+    const [activeIndex, setActiveIndex] = useState(0);
+    const [showFullCaption, setShowFullCaption] = useState(false);
+
+    // Floating Action Logic
+    const [showActions, setShowActions] = useState(true);
+    const [lastScrollY, setLastScrollY] = useState(0);
+
+    const scrollContainerRef = useRef<HTMLDivElement>(null);
 
     const availableThemes = themes.filter(t => t.type === format);
 
-    // Hide scroll hint ONLY after interaction
-    // useEffect(() => {
-    //     const timer = setTimeout(() => setShowScrollHint(false), 5000);
-    //     return () => clearTimeout(timer);
-    // }, []);
+    // Sync selected theme on mount
+    useEffect(() => {
+        if (themeId && themeId !== selectedThemeId) {
+            setSelectedThemeId(themeId);
+        }
+    }, [themeId]);
 
-    const handleDownload = async (themeToDownload: any) => {
-        if (!result) return;
-        alert(`Iniciando download com tema: ${themeToDownload.name}... (Lógica de download será migrada em breve)`);
+    const handleMainScroll = (e: React.UIEvent<HTMLDivElement>) => {
+        const currentScrollY = e.currentTarget.scrollTop;
+
+        // Threshold to avoid jitter
+        if (Math.abs(currentScrollY - lastScrollY) < 10) return;
+
+        if (currentScrollY > lastScrollY && currentScrollY > 50) {
+            // Scrolling down & past top -> Hide
+            setShowActions(false);
+        } else {
+            // Scrolling up -> Show
+            setShowActions(true);
+        }
+        setLastScrollY(currentScrollY);
+    };
+
+    const handleScroll = () => {
+        if (scrollContainerRef.current) {
+            const container = scrollContainerRef.current;
+            const scrollLeft = container.scrollLeft;
+            const cardWidth = container.children[0]?.clientWidth || 300;
+            const gap = 24;
+            const totalItemWidth = cardWidth + gap;
+            const centerPosition = scrollLeft + (container.clientWidth / 2);
+            const index = Math.floor(centerPosition / totalItemWidth);
+            const safeIndex = Math.min(Math.max(index, 0), availableThemes.length - 1);
+            setActiveIndex(safeIndex);
+        }
+    };
+
+    const scrollToTheme = (index: number) => {
+        if (scrollContainerRef.current) {
+            const container = scrollContainerRef.current;
+            const cardWidth = container.children[0]?.clientWidth || 300;
+            const gap = 24;
+            const totalItemWidth = cardWidth + gap;
+            // Center calculation: Scroll = (ItemLeft) - (ScreenHalf) + (ItemHalf)
+            const targetScroll = (index * totalItemWidth) - (container.clientWidth / 2) + (cardWidth / 2);
+
+            container.scrollTo({ left: targetScroll, behavior: 'smooth' });
+            setActiveIndex(index);
+        }
+    };
+
+    const handleDownload = () => {
+        alert("Download functionality coming soon!");
     };
 
     const handleEdit = () => {
-        alert("Editor completo em breve!");
+        alert("Editor functionality coming soon!");
     };
 
-    const handleViewSlides = (theme: any) => {
-        setViewingSlidesTheme(theme);
+    const handleViewSlides = () => {
+        alert("Full screen slide view coming soon!");
     };
 
     return (
-        <div className="fade-in-up" style={{ width: '100%', paddingBottom: '4rem', position: 'relative' }}>
+        <div className="mobile-result-container fade-in-up">
 
-            {/* Slide Viewer Modal */}
-            {viewingSlidesTheme && (
-                <SlideViewer
-                    data={result}
-                    theme={viewingSlidesTheme}
-                    profile={{ name, handle, image }}
-                    onClose={() => setViewingSlidesTheme(null)}
-                />
-            )}
-
-            {/* Click Outside Overlay */}
-            {selectedThemeId && (
-                <div
-                    onClick={() => setSelectedThemeId(null)}
-                    style={{
-                        position: 'fixed',
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                        zIndex: 5,
-                    }}
-                />
-            )}
-
-            <div style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                marginBottom: '1.5rem',
-                padding: '0 1rem',
-                position: 'relative',
-                zIndex: 10
-            }}>
-                <button
-                    onClick={onBack}
-                    style={{
-                        background: 'none',
-                        border: 'none',
-                        color: 'var(--text-secondary)',
-                        cursor: 'pointer',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '0.5rem',
-                        fontSize: '0.9rem'
-                    }}
-                >
-                    ← Voltar
+            {/* 1. Mobile Header */}
+            <div className="mobile-header">
+                <button onClick={onBack} className="mobile-back-btn">
+                    <ChevronLeft size={24} />
+                    <span>Voltar</span>
                 </button>
-                <h2 style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>Escolha o Estilo</h2>
+                <div className="mobile-header-title">
+                    Resultado
+                </div>
             </div>
 
-            {/* Horizontal Scroll Container */}
-            <div style={{ position: 'relative' }}>
-                <div
-                    className="no-scrollbar"
-                    onScroll={() => setShowScrollHint(false)}
-                    style={{
-                        display: 'flex',
-                        gap: '1.5rem',
-                        overflowX: 'auto',
-                        padding: '1rem 2rem',
-                        scrollSnapType: 'x mandatory',
-                        marginBottom: '2rem',
-                        minHeight: '450px',
-                        alignItems: 'center',
-                        position: 'relative',
-                        zIndex: 10
-                    }}
-                >
-                    {availableThemes.map(theme => (
-                        <ThemePreviewCard
-                            key={theme.id}
-                            data={result}
-                            theme={theme}
-                            isSelected={selectedThemeId === theme.id}
-                            onSelect={() => {
-                                setSelectedThemeId(theme.id);
-                                onThemeChange(theme.id);
-                            }}
-                            onEdit={handleEdit}
-                            onDownload={() => handleDownload(theme)}
-                            onViewSlides={() => handleViewSlides(theme)}
-                            profile={{ name, handle, image }}
-                        />
-                    ))}
+            {/* 2. Main Content (Carousel) */}
+            <div className="mobile-content-area" onScroll={handleMainScroll}>
+                <div className="mobile-carousel-section">
+                    <div
+                        ref={scrollContainerRef}
+                        className="carousel-container"
+                        onScroll={handleScroll}
+                    >
+                        {availableThemes.map((theme, index) => (
+                            <div key={theme.id} className="theme-card-wrapper">
+                                <ThemePreviewCard
+                                    data={result}
+                                    theme={theme}
+                                    isSelected={selectedThemeId === theme.id}
+                                    onSelect={() => {
+                                        setSelectedThemeId(theme.id);
+                                        onThemeChange(theme.id);
+                                        scrollToTheme(index);
+                                    }}
+                                    onEdit={handleEdit}
+                                    onDownload={handleDownload}
+                                    onViewSlides={handleViewSlides}
+                                    profile={{ name, handle, image }}
+                                    isStory={format === 'story'}
+                                />
+                            </div>
+                        ))}
+                    </div>
+                    {/* Indicators */}
+                    <div className="carousel-indicators">
+                        {availableThemes.map((_, index) => (
+                            <button
+                                key={index}
+                                className={`carousel-dot ${index === activeIndex ? 'active' : ''}`}
+                                onClick={() => scrollToTheme(index)}
+                            />
+                        ))}
+                    </div>
                 </div>
 
-                {/* Scroll Hint Indicator */}
-                {showScrollHint && availableThemes.length > 1 && (
-                    <div
-                        className="scroll-hint"
-                        style={{
-                            position: 'absolute',
-                            right: '10px',
-                            top: '50%',
-                            transform: 'translateY(-50%)',
-                            zIndex: 50, // Increased z-index
-                            pointerEvents: 'none',
-                            color: 'black', // High contrast
-                            background: 'var(--accent-gold)', // High visibility
-                            borderRadius: '50%',
-                            padding: '12px',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            boxShadow: '0 4px 12px rgba(0,0,0,0.3)'
-                        }}
-                    >
-                        <ChevronRight size={28} strokeWidth={3} />
+                {/* Caption Preview (Read Only/Expandable) - Hide for Story */}
+                {format !== 'story' && result.caption && (
+                    <div className="mobile-caption-preview">
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+                            <strong>Legenda Sugerida:</strong>
+                            <button
+                                onClick={() => {
+                                    navigator.clipboard.writeText(result.caption);
+                                    // Visual feedback logic would go here, simplified for now or need state
+                                    const btn = document.getElementById('caption-copy-btn');
+                                    if (btn) {
+                                        btn.innerHTML = '<svg ...><path d="M20 6L9 17l-5-5"/></svg>'; // Check icon
+                                        setTimeout(() => {
+                                            if (btn) btn.innerHTML = '<svg ...><rect .../><path .../></svg>'; // Copy icon back
+                                        }, 2000);
+                                    }
+                                    alert("Legenda copiada!"); // Simple feedback for now until state added
+                                }}
+                                style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-secondary)' }}
+                            >
+                                <Copy size={18} />
+                            </button>
+                        </div>
+
+                        <div style={{
+                            maxHeight: showFullCaption ? 'none' : '80px',
+                            overflow: 'hidden',
+                            position: 'relative',
+                            transition: 'all 0.3s ease',
+                            fontSize: '0.9rem',
+                            lineHeight: '1.4'
+                        }}>
+                            {result.caption}
+                        </div>
+                        <button
+                            onClick={() => setShowFullCaption(!showFullCaption)}
+                            style={{
+                                background: 'transparent',
+                                border: 'none',
+                                color: 'var(--accent-gold)',
+                                fontSize: '0.8rem',
+                                marginTop: '0.5rem',
+                                cursor: 'pointer',
+                                fontWeight: 'bold',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '0.25rem'
+                            }}
+                        >
+                            {showFullCaption ? 'Ver menos' : 'Ver mais'}
+                        </button>
                     </div>
                 )}
+
+                {/* Spacer to prevent content from being hidden behind pill if scrolling */}
+                <div style={{ height: '80px' }}></div>
             </div>
 
-            {/* Caption Section */}
-            {result.caption && (
-                <CaptionDisplay caption={result.caption} />
-            )}
+            {/* Floating Action Pill (Outside content area for fixed positioning if desired, OR inside relative container) */}
+            {/* The previous edit put it inside, which is relative. Let's keep it there but fix the tags. */}
+            <div
+                className="mobile-floating-actions"
+                style={{
+                    transform: showActions ? 'translateX(-50%) translateY(0)' : 'translateX(-50%) translateY(150%)',
+                    opacity: showActions ? 1 : 0,
+                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                    pointerEvents: showActions ? 'auto' : 'none'
+                }}
+            >
+                <button className="mobile-floating-btn" onClick={handleViewSlides}>
+                    <Eye size={20} />
+                    <span>Visualizar</span>
+                </button>
+                <button className="mobile-floating-btn primary" onClick={handleDownload}>
+                    <Download size={24} />
+                    <span>Baixar</span>
+                </button>
+                <button className="mobile-floating-btn" onClick={handleEdit}>
+                    <Edit size={20} />
+                    <span>Editar</span>
+                </button>
+            </div>
         </div>
     );
 }

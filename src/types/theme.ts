@@ -9,7 +9,7 @@ export interface ThemeStyles {
 }
 
 export interface ThemeLayout {
-    header: 'twitter' | 'minimal' | 'centered' | 'news';
+    header: 'twitter' | 'minimal' | 'centered' | 'news' | 'none';
     footer: 'bar' | 'progress' | 'none' | 'simple';
     cover: 'centered' | 'big-bold' | 'news-headline' | 'minimal';
     content: 'standard' | 'card' | 'news-body' | 'minimal';

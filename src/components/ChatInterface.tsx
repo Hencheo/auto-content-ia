@@ -96,6 +96,16 @@ const StyledWrapper = styled.div`
     flex-direction: column;
     max-width: 600px; /* Increased width for better UX */
     width: 100%;
+
+    @media (max-width: 768px) {
+      position: fixed;
+      bottom: 4rem;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 0 1rem 1rem 1rem;
+      max-width: 100%;
+    }
   }
 
   .container_chat_bot .container-chat-options {

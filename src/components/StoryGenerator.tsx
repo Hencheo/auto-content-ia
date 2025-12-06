@@ -134,44 +134,24 @@ export function StoryGenerator() {
     return (
         <div className="container" style={{ padding: '4rem 0' }}>
             <div style={{ maxWidth: '800px', margin: '0 auto 4rem auto' }}>
-                <h1 className="page-title" style={{ fontSize: '2.5rem', marginBottom: '2rem', color: 'var(--accent-gold)', textAlign: 'center' }}>
+                <h1 className="page-title generator-page-title">
                     Gerador de Stories com IA
                 </h1>
 
 
                 {/* Seleção de Template */}
-                <div className="card" style={{ marginBottom: '2rem' }}>
-                    <h3 style={{ marginBottom: '1rem', color: 'var(--text-secondary)' }}>Estilo do Story</h3>
-                    <div style={{ display: 'flex', gap: '1rem' }}>
+                <div className="card generator-card">
+                    <h3 className="generator-section-title">Estilo do Story</h3>
+                    <div className="template-selection-container">
                         <button
                             onClick={() => setSelectedTemplate('breaking-news')}
-                            style={{
-                                flex: 1,
-                                padding: '1rem',
-                                borderRadius: 'var(--radius-md)',
-                                border: `2px solid ${selectedTemplate === 'breaking-news' ? '#ff0000' : 'var(--border-color)'}`,
-                                backgroundColor: '#000',
-                                color: 'white',
-                                cursor: 'pointer',
-                                textAlign: 'center',
-                                fontWeight: 'bold'
-                            }}
+                            className={`template-select-btn breaking-news ${selectedTemplate === 'breaking-news' ? 'active' : ''}`}
                         >
                             Notícia
                         </button>
                         <button
                             onClick={() => setSelectedTemplate('modern-story')}
-                            style={{
-                                flex: 1,
-                                padding: '1rem',
-                                borderRadius: 'var(--radius-md)',
-                                border: `2px solid ${selectedTemplate === 'modern-story' ? 'var(--accent-gold)' : 'var(--border-color)'}`,
-                                backgroundColor: '#fff',
-                                color: '#000',
-                                cursor: 'pointer',
-                                textAlign: 'center',
-                                fontWeight: 'bold'
-                            }}
+                            className={`template-select-btn modern-story ${selectedTemplate === 'modern-story' ? 'active' : ''}`}
                         >
                             Minimalista
                         </button>
@@ -191,15 +171,7 @@ export function StoryGenerator() {
                             value={url}
                             onChange={(e) => setUrl(e.target.value)}
                             placeholder="Cole o link da notícia aqui (https://...)"
-                            style={{
-                                flex: 1,
-                                padding: '1rem',
-                                borderRadius: 'var(--radius-md)',
-                                border: '1px solid var(--border-color)',
-                                backgroundColor: 'var(--bg-card)',
-                                color: 'var(--text-primary)',
-                                fontSize: '1rem'
-                            }}
+                            className="generator-input"
                         />
                     )}
                     <button
@@ -230,8 +202,7 @@ export function StoryGenerator() {
                             <button
                                 onClick={prevSlide}
                                 disabled={currentSlide === 0}
-                                className="btn"
-                                style={{ padding: '1rem', borderRadius: '50%', opacity: currentSlide === 0 ? 0.5 : 1 }}
+                                className="btn preview-nav-btn"
                             >
                                 &lt;
                             </button>
@@ -241,8 +212,7 @@ export function StoryGenerator() {
                             <button
                                 onClick={nextSlide}
                                 disabled={currentSlide === storyData.slides.length - 1}
-                                className="btn"
-                                style={{ padding: '1rem', borderRadius: '50%', opacity: currentSlide === storyData.slides.length - 1 ? 0.5 : 1 }}
+                                className="btn preview-nav-btn"
                             >
                                 &gt;
                             </button>
@@ -268,13 +238,13 @@ export function StoryGenerator() {
                         </div>
 
                         {/* Editor de Texto (Reutilizando a lógica do Carrossel) */}
-                        <div className="card" style={{ width: '100%', maxWidth: '600px', marginTop: '2rem', border: '1px solid var(--border-color)' }}>
-                            <h3 style={{ marginBottom: '1rem', color: 'var(--text-secondary)', fontSize: '1.1rem' }}>
+                        <div className="card generator-card" style={{ width: '100%', maxWidth: '600px', marginTop: '2rem', border: '1px solid var(--border-color)' }}>
+                            <h3 className="generator-section-title" style={{ fontSize: '1.1rem' }}>
                                 Editar Slide {currentSlide + 1}
                             </h3>
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                                 <div>
-                                    <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', color: 'var(--text-muted)' }}>Título</label>
+                                    <label className="editor-label">Título</label>
                                     <input
                                         type="text"
                                         value={storyData.slides[currentSlide].title || ''}
@@ -283,12 +253,13 @@ export function StoryGenerator() {
                                             newSlides[currentSlide] = { ...newSlides[currentSlide], title: e.target.value };
                                             setStoryData({ ...storyData, slides: newSlides });
                                         }}
-                                        style={{ width: '100%', padding: '0.75rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)', background: 'var(--bg-primary)', color: 'white' }}
+                                        className="generator-input"
+                                        style={{ padding: '0.75rem', color: 'white', background: 'var(--bg-primary)' }}
                                     />
                                 </div>
                                 {storyData.slides[currentSlide].body !== undefined && (
                                     <div>
-                                        <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', color: 'var(--text-muted)' }}>Texto</label>
+                                        <label className="editor-label">Texto</label>
                                         <textarea
                                             value={storyData.slides[currentSlide].body || ''}
                                             onChange={(e) => {
@@ -297,7 +268,7 @@ export function StoryGenerator() {
                                                 setStoryData({ ...storyData, slides: newSlides });
                                             }}
                                             rows={4}
-                                            style={{ width: '100%', padding: '0.75rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)', background: 'var(--bg-primary)', color: 'white', resize: 'vertical' }}
+                                            className="generator-textarea"
                                         />
                                     </div>
                                 )}
@@ -307,7 +278,7 @@ export function StoryGenerator() {
                     </div>
 
                     {/* Hidden Container for Export (Full Scale) */}
-                    <div style={{ position: 'absolute', top: '-9999px', left: '-9999px' }}>
+                    <div className="export-container-hidden">
                         {storyData.slides.map((slide: any, index: number) => (
                             <StorySlide
                                 key={index}
