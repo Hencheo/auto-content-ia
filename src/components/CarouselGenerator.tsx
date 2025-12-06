@@ -6,8 +6,10 @@ import { Slide, TemplateId } from './Slide';
 import { toPng } from 'html-to-image';
 import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
+import { useUser } from '@/contexts/UserContext';
 
 export function CarouselGenerator() {
+    const { name, handle, avatar: image, profession, product, audience } = useUser();
     const [inputType, setInputType] = useState<'topic' | 'url'>('topic');
     const [topic, setTopic] = useState('');
     const [url, setUrl] = useState('');
@@ -19,9 +21,6 @@ export function CarouselGenerator() {
     const abortControllerRef = useRef<AbortController | null>(null);
 
     // Profile State
-    const [name, setName] = useState('Seu Nome');
-    const [handle, setHandle] = useState('@seu_usuario');
-    const [image, setImage] = useState<string | null>(null);
     const [selectedTemplate, setSelectedTemplate] = useState<TemplateId>('financial-dark');
 
     // Carousel Navigation State
@@ -39,13 +38,6 @@ export function CarouselGenerator() {
         }
     };
 
-    const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        if (file) {
-            const url = URL.createObjectURL(file);
-            setImage(url);
-        }
-    };
 
     const handleGenerate = async (e?: React.FormEvent) => {
         if (e) e.preventDefault();
@@ -68,9 +60,11 @@ export function CarouselGenerator() {
         try {
             let data;
 
+            const context = { profession, product, audience };
+
             if (inputType === 'topic') {
                 setLoadingStep('Gerando conteúdo estratégico...');
-                data = await generateCarouselContent(topic, controller.signal);
+                data = await generateCarouselContent(topic, controller.signal, context);
             } else {
                 // URL Flow
                 setLoadingStep('Lendo o artigo...');
@@ -88,7 +82,7 @@ export function CarouselGenerator() {
 
                 setLoadingStep('Transformando em carrossel...');
                 const content = `TÍTULO: ${scrapeData.title}\n\nCONTEÚDO: ${scrapeData.content}`;
-                data = await generateCarouselFromArticle(content, controller.signal);
+                data = await generateCarouselFromArticle(content, controller.signal, context);
             }
 
             if (controller.signal.aborted) return;
@@ -173,33 +167,6 @@ export function CarouselGenerator() {
                     Gerador de Carrossel 360º
                 </h1>
 
-                {/* Configuração do Perfil */}
-                <div className="card" style={{ marginBottom: '2rem' }}>
-                    <h3 style={{ marginBottom: '1rem', color: 'var(--text-secondary)' }}>Configuração do Perfil</h3>
-                    <div className="grid-responsive" style={{ marginBottom: '1rem' }}>
-                        <input
-                            type="text"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            placeholder="Nome (ex: Primeiro nome Segundo nome)"
-                            style={{ padding: '0.75rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)', background: 'var(--bg-primary)', color: 'white' }}
-                        />
-                        <input
-                            type="text"
-                            value={handle}
-                            onChange={(e) => setHandle(e.target.value)}
-                            placeholder="Usuário (ex: @seu_usuario)"
-                            style={{ padding: '0.75rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)', background: 'var(--bg-primary)', color: 'white' }}
-                        />
-                    </div>
-                    <div className="flex-responsive" style={{ alignItems: 'center' }}>
-                        <label className="btn" style={{ backgroundColor: 'var(--bg-primary)', border: '1px solid var(--border-color)', color: 'var(--text-secondary)' }}>
-                            Escolher Foto
-                            <input type="file" accept="image/png, image/jpeg, image/jpg" onChange={handleImageUpload} style={{ display: 'none' }} />
-                        </label>
-                        {image ? <span style={{ color: 'var(--accent-green)' }}>Foto carregada!</span> : <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Recomendado: JPG ou PNG (Quadrado)</span>}
-                    </div>
-                </div>
 
                 {/* Seleção de Template */}
                 <div className="card" style={{ marginBottom: '2rem' }}>

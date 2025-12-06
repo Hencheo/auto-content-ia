@@ -44,17 +44,17 @@ export function BreakingNewsTemplate({ data, index, total, profile }: StoryTempl
 
             {/* Header */}
             <div style={{ zIndex: 1, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '30px' }}>
                     {profile.image && (
                         <img
                             src={profile.image}
                             alt="Profile"
-                            style={{ width: '80px', height: '80px', borderRadius: '50%', border: '4px solid #ff0000' }}
+                            style={{ width: '140px', height: '140px', borderRadius: '50%', border: '6px solid #ff0000' }}
                         />
                     )}
                     <div>
-                        <div style={{ fontSize: '28px', fontWeight: 'bold' }}>{profile.name}</div>
-                        <div style={{ fontSize: '24px', color: '#888' }}>{profile.handle}</div>
+                        <div style={{ fontSize: '42px', fontWeight: 'bold' }}>{profile.name}</div>
+                        <div style={{ fontSize: '36px', color: '#888' }}>{profile.handle}</div>
                     </div>
                 </div>
                 <div style={{
@@ -173,17 +173,17 @@ export function ModernStoryTemplate({ data, index, total, profile }: StoryTempla
             }} />
 
             {/* Header */}
-            <div style={{ zIndex: 1, display: 'flex', alignItems: 'center', gap: '20px' }}>
+            <div style={{ zIndex: 1, display: 'flex', alignItems: 'center', gap: '30px' }}>
                 {profile.image && (
                     <img
                         src={profile.image}
                         alt="Profile"
-                        style={{ width: '80px', height: '80px', borderRadius: '50%', border: '2px solid #000' }}
+                        style={{ width: '140px', height: '140px', borderRadius: '50%', border: '4px solid #000' }}
                     />
                 )}
                 <div>
-                    <div style={{ fontSize: '28px', fontWeight: 'bold' }}>{profile.name}</div>
-                    <div style={{ fontSize: '24px', color: '#555' }}>{profile.handle}</div>
+                    <div style={{ fontSize: '42px', fontWeight: 'bold' }}>{profile.name}</div>
+                    <div style={{ fontSize: '36px', color: '#555' }}>{profile.handle}</div>
                 </div>
             </div>
 

@@ -6,8 +6,10 @@ import { StorySlide, StoryTemplateId } from './StorySlide';
 import { toPng } from 'html-to-image';
 import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
+import { useUser } from '@/contexts/UserContext';
 
 export function StoryGenerator() {
+    const { name, handle, avatar: image, profession, product, audience } = useUser();
     const [url, setUrl] = useState('');
     const [loading, setLoading] = useState(false);
     const [storyData, setStoryData] = useState<any>(null);
@@ -17,9 +19,6 @@ export function StoryGenerator() {
     const abortControllerRef = useRef<AbortController | null>(null);
 
     // Profile State
-    const [name, setName] = useState('Seu Nome');
-    const [handle, setHandle] = useState('@seu_usuario');
-    const [image, setImage] = useState<string | null>(null);
     const [selectedTemplate, setSelectedTemplate] = useState<StoryTemplateId>('breaking-news');
 
     // Navigation State
@@ -37,13 +36,6 @@ export function StoryGenerator() {
         }
     };
 
-    const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        if (file) {
-            const url = URL.createObjectURL(file);
-            setImage(url);
-        }
-    };
 
     const handleGenerate = async (e?: React.FormEvent) => {
         if (e) e.preventDefault();
@@ -79,7 +71,8 @@ export function StoryGenerator() {
             // Step 2: Generate Story Content
             setLoadingStep('Criando storytelling...');
             const content = `TÍTULO: ${scrapeData.title}\n\nCONTEÚDO: ${scrapeData.content}`;
-            const data = await generateStoryContent(content, controller.signal);
+            const context = { profession, product, audience };
+            const data = await generateStoryContent(content, controller.signal, context);
 
             if (controller.signal.aborted) return;
             setStoryData(data);
@@ -145,33 +138,6 @@ export function StoryGenerator() {
                     Gerador de Stories com IA
                 </h1>
 
-                {/* Configuração do Perfil */}
-                <div className="card" style={{ marginBottom: '2rem' }}>
-                    <h3 style={{ marginBottom: '1rem', color: 'var(--text-secondary)' }}>Configuração do Perfil</h3>
-                    <div className="grid-responsive" style={{ marginBottom: '1rem' }}>
-                        <input
-                            type="text"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            placeholder="Nome"
-                            style={{ padding: '0.75rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)', background: 'var(--bg-primary)', color: 'white' }}
-                        />
-                        <input
-                            type="text"
-                            value={handle}
-                            onChange={(e) => setHandle(e.target.value)}
-                            placeholder="Usuário (@...)"
-                            style={{ padding: '0.75rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)', background: 'var(--bg-primary)', color: 'white' }}
-                        />
-                    </div>
-                    <div className="flex-responsive" style={{ alignItems: 'center' }}>
-                        <label className="btn" style={{ backgroundColor: 'var(--bg-primary)', border: '1px solid var(--border-color)', color: 'var(--text-secondary)' }}>
-                            Escolher Foto
-                            <input type="file" accept="image/png, image/jpeg, image/jpg" onChange={handleImageUpload} style={{ display: 'none' }} />
-                        </label>
-                        {image && <span style={{ color: 'var(--accent-green)' }}>Foto carregada!</span>}
-                    </div>
-                </div>
 
                 {/* Seleção de Template */}
                 <div className="card" style={{ marginBottom: '2rem' }}>

@@ -6,10 +6,15 @@ const genAI = new GoogleGenerativeAI(API_KEY);
 
 const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
-const SYSTEM_PROMPT = `
-Você é um Estrategista Financeiro Sênior e Consultor de Negócios "360º".
-Seu público são empresários que vivem no operacional, têm dinheiro mas não têm tempo, e misturam PF com PJ.
-Seu objetivo é criar conteúdo para carrosséis do Instagram que toquem na ferida e ofereçam uma solução estratégica.
+function buildSystemPrompt(profession?: string, product?: string, audience?: string) {
+  const role = profession || 'Estrategista Financeiro Sênior e Consultor de Negócios "360º"';
+  const target = audience || 'empresários que vivem no operacional, têm dinheiro mas não têm tempo, e misturam PF com PJ';
+  const offering = product || 'soluções estratégicas de gestão e liberdade financeira';
+
+  return `
+Você é um ${role}.
+Seu público alvo são ${target}.
+Seu objetivo é criar conteúdo para carrosséis do Instagram que vendam ou eduquem sobre ${offering}.
 
 ESTRUTURA DO CARROSSEL (JSON):
 Deve retornar APENAS um JSON com a seguinte estrutura:
@@ -27,8 +32,8 @@ Deve retornar APENAS um JSON com a seguinte estrutura:
 REGRAS DE CONTEÚDO:
 1. Seja direto e autoritário, mas elegante.
 2. Use gatilhos de urgência e exclusividade.
-3. Foque em: Separação PF/PJ, Lucro Real, Investimentos, Construção de Patrimônio.
-4. Evite clichês de "economizar cafezinho". Fale de grandes números.
+3. Adapte a linguagem para o público: ${target}.
+4. Evite clichês. Fale de resultados reais.
 5. O carrossel deve ter entre 5 a 7 slides.
 
 REGRAS DA LEGENDA (CAPTION):
@@ -36,16 +41,18 @@ REGRAS DA LEGENDA (CAPTION):
 2. Comece com uma pergunta ou afirmação polêmica.
 3. Desenvolva o raciocínio em parágrafos curtos.
 4. Finalize com uma CTA clara pedindo comentário ou direct.
-5. Inclua 5-10 hashtags estratégicas no final (ex: #gestaofinanceira #empresario #lucro).
+5. Inclua 5-10 hashtags estratégicas no final.
 `;
+}
 
-export async function generateCarouselContent(topic: string, signal?: AbortSignal) {
+export async function generateCarouselContent(topic: string, signal?: AbortSignal, context?: { profession: string, product: string, audience: string }) {
   if (!API_KEY) {
     throw new Error("API Key não configurada.");
   }
 
   try {
-    const prompt = `${SYSTEM_PROMPT}\n\nTEMA DO USUÁRIO: ${topic}\n\nGere o conteúdo do carrossel em JSON.`;
+    const systemPrompt = buildSystemPrompt(context?.profession, context?.product, context?.audience);
+    const prompt = `${systemPrompt}\n\nTEMA DO USUÁRIO: ${topic}\n\nGere o conteúdo do carrossel em JSON.`;
 
     const generationPromise = model.generateContent(prompt);
 
@@ -103,13 +110,48 @@ REGRAS DE STORYTELLING:
 6. O último slide DEVE ter uma pergunta para gerar respostas (Enquete ou Caixinha de Perguntas).
 `;
 
-export async function generateStoryContent(articleContent: string, signal?: AbortSignal) {
+export async function generateStoryContent(articleContent: string, signal?: AbortSignal, context?: { profession: string, product: string, audience: string }) {
   if (!API_KEY) {
     throw new Error("API Key não configurada.");
   }
 
   try {
-    const prompt = `${STORY_SYSTEM_PROMPT}\n\nCONTEÚDO DA NOTÍCIA:\n${articleContent}\n\nGere a sequência de stories em JSON.`;
+    // Dynamic Story Prompt could be implemented here too, but for now let's keep the Storyteller persona 
+    // but maybe inject the audience context if needed. For now, keeping it simple as requested for Carousel mainly.
+    // Actually, let's inject the audience context to make it better.
+
+    const target = context?.audience || 'o público geral';
+    const role = context?.profession ? `Especialista em ${context.profession}` : 'Estrategista de Conteúdo';
+
+    const dynamicStoryPrompt = `
+Você é um ${role} e Storyteller.
+Seu objetivo é transformar notícias e artigos em uma sequência envolvente de Instagram Stories (formato 9:16) para ${target}.
+O foco é RETENÇÃO e ENGAJAMENTO. Você deve pegar o fato principal e criar uma narrativa.
+
+ESTRUTURA DOS STORIES (JSON):
+Deve retornar APENAS um JSON com a seguinte estrutura:
+{
+  "theme": "Manchete Principal",
+  "caption": "Sugestão de texto para postar junto (opcional)...",
+  "slides": [
+    { "type": "cover", "title": "Gancho Impactante", "subtitle": "Pergunta ou afirmação curiosa" },
+    { "type": "content", "title": "Contexto", "body": "Explicação resumida do que aconteceu." },
+    { "type": "highlight", "title": "Ponto Chave", "body": "O detalhe mais importante ou chocante." },
+    ...
+    { "type": "cta", "title": "Conclusão/Opinião", "body": "Pergunta para a audiência interagir." }
+  ]
+}
+
+REGRAS DE STORYTELLING:
+1. NÃO apenas resuma. Conte uma história.
+2. Use "Ganchos" no primeiro slide para prender a atenção (ex: "Você não vai acreditar nisso...", "Isso muda tudo...").
+3. Mantenha o texto CURTO. Stories são visuais e rápidos. Máximo de 2 frases por slide.
+4. Use linguagem conversacional, como se estivesse contando para um amigo.
+5. Gere entre 5 a 8 slides.
+6. O último slide DEVE ter uma pergunta para gerar respostas (Enquete ou Caixinha de Perguntas).
+`;
+
+    const prompt = `${dynamicStoryPrompt}\n\nCONTEÚDO DA NOTÍCIA:\n${articleContent}\n\nGere a sequência de stories em JSON.`;
 
     const generationPromise = model.generateContent(prompt);
 
@@ -138,13 +180,14 @@ export async function generateStoryContent(articleContent: string, signal?: Abor
   }
 }
 
-export async function generateCarouselFromArticle(articleContent: string, signal?: AbortSignal) {
+export async function generateCarouselFromArticle(articleContent: string, signal?: AbortSignal, context?: { profession: string, product: string, audience: string }) {
   if (!API_KEY) {
     throw new Error("API Key não configurada.");
   }
 
   try {
-    const prompt = `${SYSTEM_PROMPT}\n\nCONTEÚDO DO ARTIGO:\n${articleContent}\n\nTAREFA: Analise o artigo acima, extraia os principais insights estratégicos e crie um carrossel educativo seguindo as regras de conteúdo. Gere o JSON.`;
+    const systemPrompt = buildSystemPrompt(context?.profession, context?.product, context?.audience);
+    const prompt = `${systemPrompt}\n\nCONTEÚDO DO ARTIGO:\n${articleContent}\n\nTAREFA: Analise o artigo acima, extraia os principais insights estratégicos e crie um carrossel educativo seguindo as regras de conteúdo. Gere o JSON.`;
 
     const generationPromise = model.generateContent(prompt);
 
