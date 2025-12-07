@@ -33,7 +33,7 @@ export function ThemePreviewCard({
 
     return (
         <div
-            className={`theme-preview-card-simple ${isSelected ? 'selected' : ''}`}
+            className={`theme-preview-card-simple ${isSelected ? 'selected' : ''} ${isStory ? 'story-mode' : ''}`}
             onClick={onSelect}
         >
             {/* Center the Scaled Slide */}

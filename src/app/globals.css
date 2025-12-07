@@ -388,7 +388,7 @@ a {
 /* --- Floating Action Pill --- */
 .mobile-floating-actions {
   position: absolute;
-  bottom: 30px;
+  bottom: 60px;
   /* Positioned above the caption/bottom */
   left: 50%;
   transform: translateX(-50%);
@@ -525,6 +525,18 @@ a {
 .theme-preview-card-simple.selected {
   border: 2px solid var(--accent-gold);
   transform: scale(1.02);
+}
+
+/* Specific Layout for Story Mode (Tight Border) */
+.theme-preview-card-simple.story-mode {
+  width: fit-content;
+  margin: 0 auto;
+}
+
+/* Specific Border for Story Mode */
+.theme-preview-card-simple.story-mode.selected {
+  border-width: 4px;
+  /* Thick border for Story */
 }
 
 .theme-card-badge {
