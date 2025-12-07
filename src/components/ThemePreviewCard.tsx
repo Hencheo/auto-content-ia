@@ -17,6 +17,7 @@ interface ThemePreviewCardProps {
         image: string | null;
     };
     isStory?: boolean;
+    isCarousel?: boolean;
 }
 
 export function ThemePreviewCard({
@@ -25,7 +26,8 @@ export function ThemePreviewCard({
     isSelected,
     onSelect,
     profile,
-    isStory = false
+    isStory = false,
+    isCarousel = false
 }: ThemePreviewCardProps) {
     // Only render if we have data
     const slideData = data.slides?.[0];
@@ -33,7 +35,7 @@ export function ThemePreviewCard({
 
     return (
         <div
-            className={`theme-preview-card-simple ${isSelected ? 'selected' : ''} ${isStory ? 'story-mode' : ''}`}
+            className={`theme-preview-card-simple ${isSelected ? 'selected' : ''} ${isStory ? 'story-mode' : ''} ${isCarousel ? 'carousel-mode' : ''}`}
             onClick={onSelect}
         >
             {/* Center the Scaled Slide */}

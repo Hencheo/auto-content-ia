@@ -138,6 +138,7 @@ export function ResultDisplay({
                                     onViewSlides={handleViewSlides}
                                     profile={{ name, handle, image }}
                                     isStory={format === 'story'}
+                                    isCarousel={format === 'carousel'}
                                 />
                             </div>
                         ))}

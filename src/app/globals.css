@@ -319,7 +319,6 @@ a {
   gap: 0.75rem;
   margin-top: 0;
   /* Closer to the slide as requested */
-  margin-bottom: 2rem;
 }
 
 .carousel-dot {
@@ -535,10 +534,22 @@ a {
   margin: 0 auto;
 }
 
+/* Specific Layout for Carousel Mode (Tight Border) */
+.theme-preview-card-simple.carousel-mode {
+  width: fit-content;
+  margin: 0 auto;
+}
+
 /* Specific Border for Story Mode */
 .theme-preview-card-simple.story-mode.selected {
   border-width: 4px;
   /* Thick border for Story */
+}
+
+/* Specific Border for Carousel Mode */
+.theme-preview-card-simple.carousel-mode.selected {
+  border-width: 4px;
+  /* Thick border for Carousel */
 }
 
 .theme-card-badge {
