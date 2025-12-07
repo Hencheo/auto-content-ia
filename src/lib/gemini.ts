@@ -6,6 +6,87 @@ const genAI = new GoogleGenerativeAI(API_KEY);
 
 const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
+/**
+ * Limpa e faz parse seguro de JSON retornado pela API Gemini.
+ * Trata casos comuns de JSON malformado como:
+ * - Markdown code blocks
+ * - Caracteres de controle
+ * - Aspas não escapadas
+ * - Trailing commas
+ */
+function safeParseJSON(text: string): any {
+  // 1. Remove markdown code blocks
+  let cleaned = text
+    .replace(/```json\s*/gi, '')
+    .replace(/```\s*/g, '')
+    .trim();
+
+  // 2. Encontra o JSON válido (primeiro { até último })
+  const firstBrace = cleaned.indexOf('{');
+  const lastBrace = cleaned.lastIndexOf('}');
+
+  if (firstBrace === -1 || lastBrace === -1 || firstBrace > lastBrace) {
+    throw new Error('Não foi possível encontrar JSON válido na resposta');
+  }
+
+  cleaned = cleaned.substring(firstBrace, lastBrace + 1);
+
+  // 3. Tenta parse direto primeiro (caso mais comum)
+  try {
+    return JSON.parse(cleaned);
+  } catch (firstError) {
+    console.warn('Parse direto falhou, tentando limpeza avançada...');
+  }
+
+  // 4. Limpeza avançada para casos problemáticos
+  cleaned = cleaned
+    // Remove caracteres de controle (exceto newlines legítimos em strings)
+    .replace(/[\x00-\x09\x0B\x0C\x0E-\x1F\x7F]/g, '')
+    // Corrige trailing commas antes de } ou ]
+    .replace(/,\s*([\}\]])/g, '$1')
+    // Corrige quebras de linha dentro de strings (converte para \n escapado)
+    .replace(/:\s*"([^"]*)\n([^"]*)"/g, (match, p1, p2) => {
+      return `: "${p1}\\n${p2}"`;
+    });
+
+  // 5. Segunda tentativa após limpeza
+  try {
+    return JSON.parse(cleaned);
+  } catch (secondError) {
+    console.warn('Limpeza avançada falhou, tentando extração de campos...');
+  }
+
+  // 6. Última tentativa: extrair campos manualmente se possível
+  try {
+    // Tenta extrair theme, caption e slides usando regex
+    const themeMatch = cleaned.match(/"theme"\s*:\s*"([^"]+)"/);
+    const captionMatch = cleaned.match(/"caption"\s*:\s*"([\s\S]*?)(?:"\s*,\s*"slides"|"\s*\})/);
+    const slidesMatch = cleaned.match(/"slides"\s*:\s*\[([\s\S]*)\]/);
+
+    if (themeMatch && slidesMatch) {
+      // Tenta parse apenas do array de slides
+      const slidesStr = `[${slidesMatch[1]}]`
+        .replace(/,\s*([\}\]])/g, '$1');
+
+      const slides = JSON.parse(slidesStr);
+
+      return {
+        theme: themeMatch[1],
+        caption: captionMatch ? captionMatch[1].replace(/\\n/g, '\n') : '',
+        slides: slides
+      };
+    }
+  } catch (extractError) {
+    console.error('Extração manual também falhou:', extractError);
+  }
+
+  // Se tudo falhar, lança erro com informação útil
+  throw new Error(
+    `Erro ao processar JSON da API. ` +
+    `Resposta (primeiros 200 chars): ${cleaned.substring(0, 200)}...`
+  );
+}
+
 function buildSystemPrompt(profession?: string, product?: string, audience?: string) {
   const role = profession || 'Estrategista Financeiro Sênior e Consultor de Negócios "360º"';
   const target = audience || 'empresários que vivem no operacional, têm dinheiro mas não têm tempo, e misturam PF com PJ';
@@ -64,18 +145,14 @@ export async function generateCarouselContent(topic: string, signal?: AbortSigna
       const result = await Promise.race([generationPromise, abortPromise]) as any;
       const response = result.response;
       const text = response.text();
-      const jsonString = text.replace(/```json/g, "").replace(/```/g, "").trim();
-      return JSON.parse(jsonString);
+      return safeParseJSON(text);
     }
 
     const result = await generationPromise;
     const response = result.response;
     const text = response.text();
 
-    // Limpar markdown do JSON se houver
-    const jsonString = text.replace(/```json/g, "").replace(/```/g, "").trim();
-
-    return JSON.parse(jsonString);
+    return safeParseJSON(text);
   } catch (error) {
     console.error("Erro ao gerar conteúdo:", error);
     throw error;
@@ -163,16 +240,14 @@ REGRAS DE STORYTELLING:
       const result = await Promise.race([generationPromise, abortPromise]) as any;
       const response = result.response;
       const text = response.text();
-      const jsonString = text.replace(/```json/g, "").replace(/```/g, "").trim();
-      return JSON.parse(jsonString);
+      return safeParseJSON(text);
     }
 
     const result = await generationPromise;
     const response = result.response;
     const text = response.text();
 
-    const jsonString = text.replace(/```json/g, "").replace(/```/g, "").trim();
-    return JSON.parse(jsonString);
+    return safeParseJSON(text);
 
   } catch (error) {
     console.error("Erro ao gerar stories:", error);
@@ -199,16 +274,14 @@ export async function generateCarouselFromArticle(articleContent: string, signal
       const result = await Promise.race([generationPromise, abortPromise]) as any;
       const response = result.response;
       const text = response.text();
-      const jsonString = text.replace(/```json/g, "").replace(/```/g, "").trim();
-      return JSON.parse(jsonString);
+      return safeParseJSON(text);
     }
 
     const result = await generationPromise;
     const response = result.response;
     const text = response.text();
 
-    const jsonString = text.replace(/```json/g, "").replace(/```/g, "").trim();
-    return JSON.parse(jsonString);
+    return safeParseJSON(text);
 
   } catch (error) {
     console.error("Erro ao gerar carrossel via URL:", error);
