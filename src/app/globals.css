@@ -388,7 +388,7 @@ a {
 /* --- Floating Action Pill --- */
 .mobile-floating-actions {
   position: absolute;
-  bottom: 80px;
+  bottom: 30px;
   /* Positioned above the caption/bottom */
   left: 50%;
   transform: translateX(-50%);
@@ -592,7 +592,7 @@ a {
   /* Changed from center to prevent top cut-off */
   overflow-y: auto;
   position: relative;
-  padding-top: 1rem;
+  padding-top: 0.25rem;
   touch-action: pan-y;
   overscroll-behavior-y: contain;
 }
