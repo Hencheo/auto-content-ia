@@ -389,7 +389,7 @@ a {
 /* --- Floating Action Pill --- */
 .mobile-floating-actions {
   position: absolute;
-  bottom: 60px;
+  bottom: 40px;
   /* Positioned above the caption/bottom */
   left: 50%;
   transform: translateX(-50%);
@@ -675,7 +675,7 @@ a {
 }
 
 .mobile-caption-preview {
-  padding: 0 1.5rem 1rem 1.5rem;
+  padding: 0 1.5rem 8rem 1.5rem;
   font-size: 0.85rem;
   color: var(--text-secondary);
   /* max-height removed to allow React expansion */
