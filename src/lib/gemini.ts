@@ -24,7 +24,7 @@ async function generateWithAI(prompt: string, signal?: AbortSignal): Promise<str
     console.log('🤖 Usando Groq API');
     const completion = await groq.chat.completions.create({
       messages: [{ role: "user", content: prompt }],
-      model: "llama-3.1-70b-versatile", // Modelo gratuito e poderoso
+      model: "llama-3.3-70b-versatile", // Modelo atualizado
       temperature: 0.7,
       max_tokens: 4096,
     });
