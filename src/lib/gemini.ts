@@ -1,18 +1,57 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import Groq from "groq-sdk";
 
-const API_KEY = process.env.NEXT_PUBLIC_GEMINI_API_KEY || "";
+// ============ CONFIGURAÇÃO DO PROVIDER ============
+const AI_PROVIDER = process.env.NEXT_PUBLIC_AI_PROVIDER || 'gemini';
+const GEMINI_API_KEY = process.env.NEXT_PUBLIC_GEMINI_API_KEY || "";
+const GROQ_API_KEY = process.env.NEXT_PUBLIC_GROQ_API_KEY || "";
 
-const genAI = new GoogleGenerativeAI(API_KEY);
+// Gemini setup
+const genAI = GEMINI_API_KEY ? new GoogleGenerativeAI(GEMINI_API_KEY) : null;
+const geminiModel = genAI?.getGenerativeModel({ model: "gemini-2.5-flash" });
 
-const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+// Groq setup
+const groq = GROQ_API_KEY ? new Groq({ apiKey: GROQ_API_KEY, dangerouslyAllowBrowser: true }) : null;
 
 /**
- * Limpa e faz parse seguro de JSON retornado pela API Gemini.
- * Trata casos comuns de JSON malformado como:
- * - Markdown code blocks
- * - Caracteres de controle
- * - Aspas não escapadas
- * - Trailing commas
+ * Função genérica para gerar conteúdo via AI
+ * Suporta Gemini e Groq automaticamente
+ */
+async function generateWithAI(prompt: string, signal?: AbortSignal): Promise<string> {
+  const provider = AI_PROVIDER;
+
+  if (provider === 'groq' && groq) {
+    console.log('🤖 Usando Groq API');
+    const completion = await groq.chat.completions.create({
+      messages: [{ role: "user", content: prompt }],
+      model: "llama-3.1-70b-versatile", // Modelo gratuito e poderoso
+      temperature: 0.7,
+      max_tokens: 4096,
+    });
+    return completion.choices[0]?.message?.content || '';
+  }
+
+  if (geminiModel) {
+    console.log('🤖 Usando Gemini API');
+    const generationPromise = geminiModel.generateContent(prompt);
+
+    if (signal) {
+      const abortPromise = new Promise<never>((_, reject) => {
+        signal.addEventListener('abort', () => reject(new DOMException('Aborted', 'AbortError')));
+      });
+      const result = await Promise.race([generationPromise, abortPromise]);
+      return (result as any).response.text();
+    }
+
+    const result = await generationPromise;
+    return result.response.text();
+  }
+
+  throw new Error("Nenhuma API Key configurada. Configure NEXT_PUBLIC_GEMINI_API_KEY ou NEXT_PUBLIC_GROQ_API_KEY");
+}
+
+/**
+ * Limpa e faz parse seguro de JSON retornado pela API.
  */
 function safeParseJSON(text: string): any {
   // 1. Remove markdown code blocks
@@ -40,11 +79,8 @@ function safeParseJSON(text: string): any {
 
   // 4. Limpeza avançada para casos problemáticos
   cleaned = cleaned
-    // Remove caracteres de controle (exceto newlines legítimos em strings)
     .replace(/[\x00-\x09\x0B\x0C\x0E-\x1F\x7F]/g, '')
-    // Corrige trailing commas antes de } ou ]
     .replace(/,\s*([\}\]])/g, '$1')
-    // Corrige quebras de linha dentro de strings (converte para \n escapado)
     .replace(/:\s*"([^"]*)\n([^"]*)"/g, (match, p1, p2) => {
       return `: "${p1}\\n${p2}"`;
     });
@@ -56,18 +92,14 @@ function safeParseJSON(text: string): any {
     console.warn('Limpeza avançada falhou, tentando extração de campos...');
   }
 
-  // 6. Última tentativa: extrair campos manualmente se possível
+  // 6. Última tentativa: extrair campos manualmente
   try {
-    // Tenta extrair theme, caption e slides usando regex
     const themeMatch = cleaned.match(/"theme"\s*:\s*"([^"]+)"/);
     const captionMatch = cleaned.match(/"caption"\s*:\s*"([\s\S]*?)(?:"\s*,\s*"slides"|"\s*\})/);
     const slidesMatch = cleaned.match(/"slides"\s*:\s*\[([\s\S]*)\]/);
 
     if (themeMatch && slidesMatch) {
-      // Tenta parse apenas do array de slides
-      const slidesStr = `[${slidesMatch[1]}]`
-        .replace(/,\s*([\}\]])/g, '$1');
-
+      const slidesStr = `[${slidesMatch[1]}]`.replace(/,\s*([\}\]])/g, '$1');
       const slides = JSON.parse(slidesStr);
 
       return {
@@ -80,11 +112,7 @@ function safeParseJSON(text: string): any {
     console.error('Extração manual também falhou:', extractError);
   }
 
-  // Se tudo falhar, lança erro com informação útil
-  throw new Error(
-    `Erro ao processar JSON da API. ` +
-    `Resposta (primeiros 200 chars): ${cleaned.substring(0, 200)}...`
-  );
+  throw new Error(`Erro ao processar JSON da API. Resposta: ${cleaned.substring(0, 200)}...`);
 }
 
 function buildSystemPrompt(profession?: string, product?: string, audience?: string) {
@@ -127,31 +155,11 @@ REGRAS DA LEGENDA (CAPTION):
 }
 
 export async function generateCarouselContent(topic: string, signal?: AbortSignal, context?: { profession: string, product: string, audience: string }) {
-  if (!API_KEY) {
-    throw new Error("API Key não configurada.");
-  }
+  const systemPrompt = buildSystemPrompt(context?.profession, context?.product, context?.audience);
+  const prompt = `${systemPrompt}\n\nTEMA DO USUÁRIO: ${topic}\n\nGere o conteúdo do carrossel em JSON.`;
 
   try {
-    const systemPrompt = buildSystemPrompt(context?.profession, context?.product, context?.audience);
-    const prompt = `${systemPrompt}\n\nTEMA DO USUÁRIO: ${topic}\n\nGere o conteúdo do carrossel em JSON.`;
-
-    const generationPromise = model.generateContent(prompt);
-
-    if (signal) {
-      const abortPromise = new Promise((_, reject) => {
-        signal.addEventListener('abort', () => reject(new DOMException('Aborted', 'AbortError')));
-      });
-
-      const result = await Promise.race([generationPromise, abortPromise]) as any;
-      const response = result.response;
-      const text = response.text();
-      return safeParseJSON(text);
-    }
-
-    const result = await generationPromise;
-    const response = result.response;
-    const text = response.text();
-
+    const text = await generateWithAI(prompt, signal);
     return safeParseJSON(text);
   } catch (error) {
     console.error("Erro ao gerar conteúdo:", error);
@@ -159,48 +167,11 @@ export async function generateCarouselContent(topic: string, signal?: AbortSigna
   }
 }
 
-const STORY_SYSTEM_PROMPT = `
-Você é um Estrategista de Conteúdo e Storyteller Especialista.
-Seu objetivo é transformar notícias e artigos em uma sequência envolvente de Instagram Stories (formato 9:16).
-O foco é RETENÇÃO e ENGAJAMENTO. Você deve pegar o fato principal e criar uma narrativa.
+function buildStoryPrompt(context?: { profession: string, product: string, audience: string }) {
+  const target = context?.audience || 'o público geral';
+  const role = context?.profession ? `Especialista em ${context.profession}` : 'Estrategista de Conteúdo';
 
-ESTRUTURA DOS STORIES (JSON):
-Deve retornar APENAS um JSON com a seguinte estrutura:
-{
-  "theme": "Manchete Principal",
-  "caption": "Sugestão de texto para postar junto (opcional)...",
-  "slides": [
-    { "type": "cover", "title": "Gancho Impactante", "subtitle": "Pergunta ou afirmação curiosa" },
-    { "type": "content", "title": "Contexto", "body": "Explicação resumida do que aconteceu." },
-    { "type": "highlight", "title": "Ponto Chave", "body": "O detalhe mais importante ou chocante." },
-    ...
-    { "type": "cta", "title": "Conclusão/Opinião", "body": "Pergunta para a audiência interagir." }
-  ]
-}
-
-REGRAS DE STORYTELLING:
-1. NÃO apenas resuma. Conte uma história.
-2. Use "Ganchos" no primeiro slide para prender a atenção (ex: "Você não vai acreditar nisso...", "Isso muda tudo...").
-3. Mantenha o texto CURTO. Stories são visuais e rápidos. Máximo de 2 frases por slide.
-4. Use linguagem conversacional, como se estivesse contando para um amigo.
-5. Gere entre 5 a 8 slides.
-6. O último slide DEVE ter uma pergunta para gerar respostas (Enquete ou Caixinha de Perguntas).
-`;
-
-export async function generateStoryContent(articleContent: string, signal?: AbortSignal, context?: { profession: string, product: string, audience: string }) {
-  if (!API_KEY) {
-    throw new Error("API Key não configurada.");
-  }
-
-  try {
-    // Dynamic Story Prompt could be implemented here too, but for now let's keep the Storyteller persona 
-    // but maybe inject the audience context if needed. For now, keeping it simple as requested for Carousel mainly.
-    // Actually, let's inject the audience context to make it better.
-
-    const target = context?.audience || 'o público geral';
-    const role = context?.profession ? `Especialista em ${context.profession}` : 'Estrategista de Conteúdo';
-
-    const dynamicStoryPrompt = `
+  return `
 Você é um ${role} e Storyteller.
 Seu objetivo é transformar notícias e artigos em uma sequência envolvente de Instagram Stories (formato 9:16) para ${target}.
 O foco é RETENÇÃO e ENGAJAMENTO. Você deve pegar o fato principal e criar uma narrativa.
@@ -221,34 +192,21 @@ Deve retornar APENAS um JSON com a seguinte estrutura:
 
 REGRAS DE STORYTELLING:
 1. NÃO apenas resuma. Conte uma história.
-2. Use "Ganchos" no primeiro slide para prender a atenção (ex: "Você não vai acreditar nisso...", "Isso muda tudo...").
-3. Mantenha o texto CURTO. Stories são visuais e rápidos. Máximo de 2 frases por slide.
+2. Use "Ganchos" no primeiro slide para prender a atenção.
+3. Mantenha o texto CURTO. Máximo de 2 frases por slide.
 4. Use linguagem conversacional, como se estivesse contando para um amigo.
 5. Gere entre 5 a 8 slides.
-6. O último slide DEVE ter uma pergunta para gerar respostas (Enquete ou Caixinha de Perguntas).
+6. O último slide DEVE ter uma pergunta para gerar respostas.
 `;
+}
 
-    const prompt = `${dynamicStoryPrompt}\n\nCONTEÚDO DA NOTÍCIA:\n${articleContent}\n\nGere a sequência de stories em JSON.`;
+export async function generateStoryContent(articleContent: string, signal?: AbortSignal, context?: { profession: string, product: string, audience: string }) {
+  const systemPrompt = buildStoryPrompt(context);
+  const prompt = `${systemPrompt}\n\nCONTEÚDO DA NOTÍCIA:\n${articleContent}\n\nGere a sequência de stories em JSON.`;
 
-    const generationPromise = model.generateContent(prompt);
-
-    if (signal) {
-      const abortPromise = new Promise((_, reject) => {
-        signal.addEventListener('abort', () => reject(new DOMException('Aborted', 'AbortError')));
-      });
-
-      const result = await Promise.race([generationPromise, abortPromise]) as any;
-      const response = result.response;
-      const text = response.text();
-      return safeParseJSON(text);
-    }
-
-    const result = await generationPromise;
-    const response = result.response;
-    const text = response.text();
-
+  try {
+    const text = await generateWithAI(prompt, signal);
     return safeParseJSON(text);
-
   } catch (error) {
     console.error("Erro ao gerar stories:", error);
     throw error;
@@ -256,33 +214,12 @@ REGRAS DE STORYTELLING:
 }
 
 export async function generateCarouselFromArticle(articleContent: string, signal?: AbortSignal, context?: { profession: string, product: string, audience: string }) {
-  if (!API_KEY) {
-    throw new Error("API Key não configurada.");
-  }
+  const systemPrompt = buildSystemPrompt(context?.profession, context?.product, context?.audience);
+  const prompt = `${systemPrompt}\n\nCONTEÚDO DO ARTIGO:\n${articleContent}\n\nTAREFA: Analise o artigo acima, extraia os principais insights estratégicos e crie um carrossel educativo seguindo as regras de conteúdo. Gere o JSON.`;
 
   try {
-    const systemPrompt = buildSystemPrompt(context?.profession, context?.product, context?.audience);
-    const prompt = `${systemPrompt}\n\nCONTEÚDO DO ARTIGO:\n${articleContent}\n\nTAREFA: Analise o artigo acima, extraia os principais insights estratégicos e crie um carrossel educativo seguindo as regras de conteúdo. Gere o JSON.`;
-
-    const generationPromise = model.generateContent(prompt);
-
-    if (signal) {
-      const abortPromise = new Promise((_, reject) => {
-        signal.addEventListener('abort', () => reject(new DOMException('Aborted', 'AbortError')));
-      });
-
-      const result = await Promise.race([generationPromise, abortPromise]) as any;
-      const response = result.response;
-      const text = response.text();
-      return safeParseJSON(text);
-    }
-
-    const result = await generationPromise;
-    const response = result.response;
-    const text = response.text();
-
+    const text = await generateWithAI(prompt, signal);
     return safeParseJSON(text);
-
   } catch (error) {
     console.error("Erro ao gerar carrossel via URL:", error);
     throw error;

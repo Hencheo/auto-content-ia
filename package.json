@@ -15,6 +15,7 @@
     "cheerio": "^1.1.2",
     "clsx": "^2.1.1",
     "file-saver": "^2.0.5",
+    "groq-sdk": "^0.37.0",
     "html-to-image": "^1.11.13",
     "jszip": "^3.10.1",
     "lucide-react": "^0.555.0",
