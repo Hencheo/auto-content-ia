@@ -484,20 +484,29 @@ a {
   }
 }
 
-/* Story Mode 9:16 Aspect Ratio */
+/* Story Mode 9:16 Aspect Ratio - Reduced Size */
 .theme-preview-scaler-container.story-mode {
-  width: 300px;
-  /* (300 / 9) * 16 = 533.33 approx. Or just use scaled height. */
-  /* Scale is 0.2777 */
-  /* 1920 * 0.2777 = ~533px */
-  height: 533px;
+  width: 240px;
+  height: 427px;
+  /* 240 / 9 * 16 = 426.66 */
+}
+
+.theme-preview-scaler-container.story-mode .theme-preview-slide-box {
+  transform: scale(0.2222);
+  /* 240 / 1080 = 0.2222 */
+  height: 1920px;
+  /* Ensure container covers full story height */
 }
 
 @media (max-width: 380px) {
   .theme-preview-scaler-container.story-mode {
-    width: 250px;
-    height: 444px;
-    /* 250 / 9 * 16 ~ 444 */
+    width: 220px;
+    height: 391px;
+  }
+
+  .theme-preview-scaler-container.story-mode .theme-preview-slide-box {
+    transform: scale(0.2037);
+    /* 220 / 1080 */
   }
 }
 
