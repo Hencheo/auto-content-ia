@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { X } from 'lucide-react';
 import styles from './SlideViewer.module.css';
 import { CarouselViewer } from './CarouselViewer';
+import { StoryViewer } from './StoryViewer';
 import { Theme } from '@/types/theme';
 
 interface SlideViewerProps {
@@ -55,11 +56,11 @@ export function SlideViewer({
             )}
 
             {format === 'story' && (
-                // Placeholder for future StoryViewer
-                <div style={{ color: 'white', textAlign: 'center' }}>
-                    <h2>Story Viewer Coming Soon</h2>
-                    <p>Separated logic placeholder</p>
-                </div>
+                <StoryViewer
+                    slides={data.slides}
+                    theme={theme}
+                    profile={profile}
+                />
             )}
 
             {format === 'post' && (

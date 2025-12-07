@@ -26,17 +26,7 @@ export function BreakingNewsTemplate({ data, index, total, profile }: StoryTempl
             {/* Header */}
             <div className="breaking-news-header">
                 <div className="breaking-news-profile">
-                    {profile.image && (
-                        <img
-                            src={profile.image}
-                            alt="Profile"
-                            className="breaking-news-avatar"
-                        />
-                    )}
-                    <div>
-                        <div className="breaking-news-name">{profile.name}</div>
-                        <div className="breaking-news-handle">{profile.handle}</div>
-                    </div>
+                    {/* Nome e @handle removidos - Instagram já exibe */}
                 </div>
                 <div className="breaking-news-badge">
                     News
@@ -109,17 +99,7 @@ export function ModernStoryTemplate({ data, index, total, profile }: StoryTempla
 
             {/* Header */}
             <div className="modern-story-header">
-                {profile.image && (
-                    <img
-                        src={profile.image}
-                        alt="Profile"
-                        className="modern-story-avatar"
-                    />
-                )}
-                <div>
-                    <div className="modern-story-name">{profile.name}</div>
-                    <div className="modern-story-handle">{profile.handle}</div>
-                </div>
+                {/* Nome e @handle removidos - Instagram já exibe */}
             </div>
 
             {/* Content */}
