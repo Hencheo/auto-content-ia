@@ -1,0 +1,207 @@
+/* ===========================================
+   MODERN CLEAN THEME STYLES
+   Template: Light/clean minimalist theme
+   Based on Financial Dark, adapted for light background
+   =========================================== */
+
+/* Container Principal */
+.modern-clean-container {
+    width: 1080px;
+    height: 1350px;
+    background-color: #ffffff;
+    color: #0f172a;
+    padding: 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+    transform-origin: top left;
+    font-family: 'Inter', system-ui, sans-serif;
+}
+
+/* Círculo Decorativo */
+.modern-clean-circle {
+    position: absolute;
+    top: -200px;
+    right: -200px;
+    width: 600px;
+    height: 600px;
+    background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
+    border-radius: 50%;
+    opacity: 0.1;
+}
+
+/* Header */
+.modern-clean-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 25px;
+    z-index: 1;
+}
+
+.modern-clean-profile-group {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+/* Avatar */
+.modern-clean-avatar-wrapper {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: #f1f5f9;
+    flex-shrink: 0;
+    border: 3px solid #e2e8f0;
+}
+
+.modern-clean-avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.modern-clean-avatar-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f1f5f9;
+}
+
+/* Info do Perfil */
+.modern-clean-profile-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.modern-clean-name-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.modern-clean-name {
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 1;
+    color: #0f172a;
+    margin: 0;
+}
+
+.modern-clean-handle {
+    font-size: 32px;
+    color: #64748b;
+    margin: 8px 0 0 0;
+}
+
+/* Contador de Slides */
+.modern-clean-index {
+    font-size: 24px;
+    color: #94a3b8;
+}
+
+/* Área de Conteúdo */
+.modern-clean-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    z-index: 1;
+}
+
+/* Cover Slide */
+.modern-clean-cover-container {
+    text-align: center;
+}
+
+.modern-clean-tag {
+    display: inline-block;
+    padding: 12px 24px;
+    background-color: #3b82f6;
+    color: white;
+    font-size: 24px;
+    font-weight: 700;
+    border-radius: 50px;
+    margin-bottom: 40px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.modern-clean-title-cover {
+    font-size: 96px;
+    line-height: 1.1;
+    font-weight: 800;
+    margin-bottom: 40px;
+    color: #0f172a;
+}
+
+.modern-clean-subtitle {
+    font-size: 48px;
+    color: #3b82f6;
+    font-weight: 500;
+}
+
+/* Content Slide */
+.modern-clean-title-content {
+    font-size: 64px;
+    margin-bottom: 60px;
+    color: #3b82f6;
+    border-left: 10px solid #3b82f6;
+    padding-left: 40px;
+}
+
+.modern-clean-body {
+    font-size: 42px;
+    line-height: 1.4;
+    color: #475569;
+    white-space: pre-wrap;
+}
+
+/* CTA Slide */
+.modern-clean-cta-container {
+    text-align: center;
+}
+
+.modern-clean-cta-title {
+    font-size: 72px;
+    margin-bottom: 40px;
+    color: #0f172a;
+}
+
+.modern-clean-cta-body {
+    font-size: 48px;
+    margin-bottom: 80px;
+    color: #64748b;
+}
+
+.modern-clean-cta-btn-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+.modern-clean-cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+    padding: 30px 60px;
+    background-color: #3b82f6;
+    color: white;
+    font-size: 48px;
+    font-weight: 700;
+    border-radius: 16px;
+}
+
+/* Footer Line */
+.modern-clean-footer-line {
+    height: 8px;
+    background: linear-gradient(90deg, #3b82f6 0%, #60a5fa 100%);
+    border-radius: 4px;
+    margin-top: auto;
+    z-index: 1;
+}

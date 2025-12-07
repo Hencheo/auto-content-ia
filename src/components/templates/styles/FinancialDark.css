@@ -1,0 +1,164 @@
+/* ===========================================
+   FINANCIAL DARK THEME STYLES
+   Template: Dark finance/professional theme
+   =========================================== */
+
+/* Container Principal */
+.financial-dark-container {
+    width: 1080px;
+    height: 1350px;
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    padding: 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+    transform-origin: top left;
+    font-family: 'Inter', system-ui, sans-serif;
+}
+
+/* Header - Estilo Twitter */
+.financial-dark-header {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin-bottom: 25px;
+}
+
+/* Avatar */
+.financial-dark-avatar-wrapper {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: #334155;
+    flex-shrink: 0;
+}
+
+.financial-dark-avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.financial-dark-avatar-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    background-color: #334155;
+    color: var(--text-primary);
+}
+
+/* Info do Perfil */
+.financial-dark-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.financial-dark-name-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.financial-dark-name {
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.financial-dark-handle {
+    font-size: 32px;
+    color: var(--text-muted);
+    margin-top: 8px;
+}
+
+/* Contador de Slides */
+.financial-dark-counter {
+    margin-left: auto;
+    font-size: 24px;
+    opacity: 0.5;
+}
+
+/* Área de Conteúdo */
+.financial-dark-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* Cover Slide */
+.financial-dark-cover-container {
+    text-align: center;
+}
+
+.financial-dark-title-cover {
+    font-size: 96px;
+    line-height: 1.1;
+    font-weight: 800;
+    margin-bottom: 40px;
+    color: var(--text-primary);
+}
+
+.financial-dark-subtitle {
+    font-size: 48px;
+    color: var(--accent-gold);
+    font-weight: 500;
+}
+
+/* Content Slide */
+.financial-dark-title-content {
+    font-size: 64px;
+    margin-bottom: 60px;
+    color: var(--accent-gold);
+    border-left: 10px solid var(--accent-green);
+    padding-left: 40px;
+}
+
+.financial-dark-body {
+    font-size: 42px;
+    line-height: 1.4;
+    color: var(--text-secondary);
+    white-space: pre-wrap;
+}
+
+/* CTA Slide */
+.financial-dark-cta-container {
+    text-align: center;
+}
+
+.financial-dark-cta-title {
+    font-size: 72px;
+    margin-bottom: 40px;
+    color: var(--accent-green);
+}
+
+.financial-dark-cta-body {
+    font-size: 48px;
+    margin-bottom: 80px;
+}
+
+.financial-dark-cta-btn {
+    display: inline-block;
+    padding: 30px 60px;
+    background-color: var(--accent-gold);
+    color: var(--bg-primary);
+    font-size: 48px;
+    font-weight: 700;
+    border-radius: 16px;
+}
+
+/* Footer Line */
+.financial-dark-footer-line {
+    height: 8px;
+    background: linear-gradient(90deg, var(--accent-gold) 0%, var(--accent-green) 100%);
+    border-radius: 4px;
+    margin-top: auto;
+}

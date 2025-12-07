@@ -4,6 +4,8 @@ import { ThemePreviewCard } from './ThemePreviewCard';
 import { CaptionDisplay } from './CaptionDisplay';
 import { useUser } from '@/contexts/UserContext';
 import { ChevronLeft, Edit, Download, Eye, Check, Copy } from 'lucide-react';
+import { SlideViewer } from './SlideViewer/SlideViewer';
+
 // import { saveAs } from 'file-saver'; // Will implement logic later
 // import { toPng } from 'html-to-image'; // Will implement logic later
 
@@ -28,6 +30,7 @@ export function ResultDisplay({
     const [selectedThemeId, setSelectedThemeId] = useState<string>(themeId || 'financial-dark');
     const [activeIndex, setActiveIndex] = useState(0);
     const [showFullCaption, setShowFullCaption] = useState(false);
+    const [isViewerOpen, setIsViewerOpen] = useState(false);
 
     // Floating Action Logic
     const [showActions, setShowActions] = useState(true);
@@ -97,8 +100,11 @@ export function ResultDisplay({
     };
 
     const handleViewSlides = () => {
-        alert("Full screen slide view coming soon!");
+        setIsViewerOpen(true);
     };
+
+    // Find the currently selected theme object
+    const currentTheme = availableThemes.find(t => t.id === selectedThemeId) || availableThemes[0];
 
     return (
         <div className="mobile-result-container fade-in-up">
@@ -163,15 +169,7 @@ export function ResultDisplay({
                             <button
                                 onClick={() => {
                                     navigator.clipboard.writeText(result.caption);
-                                    // Visual feedback logic would go here, simplified for now or need state
-                                    const btn = document.getElementById('caption-copy-btn');
-                                    if (btn) {
-                                        btn.innerHTML = '<svg ...><path d="M20 6L9 17l-5-5"/></svg>'; // Check icon
-                                        setTimeout(() => {
-                                            if (btn) btn.innerHTML = '<svg ...><rect .../><path .../></svg>'; // Copy icon back
-                                        }, 2000);
-                                    }
-                                    alert("Legenda copiada!"); // Simple feedback for now until state added
+                                    alert("Legenda copiada!");
                                 }}
                                 style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-secondary)' }}
                             >
@@ -213,8 +211,7 @@ export function ResultDisplay({
                 <div style={{ height: '80px' }}></div>
             </div>
 
-            {/* Floating Action Pill (Outside content area for fixed positioning if desired, OR inside relative container) */}
-            {/* The previous edit put it inside, which is relative. Let's keep it there but fix the tags. */}
+            {/* Floating Action Pill */}
             <div
                 className="mobile-floating-actions"
                 style={{
@@ -237,6 +234,15 @@ export function ResultDisplay({
                     <span>Editar</span>
                 </button>
             </div>
-        </div>
+
+            <SlideViewer
+                isOpen={isViewerOpen}
+                onClose={() => setIsViewerOpen(false)}
+                data={result}
+                theme={currentTheme}
+                format={format}
+                profile={{ name, handle, image }}
+            />
+        </div >
     );
 }

@@ -1,3 +1,4 @@
+import './styles/ModernClean.css';
 import React from 'react';
 import { User, ArrowRight, BadgeCheck } from 'lucide-react';
 

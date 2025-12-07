@@ -1,0 +1,9 @@
+/* ===========================================
+   TEMPLATE STYLES BARREL FILE
+   Import this file to get all template styles
+   =========================================== */
+
+@import './_base.css';
+@import './FinancialDark.css';
+@import './ModernClean.css';
+@import './StoryTemplates.css';

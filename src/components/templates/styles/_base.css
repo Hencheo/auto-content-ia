@@ -1,0 +1,47 @@
+/* ===========================================
+   BASE STYLES FOR ALL SLIDE TEMPLATES
+   =========================================== */
+
+/* Container base para todos os slides */
+.slide-container {
+    box-sizing: border-box;
+    transform-origin: top left;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Dimensões padrão para Carousel (4:5) */
+.slide-container.carousel-slide {
+    width: 1080px;
+    height: 1350px;
+}
+
+/* Dimensões padrão para Story (9:16) */
+.slide-container.story-slide {
+    width: 1080px;
+    height: 1920px;
+}
+
+/* Reset de tipografia para slides */
+.slide-container h1,
+.slide-container h2,
+.slide-container h3,
+.slide-container p,
+.slide-container span {
+    margin: 0;
+    padding: 0;
+}
+
+/* Classe utilitária para avatares */
+.slide-avatar {
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* Classe utilitária para placeholders de avatar */
+.slide-avatar-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}

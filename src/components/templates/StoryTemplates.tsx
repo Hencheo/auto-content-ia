@@ -1,3 +1,4 @@
+import './styles/StoryTemplates.css';
 import React from 'react';
 
 interface StoryTemplateProps {
