@@ -5,9 +5,10 @@ import { CaptionDisplay } from './CaptionDisplay';
 import { useUser } from '@/contexts/UserContext';
 import { ChevronLeft, Edit, Download, Eye, Check, Copy } from 'lucide-react';
 import { SlideViewer } from './SlideViewer/SlideViewer';
-
-// import { saveAs } from 'file-saver'; // Will implement logic later
-// import { toPng } from 'html-to-image'; // Will implement logic later
+import { downloadSlidesAsZip } from '@/lib/downloadUtils';
+import { GenericSlide } from './renderer/GenericSlide';
+import { StorySlide } from './StorySlide';
+import { ContentEditor } from './ContentEditor';
 
 interface ResultDisplayProps {
     result: any;
@@ -31,6 +32,8 @@ export function ResultDisplay({
     const [activeIndex, setActiveIndex] = useState(0);
     const [showFullCaption, setShowFullCaption] = useState(false);
     const [isViewerOpen, setIsViewerOpen] = useState(false);
+    const [isEditorOpen, setIsEditorOpen] = useState(false);
+    const [isDownloading, setIsDownloading] = useState(false);
 
     // Floating Action Logic
     const [showActions, setShowActions] = useState(true);
@@ -91,12 +94,42 @@ export function ResultDisplay({
         }
     };
 
-    const handleDownload = () => {
-        alert("Download functionality coming soon!");
+    const handleDownload = async () => {
+        if (isDownloading) return;
+
+        // Download não suportado para formato 'post' ainda
+        if (format === 'post') {
+            alert('Download para Post em breve!');
+            return;
+        }
+
+        setIsDownloading(true);
+        try {
+            // Pequeno delay para garantir que os slides de export foram renderizados
+            await new Promise(resolve => setTimeout(resolve, 300));
+
+            await downloadSlidesAsZip({
+                slides: result.slides,
+                theme: result.theme || 'conteudo',
+                caption: result.caption,
+                format: format as 'carousel' | 'story',
+                slideIdPrefix: 'export-slide'
+            });
+        } catch (error) {
+            console.error('Erro no download:', error);
+            alert('Erro ao gerar download. Tente novamente.');
+        } finally {
+            setIsDownloading(false);
+        }
     };
 
     const handleEdit = () => {
-        alert("Editor functionality coming soon!");
+        // Não suportado para formato 'post' ainda
+        if (format === 'post') {
+            alert('Editor para Post em breve!');
+            return;
+        }
+        setIsEditorOpen(true);
     };
 
     const handleViewSlides = () => {
@@ -221,18 +254,50 @@ export function ResultDisplay({
                     pointerEvents: showActions ? 'auto' : 'none'
                 }}
             >
-                <button className="mobile-floating-btn" onClick={handleViewSlides}>
-                    <Eye size={20} />
-                    <span>Visualizar</span>
+                <button className="mobile-floating-btn" onClick={handleViewSlides} title="Visualizar">
+                    <Eye size={22} />
                 </button>
-                <button className="mobile-floating-btn primary" onClick={handleDownload}>
-                    <Download size={24} />
-                    <span>Baixar</span>
+                <button
+                    className="mobile-floating-btn primary"
+                    onClick={handleDownload}
+                    disabled={isDownloading}
+                    style={{ opacity: isDownloading ? 0.6 : 1 }}
+                    title="Baixar"
+                >
+                    <Download size={22} />
                 </button>
-                <button className="mobile-floating-btn" onClick={handleEdit}>
-                    <Edit size={20} />
-                    <span>Editar</span>
+                <button className="mobile-floating-btn" onClick={handleEdit} title="Editar">
+                    <Edit size={22} />
                 </button>
+            </div>
+
+            {/* Container Invisível para Export (slides em tamanho real) */}
+            <div className="export-container-hidden">
+                {result.slides.map((slide: any, index: number) => (
+                    format === 'story' ? (
+                        <StorySlide
+                            key={index}
+                            data={slide}
+                            index={index}
+                            total={result.slides.length}
+                            id={`export-slide-${index}`}
+                            profile={{ name, handle, image }}
+                            templateId={currentTheme.id === 'modern-story' ? 'modern-story' : 'breaking-news'}
+                            scale={1}
+                        />
+                    ) : (
+                        <GenericSlide
+                            key={index}
+                            data={slide}
+                            index={index}
+                            total={result.slides.length}
+                            id={`export-slide-${index}`}
+                            profile={{ name, handle, image }}
+                            theme={currentTheme}
+                            scale={1}
+                        />
+                    )
+                ))}
             </div>
 
             <SlideViewer
@@ -243,6 +308,19 @@ export function ResultDisplay({
                 format={format}
                 profile={{ name, handle, image }}
             />
+
+            {/* Content Editor Modal */}
+            {format !== 'post' && (
+                <ContentEditor
+                    isOpen={isEditorOpen}
+                    onClose={() => setIsEditorOpen(false)}
+                    data={result}
+                    onUpdate={onUpdate}
+                    theme={currentTheme}
+                    format={format as 'carousel' | 'story'}
+                    profile={{ name, handle, image }}
+                />
+            )}
         </div >
     );
 }
