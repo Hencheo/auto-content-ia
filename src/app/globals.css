@@ -389,7 +389,19 @@ a {
 
 /* ... existing small screen safety ... */
 
-/* --- Floating Action Pill --- */
+/* --- Static Action Toolbar (abaixo do header) --- */
+.static-action-toolbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 0.5rem 1.5rem;
+  background: rgba(45, 43, 44, 0.95);
+  border-bottom: 1px solid var(--border-color);
+  flex-shrink: 0;
+}
+
+/* --- Floating Action Pill (mantido para referência) --- */
 .mobile-floating-actions {
   position: fixed;
   bottom: calc(20px + env(safe-area-inset-bottom, 0px));

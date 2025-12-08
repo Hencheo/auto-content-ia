@@ -35,9 +35,6 @@ export function ResultDisplay({
     const [isEditorOpen, setIsEditorOpen] = useState(false);
     const [isDownloading, setIsDownloading] = useState(false);
 
-    // Floating Action Logic
-    const [showActions, setShowActions] = useState(true);
-    const [lastScrollY, setLastScrollY] = useState(0);
 
     const scrollContainerRef = useRef<HTMLDivElement>(null);
 
@@ -50,21 +47,6 @@ export function ResultDisplay({
         }
     }, [themeId]);
 
-    const handleMainScroll = (e: React.UIEvent<HTMLDivElement>) => {
-        const currentScrollY = e.currentTarget.scrollTop;
-
-        // Threshold to avoid jitter
-        if (Math.abs(currentScrollY - lastScrollY) < 10) return;
-
-        if (currentScrollY > lastScrollY && currentScrollY > 50) {
-            // Scrolling down & past top -> Hide
-            setShowActions(false);
-        } else {
-            // Scrolling up -> Show
-            setShowActions(true);
-        }
-        setLastScrollY(currentScrollY);
-    };
 
     const handleScroll = () => {
         if (scrollContainerRef.current) {
@@ -153,8 +135,27 @@ export function ResultDisplay({
                 </div>
             </div>
 
-            {/* 2. Main Content (Carousel) */}
-            <div className="mobile-content-area" onScroll={handleMainScroll}>
+            {/* 2. Static Action Toolbar (abaixo do header) */}
+            <div className="static-action-toolbar">
+                <button className="mobile-floating-btn" onClick={handleViewSlides} title="Visualizar">
+                    <Eye size={22} />
+                </button>
+                <button
+                    className="mobile-floating-btn primary"
+                    onClick={handleDownload}
+                    disabled={isDownloading}
+                    style={{ opacity: isDownloading ? 0.6 : 1 }}
+                    title="Baixar"
+                >
+                    <Download size={22} />
+                </button>
+                <button className="mobile-floating-btn" onClick={handleEdit} title="Editar">
+                    <Edit size={22} />
+                </button>
+            </div>
+
+            {/* 3. Main Content (Carousel) */}
+            <div className="mobile-content-area">
                 <div className="mobile-carousel-section">
                     <div
                         ref={scrollContainerRef}
@@ -244,26 +245,6 @@ export function ResultDisplay({
                 <div style={{ height: '80px' }}></div>
             </div>
 
-            {/* Floating Action Pill */}
-            <div
-                className={`mobile-floating-actions ${showActions ? 'visible' : 'hidden'}`}
-            >
-                <button className="mobile-floating-btn" onClick={handleViewSlides} title="Visualizar">
-                    <Eye size={22} />
-                </button>
-                <button
-                    className="mobile-floating-btn primary"
-                    onClick={handleDownload}
-                    disabled={isDownloading}
-                    style={{ opacity: isDownloading ? 0.6 : 1 }}
-                    title="Baixar"
-                >
-                    <Download size={22} />
-                </button>
-                <button className="mobile-floating-btn" onClick={handleEdit} title="Editar">
-                    <Edit size={22} />
-                </button>
-            </div>
 
             {/* Container Invisível para Export (slides em tamanho real) */}
             <div className="export-container-hidden">
