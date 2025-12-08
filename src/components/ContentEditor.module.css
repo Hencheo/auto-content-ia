@@ -271,6 +271,68 @@
     background-color: var(--text-secondary, #666);
 }
 
+/* Image Upload Styles */
+.imagePreview {
+    position: relative;
+    width: 100%;
+    margin-bottom: 0.75rem;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--border-color, #333);
+}
+
+.imagePreviewImg {
+    width: 100%;
+    height: auto;
+    max-height: 200px;
+    object-fit: contain;
+    display: block;
+    background-color: var(--bg-primary, #111);
+}
+
+.removeImageBtn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(220, 53, 69, 0.9);
+    border: none;
+    color: white;
+    padding: 6px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.removeImageBtn:hover {
+    background: rgba(220, 53, 69, 1);
+    transform: scale(1.1);
+}
+
+.uploadBtn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 16px;
+    border-radius: 8px;
+    border: 2px dashed var(--border-color, #333);
+    background: transparent;
+    color: var(--text-secondary, #888);
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.uploadBtn:hover {
+    border-color: var(--accent-gold, #d4af37);
+    color: var(--accent-gold, #d4af37);
+    background: rgba(212, 175, 55, 0.05);
+}
+
 /* Responsivo - Mobile */
 @media (max-width: 768px) {
     .drawer {

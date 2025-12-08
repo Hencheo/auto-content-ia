@@ -1,0 +1,168 @@
+/* ===========================================
+   TWEET NEWS TEMPLATE
+   Design estilo Twitter com imagem de notícia
+   =========================================== */
+
+/* Container Principal */
+.tweet-news-slide {
+    width: 1080px;
+    height: 1350px;
+    background: #ffffff;
+    color: #0f1419;
+    display: flex;
+    flex-direction: column;
+    padding: 60px;
+    font-family: "TwitterChirp", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    position: relative;
+    overflow: hidden;
+    transform-origin: top left;
+}
+
+/* Wrapper principal - centraliza quando não há imagem */
+.tweet-news-main-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+/* Bloco unificado: Header + Conteúdo */
+.tweet-news-unified-block {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+/* Header - Avatar + Nome + Selo */
+.tweet-news-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.tweet-news-profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.tweet-news-avatar-wrapper {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.tweet-news-avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.tweet-news-avatar-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    font-weight: bold;
+    color: #536471;
+    background: #e7e7e8;
+}
+
+.tweet-news-name {
+    font-size: 44px;
+    font-weight: 600;
+    color: #0f1419;
+    letter-spacing: -0.3px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+}
+
+/* Content Area */
+.tweet-news-content {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Cover Content com imagem */
+.tweet-news-cover-content {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.tweet-news-intro-text {
+    font-size: 48px;
+    font-weight: 400;
+    line-height: 1.35;
+    color: #0f1419;
+    margin: 0;
+}
+
+.tweet-news-secondary-text {
+    font-size: 48px;
+    font-weight: 400;
+    line-height: 1.35;
+    color: #0f1419;
+    margin: 0;
+}
+
+/* Container da imagem de notícia */
+.tweet-news-image-container {
+    width: 100%;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid #e7e7e8;
+    margin-top: 16px;
+}
+
+.tweet-news-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: contain;
+}
+
+/* Body Content */
+.tweet-news-body-content {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.tweet-news-paragraph {
+    font-size: 48px;
+    font-weight: 400;
+    line-height: 1.4;
+    color: #0f1419;
+    margin: 0;
+}
+
+/* CTA Content */
+.tweet-news-cta-content {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.tweet-news-cta-emphasis {
+    font-weight: 500;
+}
+
+/* Footer */
+.tweet-news-footer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-top: 24px;
+}
+
+.tweet-news-counter {
+    font-size: 28px;
+    color: #536471;
+}

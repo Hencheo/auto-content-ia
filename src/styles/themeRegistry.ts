@@ -149,6 +149,27 @@ export const themes: Theme[] = [
             content: 'standard'
         }
     },
+    {
+        id: 'tweet-news',
+        name: 'Tweet + Notícia',
+        type: 'carousel',
+        templateComponent: 'TweetNewsTemplate',
+        styles: {
+            background: '#ffffff',
+            text: '#0f1419',
+            accent: '#1d9bf0',
+            secondary: '#536471',
+            muted: '#e7e7e8',
+            border: '#eff3f4',
+            fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
+        },
+        layout: {
+            header: 'twitter',
+            footer: 'none',
+            cover: 'centered',
+            content: 'standard'
+        }
+    },
 
     // --- STORY THEMES ---
     {

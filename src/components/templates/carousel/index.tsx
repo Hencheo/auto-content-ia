@@ -16,6 +16,7 @@ import { OceanBreezeTemplate } from './OceanBreezeTemplate';
 import { FinancialDarkTemplate } from './FinancialDarkTemplate';
 import { ModernCleanTemplate } from './ModernCleanTemplate';
 import { TweetStyleTemplate } from './TweetStyleTemplate';
+import { TweetNewsTemplate } from './TweetNewsTemplate';
 
 export interface CarouselTemplateProps {
     data: {
@@ -45,6 +46,7 @@ const templateRegistry: Record<string, React.ComponentType<CarouselTemplateProps
     'FinancialDarkTemplate': FinancialDarkTemplate,
     'ModernCleanTemplate': ModernCleanTemplate,
     'TweetStyleTemplate': TweetStyleTemplate,
+    'TweetNewsTemplate': TweetNewsTemplate as React.ComponentType<CarouselTemplateProps>,
 };
 
 /**

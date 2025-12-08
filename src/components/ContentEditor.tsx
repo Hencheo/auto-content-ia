@@ -3,8 +3,8 @@
  * Componente modular que não afeta outros componentes existentes
  */
 
-import React, { useState, useEffect } from 'react';
-import { X, ChevronLeft, ChevronRight, Save } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { X, ChevronLeft, ChevronRight, Save, Image, Trash2 } from 'lucide-react';
 import { GenericSlide } from './renderer/GenericSlide';
 import { StorySlide } from './StorySlide';
 import { Theme } from '@/types/theme';
@@ -36,6 +36,9 @@ export function ContentEditor({
     const [currentSlide, setCurrentSlide] = useState(0);
     const [editedData, setEditedData] = useState<any>(null);
     const [hasChanges, setHasChanges] = useState(false);
+
+    // Ref para o input de arquivo (deve estar antes de qualquer return)
+    const fileInputRef = useRef<HTMLInputElement>(null);
 
     // Sincronizar dados quando o modal abre
     useEffect(() => {
@@ -109,6 +112,34 @@ export function ContentEditor({
         }
         onClose();
     };
+
+    // Função para lidar com upload de imagem
+    const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        // Validar tipo de arquivo
+        if (!file.type.startsWith('image/')) {
+            alert('Por favor, selecione um arquivo de imagem.');
+            return;
+        }
+
+        // Converter para base64 para armazenamento local
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            const base64 = event.target?.result as string;
+            updateSlideField('image', base64);
+        };
+        reader.readAsDataURL(file);
+    };
+
+    // Função para remover imagem
+    const handleRemoveImage = () => {
+        updateSlideField('image', '');
+    };
+
+    // Verificar se o tema atual é "tweet-news"
+    const isTweetNewsTheme = theme?.id === 'tweet-news';
 
     // Calcular escala para o preview
     const previewScale = format === 'story' ? 0.25 : 0.3;
@@ -226,6 +257,47 @@ export function ContentEditor({
                                     placeholder="Digite o texto..."
                                     rows={4}
                                 />
+                            </div>
+                        )}
+
+                        {/* Upload de Imagem de Notícia (apenas para tweet-news no slide cover) */}
+                        {isTweetNewsTheme && currentSlideData?.type === 'cover' && (
+                            <div className={styles.formGroup}>
+                                <label className={styles.label}>Imagem de Notícia</label>
+
+                                {/* Preview da imagem se existir */}
+                                {currentSlideData?.image && (
+                                    <div className={styles.imagePreview}>
+                                        <img
+                                            src={currentSlideData.image}
+                                            alt="Preview da notícia"
+                                            className={styles.imagePreviewImg}
+                                        />
+                                        <button
+                                            className={styles.removeImageBtn}
+                                            onClick={handleRemoveImage}
+                                            title="Remover imagem"
+                                        >
+                                            <Trash2 size={16} />
+                                        </button>
+                                    </div>
+                                )}
+
+                                {/* Botão de upload */}
+                                <input
+                                    type="file"
+                                    ref={fileInputRef}
+                                    accept="image/*"
+                                    onChange={handleImageUpload}
+                                    style={{ display: 'none' }}
+                                />
+                                <button
+                                    className={styles.uploadBtn}
+                                    onClick={() => fileInputRef.current?.click()}
+                                >
+                                    <Image size={18} />
+                                    {currentSlideData?.image ? 'Trocar Imagem' : 'Adicionar Imagem'}
+                                </button>
                             </div>
                         )}
 
