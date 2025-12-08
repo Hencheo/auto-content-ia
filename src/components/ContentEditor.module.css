@@ -56,7 +56,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1rem 1.5rem;
+    padding: 0rem 1rem;
     border-bottom: 1px solid var(--border-color, #333);
     flex-shrink: 0;
 }
@@ -236,59 +236,39 @@
     border-color: var(--accent-gold, #d4af37);
 }
 
-/* Footer */
-.footer {
+/* Container do Botão Salvar - Flui com o conteúdo */
+.saveContainer {
     display: flex;
-    justify-content: flex-end;
-    gap: 1rem;
-    padding: 1rem 1.5rem;
+    justify-content: center;
+    padding: 1rem 0;
     padding-bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
-    /* Safe area para iOS/Android */
-    border-top: 1px solid var(--border-color, #333);
-    flex-shrink: 0;
-    background-color: var(--bg-secondary, #1a1a1a);
-    /* Garante visibilidade sobre o conteúdo */
 }
 
-.cancelBtn {
-    padding: 0.75rem 1.5rem;
-    border-radius: 8px;
-    border: 1px solid var(--border-color, #333);
-    background: transparent;
-    color: var(--text-secondary, #888);
-    font-size: 0.95rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s;
-}
-
-.cancelBtn:hover {
-    background-color: rgba(255, 255, 255, 0.05);
-    color: var(--text-primary, #fff);
-}
-
+/* Botão Salvar - Circular */
 .saveBtn {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    padding: 0.75rem 1.5rem;
-    border-radius: 8px;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
     border: none;
     background-color: var(--accent-gold, #d4af37);
     color: black;
-    font-size: 0.95rem;
-    font-weight: 600;
     cursor: pointer;
     transition: all 0.2s;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .saveBtn:hover:not(:disabled) {
     filter: brightness(1.1);
+    transform: scale(1.05);
 }
 
 .saveBtn:disabled {
-    opacity: 0.5;
+    opacity: 0.4;
     cursor: not-allowed;
+    background-color: var(--text-secondary, #666);
 }
 
 /* Responsivo - Mobile */
@@ -308,11 +288,29 @@
     .previewSection {
         flex: none;
         height: auto;
-        /* Auto height para melhor adaptação */
-        min-height: 240px;
+        min-height: 300px;
         max-height: 40vh;
-        /* Limita altura máxima */
-        padding: 1rem;
+        padding: 0.5rem;
+        padding-top: 0.25rem;
+    }
+
+    .navigation {
+        gap: 0.5rem;
+        margin-top: 0.5rem;
+    }
+
+    .navBtn {
+        padding: 0.25rem;
+    }
+
+    .navBtn svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    .navCounter {
+        font-size: 0.75rem;
+        min-width: 40px;
     }
 
     .editorSection {
@@ -331,9 +329,13 @@
         transform: scale(0.18) !important;
     }
 
-    .footer {
-        position: sticky;
-        bottom: 0;
-        z-index: 10;
+    .saveContainer {
+        padding: 1.5rem 0;
+        padding-bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
+    }
+
+    .saveBtn {
+        width: 48px;
+        height: 48px;
     }
 }

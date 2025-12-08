@@ -246,13 +246,7 @@ export function ResultDisplay({
 
             {/* Floating Action Pill */}
             <div
-                className="mobile-floating-actions"
-                style={{
-                    transform: showActions ? 'translateX(-50%) translateY(0)' : 'translateX(-50%) translateY(150%)',
-                    opacity: showActions ? 1 : 0,
-                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                    pointerEvents: showActions ? 'auto' : 'none'
-                }}
+                className={`mobile-floating-actions ${showActions ? 'visible' : 'hidden'}`}
             >
                 <button className="mobile-floating-btn" onClick={handleViewSlides} title="Visualizar">
                     <Eye size={22} />

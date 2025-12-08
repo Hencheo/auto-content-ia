@@ -245,22 +245,19 @@ export function ContentEditor({
                                 />
                             </div>
                         )}
-                    </div>
-                </div>
 
-                {/* Footer */}
-                <div className={styles.footer}>
-                    <button className={styles.cancelBtn} onClick={handleClose}>
-                        Cancelar
-                    </button>
-                    <button
-                        className={styles.saveBtn}
-                        onClick={handleSave}
-                        disabled={!hasChanges}
-                    >
-                        <Save size={18} />
-                        Salvar Alterações
-                    </button>
+                        {/* Botão Salvar - Dentro do conteúdo scrollável */}
+                        <div className={styles.saveContainer}>
+                            <button
+                                className={styles.saveBtn}
+                                onClick={handleSave}
+                                disabled={!hasChanges}
+                                title="Salvar Alterações"
+                            >
+                                <Save size={20} />
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

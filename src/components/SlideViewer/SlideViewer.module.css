@@ -4,8 +4,11 @@
     left: 0;
     width: 100vw;
     height: 100vh;
+    height: 100dvh;
+    /* Dynamic viewport height para mobile */
     background-color: rgba(0, 0, 0, 0.95);
     backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     z-index: 1000;
     display: flex;
     flex-direction: column;
@@ -19,7 +22,7 @@
     top: 0;
     left: 0;
     right: 0;
-    padding: 20px;
+    padding: 1rem;
     display: flex;
     justify-content: flex-end;
     z-index: 1001;
@@ -31,7 +34,7 @@
     border: none;
     color: white;
     cursor: pointer;
-    padding: 10px;
+    padding: 0.5rem;
     border-radius: 50%;
     transition: background-color 0.2s;
     display: flex;
@@ -90,7 +93,7 @@
 
 .infoOverlay {
     position: absolute;
-    bottom: 40px;
+    bottom: calc(30px + env(safe-area-inset-bottom, 0px));
     left: 0;
     right: 0;
     text-align: center;
@@ -129,7 +132,7 @@
 /* Progress Bar at Top */
 .progressContainer {
     position: absolute;
-    top: 80px;
+    top: 60px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
@@ -200,7 +203,7 @@
 /* Story Counter */
 .storyCounter {
     position: absolute;
-    bottom: 30px;
+    bottom: calc(20px + env(safe-area-inset-bottom, 0px));
     left: 0;
     right: 0;
     text-align: center;
@@ -208,4 +211,39 @@
     font-size: 0.9rem;
     pointer-events: none;
     z-index: 1002;
+}
+
+/* =========================================
+   MOBILE RESPONSIVENESS
+   ========================================= */
+@media (max-width: 768px) {
+    .header {
+        padding: 0.5rem;
+    }
+
+    .closeButton {
+        padding: 0.25rem;
+    }
+
+    .closeButton svg {
+        width: 24px;
+        height: 24px;
+    }
+
+    .progressContainer {
+        top: 50px;
+    }
+
+    .storyContainer {
+        padding: 40px 10px 10px;
+    }
+
+    .infoOverlay {
+        font-size: 0.8rem;
+        bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+    }
+
+    .storyCounter {
+        font-size: 0.8rem;
+    }
 }

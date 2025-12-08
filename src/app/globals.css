@@ -392,23 +392,40 @@ a {
 /* --- Floating Action Pill --- */
 .mobile-floating-actions {
   position: fixed;
-  /* Mudado de absolute para fixed para consistência entre dispositivos */
   bottom: calc(20px + env(safe-area-inset-bottom, 0px));
-  /* Usa safe-area-inset-bottom para compatibilidade iOS/Android */
   left: 50%;
   transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
   background: rgba(45, 43, 44, 0.95);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  /* Safari support */
   border: 1px solid var(--border-color);
   border-radius: 50px;
   padding: 0.5rem 1.5rem;
   display: flex;
   gap: 1.5rem;
-  z-index: 100;
+  z-index: 1000;
+  /* Aumentado de 100 para 1000 */
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
   width: max-content;
+  will-change: transform, opacity;
+  /* Força GPU compositing */
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+}
+
+/* Estados do botão flutuante */
+.mobile-floating-actions.visible {
+  transform: translateX(-50%) translateY(0);
+  -webkit-transform: translateX(-50%) translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.mobile-floating-actions.hidden {
+  transform: translateX(-50%) translateY(150%);
+  -webkit-transform: translateX(-50%) translateY(150%);
+  opacity: 0;
+  pointer-events: none;
 }
 
 .mobile-floating-btn {
