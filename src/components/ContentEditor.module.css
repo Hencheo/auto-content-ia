@@ -9,8 +9,11 @@
     left: 0;
     width: 100vw;
     height: 100vh;
+    height: 100dvh;
+    /* Dynamic viewport height - considera barra de navegação móvel */
     background-color: rgba(0, 0, 0, 0.7);
     backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
     z-index: 2000;
     display: flex;
     justify-content: flex-end;
@@ -87,7 +90,10 @@
 .content {
     flex: 1;
     display: flex;
-    overflow: hidden;
+    overflow: auto;
+    /* Mudado de hidden para auto - permite scroll */
+    min-height: 0;
+    /* Importante: garante que flex shrink funcione corretamente */
 }
 
 /* Preview Section */
@@ -236,8 +242,12 @@
     justify-content: flex-end;
     gap: 1rem;
     padding: 1rem 1.5rem;
+    padding-bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+    /* Safe area para iOS/Android */
     border-top: 1px solid var(--border-color, #333);
     flex-shrink: 0;
+    background-color: var(--bg-secondary, #1a1a1a);
+    /* Garante visibilidade sobre o conteúdo */
 }
 
 .cancelBtn {
@@ -289,22 +299,41 @@
 
     .content {
         flex-direction: column;
+        overflow-y: auto;
+        /* Permite scroll vertical */
+        -webkit-overflow-scrolling: touch;
+        /* Smooth scroll no iOS */
     }
 
     .previewSection {
         flex: none;
-        height: 45%;
-        min-height: 280px;
+        height: auto;
+        /* Auto height para melhor adaptação */
+        min-height: 240px;
+        max-height: 40vh;
+        /* Limita altura máxima */
+        padding: 1rem;
     }
 
     .editorSection {
         width: 100%;
         border-left: none;
         border-top: 1px solid var(--border-color, #333);
-        flex: 1;
+        flex: none;
+        /* Não usa flex para permitir conteúdo natural */
+        min-height: auto;
+        overflow-y: visible;
+        /* Deixa o scroll para o container pai */
+        padding-bottom: 1rem;
     }
 
     .previewScaler {
         transform: scale(0.18) !important;
+    }
+
+    .footer {
+        position: sticky;
+        bottom: 0;
+        z-index: 10;
     }
 }
