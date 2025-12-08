@@ -391,13 +391,16 @@ a {
 
 /* --- Floating Action Pill --- */
 .mobile-floating-actions {
-  position: absolute;
-  bottom: 41px;
-  /* Positioned above the caption/bottom */
+  position: fixed;
+  /* Mudado de absolute para fixed para consistência entre dispositivos */
+  bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+  /* Usa safe-area-inset-bottom para compatibilidade iOS/Android */
   left: 50%;
   transform: translateX(-50%);
   background: rgba(45, 43, 44, 0.95);
   backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  /* Safari support */
   border: 1px solid var(--border-color);
   border-radius: 50px;
   padding: 0.5rem 1.5rem;
