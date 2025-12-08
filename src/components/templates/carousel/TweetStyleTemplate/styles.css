@@ -1,0 +1,154 @@
+/* ===========================================
+   TWEET STYLE TEMPLATE
+   Design estilo Twitter/Thread com foco em texto
+   Header e conteúdo formam bloco unificado
+   =========================================== */
+
+/* Container Principal */
+.tweet-slide {
+    width: 1080px;
+    height: 1350px;
+    background: #ffffff;
+    color: #0f1419;
+    display: flex;
+    flex-direction: column;
+    padding: 80px;
+    /* Fonte do Twitter (Chirp como fallback) */
+    font-family: "TwitterChirp", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    position: relative;
+    overflow: hidden;
+    transform-origin: top left;
+}
+
+/* Wrapper principal que centraliza o bloco unificado */
+.tweet-main-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+/* Bloco unificado: Header + Conteúdo */
+.tweet-unified-block {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+/* Header - Avatar + Nome + Selo */
+.tweet-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 32px;
+}
+
+.tweet-profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.tweet-avatar-wrapper {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.tweet-avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.tweet-avatar-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    font-weight: bold;
+    color: #536471;
+    background: #e7e7e8;
+}
+
+.tweet-name {
+    font-size: 44px;
+    font-weight: 600;
+    color: #0f1419;
+    letter-spacing: -0.3px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+}
+
+/* Content Area - Agora parte do bloco unificado */
+.tweet-content {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Cover Content */
+.tweet-cover-content {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+}
+
+.tweet-intro-text {
+    font-size: 52px;
+    font-weight: 400;
+    line-height: 1.4;
+    color: #0f1419;
+    margin: 0;
+}
+
+.tweet-secondary-text {
+    font-size: 52px;
+    font-weight: 400;
+    line-height: 1.4;
+    color: #0f1419;
+    margin: 0;
+}
+
+/* Body Content */
+.tweet-body-content {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+}
+
+.tweet-paragraph {
+    font-size: 52px;
+    font-weight: 400;
+    line-height: 1.4;
+    color: #0f1419;
+    margin: 0;
+}
+
+/* CTA Content */
+.tweet-cta-content {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+}
+
+.tweet-cta-emphasis {
+    font-weight: 500;
+}
+
+/* Footer - Fixo no rodapé */
+.tweet-footer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-top: 40px;
+}
+
+.tweet-counter {
+    font-size: 28px;
+    color: #536471;
+}

@@ -396,8 +396,7 @@ a {
   align-items: center;
   gap: 1.5rem;
   padding: 0.5rem 1.5rem;
-  background: rgba(45, 43, 44, 0.95);
-  border-bottom: 1px solid var(--border-color);
+  background: var(--bg-primary);
   flex-shrink: 0;
 }
 
@@ -449,24 +448,170 @@ a {
 }
 
 .mobile-floating-btn {
-  background: none;
-  border: none;
-  color: white;
-  display: flex;
-  flex-direction: column;
+  --round: 0.5rem;
+  cursor: pointer;
+  position: relative;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 4px;
-  font-size: 0.7rem;
-  cursor: pointer;
-  min-width: 50px;
-  /* Garante que botões fiquem acima do ::before */
-  position: relative;
+  overflow: hidden;
+  transition: all 0.25s ease;
+  background: rgba(45, 43, 44, 0.95);
+  border-radius: var(--round);
+  border: none;
+  outline: none;
+  padding: 8px 12px;
+  min-width: 40px;
+  z-index: 1;
+  color: white;
+}
+
+.mobile-floating-btn::before {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  transition: all 0.5s ease-in-out;
+  border-radius: calc(var(--round) - 1px);
+  background: linear-gradient(177.95deg,
+      rgba(255, 255, 255, 0.08) 0%,
+      rgba(255, 255, 255, 0) 100%);
+  z-index: 0;
+}
+
+.mobile-floating-btn:active {
+  transform: scale(0.95);
+}
+
+/* Efeito Fold (canto superior direito) */
+.mobile-floating-btn .fold {
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 0.8rem;
+  width: 0.8rem;
+  display: inline-block;
+  transition: all 0.5s ease-in-out;
+  background: radial-gradient(100% 75% at 55%,
+      rgba(212, 175, 55, 0.6) 0%,
+      rgba(212, 175, 55, 0) 100%);
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+  border-bottom-left-radius: 0.4rem;
+  border-top-right-radius: var(--round);
+}
+
+.mobile-floating-btn .fold::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 150%;
+  height: 150%;
+  transform: rotate(45deg) translateX(0%) translateY(-12px);
+  background-color: var(--bg-primary);
+  pointer-events: none;
+}
+
+.mobile-floating-btn:hover .fold {
+  margin-top: -0.8rem;
+  margin-right: -0.8rem;
+}
+
+/* Partículas flutuantes */
+.mobile-floating-btn .points_wrapper {
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  position: absolute;
   z-index: 1;
 }
 
-.mobile-floating-btn.primary {
+.mobile-floating-btn .points_wrapper .point {
+  bottom: -6px;
+  position: absolute;
+  animation: floating-points infinite ease-in-out;
+  pointer-events: none;
+  width: 2px;
+  height: 2px;
+  background-color: var(--accent-gold);
+  border-radius: 9999px;
+}
+
+@keyframes floating-points {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  85% {
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(-40px);
+    opacity: 0;
+  }
+}
+
+.mobile-floating-btn .points_wrapper .point:nth-child(1) {
+  left: 10%;
+  animation-duration: 2.35s;
+  animation-delay: 0.2s;
+}
+
+.mobile-floating-btn .points_wrapper .point:nth-child(2) {
+  left: 30%;
+  opacity: 0.7;
+  animation-duration: 2.5s;
+  animation-delay: 0.5s;
+}
+
+.mobile-floating-btn .points_wrapper .point:nth-child(3) {
+  left: 50%;
+  opacity: 0.8;
+  animation-duration: 2.2s;
+  animation-delay: 0.1s;
+}
+
+.mobile-floating-btn .points_wrapper .point:nth-child(4) {
+  left: 70%;
+  opacity: 0.6;
+  animation-duration: 2.05s;
+}
+
+.mobile-floating-btn .points_wrapper .point:nth-child(5) {
+  left: 90%;
+  animation-duration: 1.9s;
+}
+
+/* Ícone do botão */
+.mobile-floating-btn .btn-icon {
+  z-index: 2;
+  position: relative;
+  color: white;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease-in-out;
+}
+
+.mobile-floating-btn:hover .btn-icon {
   color: var(--accent-gold);
+  transform: scale(1.1);
+}
+
+/* Botão Primário (Download) */
+.mobile-floating-btn.primary {
+  background: rgba(45, 43, 44, 0.95);
+}
+
+.mobile-floating-btn.primary .btn-icon {
+  color: var(--accent-gold);
+}
+
+.mobile-floating-btn.primary:hover .btn-icon {
+  color: white;
 }
 
 /* Small Screen Safety */

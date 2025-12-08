@@ -128,12 +128,34 @@ export const themes: Theme[] = [
             content: 'standard'
         }
     },
+    {
+        id: 'tweet-style',
+        name: 'Tweet Style',
+        type: 'carousel',
+        templateComponent: 'TweetStyleTemplate',
+        styles: {
+            background: '#ffffff',
+            text: '#0f1419', // Twitter text color
+            accent: '#1d9bf0', // Twitter blue
+            secondary: '#536471', // Twitter secondary text
+            muted: '#e7e7e8',
+            border: '#eff3f4',
+            fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
+        },
+        layout: {
+            header: 'twitter',
+            footer: 'none',
+            cover: 'centered',
+            content: 'standard'
+        }
+    },
 
     // --- STORY THEMES ---
     {
         id: 'breaking-news',
         name: 'Breaking News',
         type: 'story',
+        templateComponent: 'BreakingNewsTemplate',
         styles: {
             background: '#000000',
             text: '#ffffff',
@@ -154,6 +176,7 @@ export const themes: Theme[] = [
         id: 'modern-story',
         name: 'Modern Story',
         type: 'story',
+        templateComponent: 'ModernStoryTemplate',
         styles: {
             background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
             text: '#000000',

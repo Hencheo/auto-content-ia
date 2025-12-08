@@ -118,6 +118,7 @@ export function StoryViewer({ slides, theme, profile }: StoryViewerProps) {
                         total={slides.length}
                         id={`story-slide-${currentIndex}`}
                         profile={profile}
+                        theme={theme}
                         templateId={templateId as 'breaking-news' | 'modern-story'}
                         scale={1}
                     />

@@ -7,6 +7,7 @@ import { ChevronLeft, Edit, Download, Eye, Check, Copy } from 'lucide-react';
 import { SlideViewer } from './SlideViewer/SlideViewer';
 import { downloadSlidesAsZip } from '@/lib/downloadUtils';
 import { GenericSlide } from './renderer/GenericSlide';
+import { getCarouselTemplate } from './templates/carousel';
 import { StorySlide } from './StorySlide';
 import { ContentEditor } from './ContentEditor';
 
@@ -138,7 +139,15 @@ export function ResultDisplay({
             {/* 2. Static Action Toolbar (abaixo do header) */}
             <div className="static-action-toolbar">
                 <button className="mobile-floating-btn" onClick={handleViewSlides} title="Visualizar">
-                    <Eye size={22} />
+                    <span className="fold" />
+                    <div className="points_wrapper">
+                        <i className="point" />
+                        <i className="point" />
+                        <i className="point" />
+                        <i className="point" />
+                        <i className="point" />
+                    </div>
+                    <span className="btn-icon"><Eye size={22} /></span>
                 </button>
                 <button
                     className="mobile-floating-btn primary"
@@ -147,10 +156,26 @@ export function ResultDisplay({
                     style={{ opacity: isDownloading ? 0.6 : 1 }}
                     title="Baixar"
                 >
-                    <Download size={22} />
+                    <span className="fold" />
+                    <div className="points_wrapper">
+                        <i className="point" />
+                        <i className="point" />
+                        <i className="point" />
+                        <i className="point" />
+                        <i className="point" />
+                    </div>
+                    <span className="btn-icon"><Download size={22} /></span>
                 </button>
                 <button className="mobile-floating-btn" onClick={handleEdit} title="Editar">
-                    <Edit size={22} />
+                    <span className="fold" />
+                    <div className="points_wrapper">
+                        <i className="point" />
+                        <i className="point" />
+                        <i className="point" />
+                        <i className="point" />
+                        <i className="point" />
+                    </div>
+                    <span className="btn-icon"><Edit size={22} /></span>
                 </button>
             </div>
 
@@ -248,19 +273,43 @@ export function ResultDisplay({
 
             {/* Container Invisível para Export (slides em tamanho real) */}
             <div className="export-container-hidden">
-                {result.slides.map((slide: any, index: number) => (
-                    format === 'story' ? (
-                        <StorySlide
-                            key={index}
-                            data={slide}
-                            index={index}
-                            total={result.slides.length}
-                            id={`export-slide-${index}`}
-                            profile={{ name, handle, image }}
-                            templateId={currentTheme.id === 'modern-story' ? 'modern-story' : 'breaking-news'}
-                            scale={1}
-                        />
-                    ) : (
+                {result.slides.map((slide: any, index: number) => {
+                    // Para stories
+                    if (format === 'story') {
+                        return (
+                            <StorySlide
+                                key={index}
+                                data={slide}
+                                index={index}
+                                total={result.slides.length}
+                                id={`export-slide-${index}`}
+                                profile={{ name, handle, image }}
+                                theme={currentTheme}
+                                templateId={currentTheme.id === 'modern-story' ? 'modern-story' : 'breaking-news'}
+                                scale={1}
+                            />
+                        );
+                    }
+
+                    // Para carousel - usar template modular se disponível
+                    const ModularTemplate = getCarouselTemplate(currentTheme);
+                    if (ModularTemplate) {
+                        return (
+                            <ModularTemplate
+                                key={index}
+                                data={slide}
+                                index={index}
+                                total={result.slides.length}
+                                id={`export-slide-${index}`}
+                                profile={{ name, handle, image }}
+                                theme={currentTheme}
+                                scale={1}
+                            />
+                        );
+                    }
+
+                    // Fallback para GenericSlide
+                    return (
                         <GenericSlide
                             key={index}
                             data={slide}
@@ -271,8 +320,8 @@ export function ResultDisplay({
                             theme={currentTheme}
                             scale={1}
                         />
-                    )
-                ))}
+                    );
+                })}
             </div>
 
             <SlideViewer

@@ -15,6 +15,7 @@ import { SunsetVibesTemplate } from './SunsetVibesTemplate';
 import { OceanBreezeTemplate } from './OceanBreezeTemplate';
 import { FinancialDarkTemplate } from './FinancialDarkTemplate';
 import { ModernCleanTemplate } from './ModernCleanTemplate';
+import { TweetStyleTemplate } from './TweetStyleTemplate';
 
 export interface CarouselTemplateProps {
     data: {
@@ -43,6 +44,7 @@ const templateRegistry: Record<string, React.ComponentType<CarouselTemplateProps
     'OceanBreezeTemplate': OceanBreezeTemplate,
     'FinancialDarkTemplate': FinancialDarkTemplate,
     'ModernCleanTemplate': ModernCleanTemplate,
+    'TweetStyleTemplate': TweetStyleTemplate,
 };
 
 /**

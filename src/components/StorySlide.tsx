@@ -1,4 +1,6 @@
 import React from 'react';
+import { Theme } from '@/types/theme';
+import { getStoryTemplate } from './templates/story';
 import { BreakingNewsTemplate, ModernStoryTemplate } from './templates/StoryTemplates';
 
 export type StoryTemplateId = 'breaking-news' | 'modern-story';
@@ -20,11 +22,42 @@ interface StorySlideProps {
     };
     scale?: number;
     templateId?: StoryTemplateId;
+    theme?: Theme;
 }
 
 export function StorySlide(props: StorySlideProps) {
-    const { templateId = 'breaking-news', scale = 1, id } = props;
+    const { templateId = 'breaking-news', scale = 1, id, theme } = props;
 
+    // Se theme foi fornecido, tentar usar template modular
+    if (theme) {
+        const ModularTemplate = getStoryTemplate(theme);
+        if (ModularTemplate) {
+            return (
+                <div
+                    id={id}
+                    style={{
+                        width: '1080px',
+                        height: '1920px',
+                        transform: `scale(${scale})`,
+                        transformOrigin: 'top left',
+                        overflow: 'hidden',
+                    }}
+                >
+                    <ModularTemplate
+                        data={props.data}
+                        index={props.index}
+                        total={props.total}
+                        id={id}
+                        profile={props.profile}
+                        theme={theme}
+                        scale={1}
+                    />
+                </div>
+            );
+        }
+    }
+
+    // Fallback para templates antigos via templateId
     return (
         <div
             id={id}
@@ -34,8 +67,6 @@ export function StorySlide(props: StorySlideProps) {
                 transform: `scale(${scale})`,
                 transformOrigin: 'top left',
                 overflow: 'hidden',
-                // Se scale for 1, ocupa o espaço normal. Se for menor, o container pai deve ajustar o tamanho.
-                // Mas aqui apenas renderizamos o conteúdo.
             }}
         >
             {templateId === 'breaking-news' && <BreakingNewsTemplate {...props} />}
