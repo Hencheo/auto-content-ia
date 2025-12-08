@@ -405,26 +405,22 @@ a {
   display: flex;
   gap: 1.5rem;
   z-index: 1000;
-  /* Aumentado de 100 para 1000 */
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
   width: max-content;
-  will-change: transform, opacity;
-  /* Força GPU compositing */
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+  /* Transição suave */
+  transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
-/* Estados do botão flutuante */
+/* Estados do botão flutuante - Usando opacity/visibility em vez de transform */
 .mobile-floating-actions.visible {
-  transform: translateX(-50%) translateY(0);
-  -webkit-transform: translateX(-50%) translateY(0);
   opacity: 1;
+  visibility: visible;
   pointer-events: auto;
 }
 
 .mobile-floating-actions.hidden {
-  transform: translateX(-50%) translateY(150%);
-  -webkit-transform: translateX(-50%) translateY(150%);
   opacity: 0;
+  visibility: hidden;
   pointer-events: none;
 }
 
