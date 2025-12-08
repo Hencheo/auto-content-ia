@@ -1,0 +1,220 @@
+/**
+ * ModernClean Template Styles
+ * Tema claro minimalista com layouts alternados
+ */
+
+.modern-slide {
+    width: 1080px;
+    height: 1350px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Inter', sans-serif;
+    overflow: hidden;
+    transform-origin: top left;
+}
+
+/* Decorative Corner */
+.modern-corner-decoration {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200px;
+    height: 8px;
+}
+
+/* Header */
+.modern-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 60px 60px 40px;
+}
+
+.modern-profile {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.modern-avatar-wrapper {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 2px solid;
+    overflow: hidden;
+}
+
+.modern-avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.modern-avatar-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.modern-profile-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.modern-name-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.modern-name {
+    font-size: 28px;
+    font-weight: 600;
+}
+
+.modern-handle {
+    font-size: 22px;
+}
+
+.modern-counter {
+    font-size: 28px;
+}
+
+/* Content */
+.modern-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 80px;
+}
+
+/* Cover Layout */
+.modern-cover {
+    text-align: left;
+}
+
+.modern-cover-line {
+    width: 80px;
+    height: 6px;
+    margin-bottom: 40px;
+    border-radius: 3px;
+}
+
+.modern-cover-title {
+    font-size: 76px;
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 40px;
+    letter-spacing: -2px;
+}
+
+.modern-cover-subtitle {
+    font-size: 36px;
+    line-height: 1.5;
+}
+
+/* Body Layout A - Quote Style */
+.modern-body-quote {
+    text-align: left;
+}
+
+.modern-quote-icon {
+    margin-bottom: 20px;
+    opacity: 0.6;
+}
+
+.modern-quote-title {
+    font-size: 52px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 30px;
+}
+
+.modern-quote-text {
+    font-size: 36px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    margin-bottom: 40px;
+}
+
+.modern-quote-line {
+    width: 100px;
+    height: 4px;
+    border-radius: 2px;
+}
+
+/* Body Layout B - Numbered Style */
+.modern-body-numbered {
+    text-align: center;
+}
+
+.modern-number-badge {
+    display: inline-block;
+    font-size: 48px;
+    font-weight: 800;
+    padding: 20px 40px;
+    border-radius: 20px;
+    margin-bottom: 40px;
+}
+
+.modern-numbered-title {
+    font-size: 48px;
+    font-weight: 700;
+    margin-bottom: 30px;
+}
+
+.modern-numbered-divider {
+    width: 60px;
+    height: 2px;
+    margin: 0 auto 30px;
+}
+
+.modern-numbered-text {
+    font-size: 36px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* CTA Layout */
+.modern-cta {
+    text-align: center;
+}
+
+.modern-cta-title {
+    font-size: 56px;
+    font-weight: 700;
+    margin-bottom: 30px;
+}
+
+.modern-cta-text {
+    font-size: 36px;
+    margin-bottom: 50px;
+    line-height: 1.5;
+}
+
+.modern-cta-button {
+    display: inline-block;
+    padding: 26px 80px;
+    font-size: 28px;
+    font-weight: 700;
+    border-radius: 60px;
+    letter-spacing: 2px;
+}
+
+/* Footer */
+.modern-footer {
+    padding: 40px 60px;
+}
+
+.modern-footer-line {
+    height: 2px;
+}

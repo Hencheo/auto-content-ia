@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { GenericSlide } from '../renderer/GenericSlide';
+import { getCarouselTemplate } from '../templates/carousel';
 import styles from './SlideViewer.module.css';
 import { Theme } from '@/types/theme';
 
@@ -17,6 +18,9 @@ export function CarouselViewer({ slides, theme, profile }: CarouselViewerProps) 
     const containerRef = useRef<HTMLDivElement>(null);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [scale, setScale] = useState<number | null>(null);
+
+    // Checar se existe template modular para este tema
+    const ModularTemplate = getCarouselTemplate(theme);
 
     // Calculate scale to fit screen
     useEffect(() => {
@@ -63,22 +67,34 @@ export function CarouselViewer({ slides, theme, profile }: CarouselViewerProps) 
             >
                 {slides.map((slide, index) => (
                     <div key={index} className={styles.slideWrapper}>
-                        {/* We use a container to apply the scale transform efficiently */}
                         <div
                             className={styles.fixedSlideContainer}
                             style={{
                                 transform: `scale(${scale})`,
                             }}
                         >
-                            <GenericSlide
-                                data={slide}
-                                index={index}
-                                total={slides.length}
-                                id={`view-slide-${index}`}
-                                profile={profile}
-                                theme={theme}
-                                scale={1} // GenericSlide handles internal layout, we scale the container
-                            />
+                            {/* Usa template modular se existir, senão usa GenericSlide */}
+                            {ModularTemplate ? (
+                                <ModularTemplate
+                                    data={slide}
+                                    index={index}
+                                    total={slides.length}
+                                    id={`view-slide-${index}`}
+                                    profile={profile}
+                                    theme={theme}
+                                    scale={1}
+                                />
+                            ) : (
+                                <GenericSlide
+                                    data={slide}
+                                    index={index}
+                                    total={slides.length}
+                                    id={`view-slide-${index}`}
+                                    profile={profile}
+                                    theme={theme}
+                                    scale={1}
+                                />
+                            )}
                         </div>
                     </div>
                 ))}
@@ -91,3 +107,4 @@ export function CarouselViewer({ slides, theme, profile }: CarouselViewerProps) 
         </>
     );
 }
+

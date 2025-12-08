@@ -21,4 +21,7 @@ export interface Theme {
     type: 'carousel' | 'story';
     styles: ThemeStyles;
     layout: ThemeLayout;
+    /** Nome do template modular (opcional). Se não definido, usa GenericSlide */
+    templateComponent?: string;
 }
+

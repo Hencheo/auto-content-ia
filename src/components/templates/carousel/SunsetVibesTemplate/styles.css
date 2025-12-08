@@ -1,0 +1,235 @@
+/**
+ * SunsetVibes Template Styles
+ * Design vibrante com formas dinâmicas
+ */
+
+.sunset-slide {
+    width: 1080px;
+    height: 1350px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Poppins', sans-serif;
+    overflow: hidden;
+    transform-origin: top left;
+    color: white;
+}
+
+/* Dynamic Background Shapes */
+.sunset-shape {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.sunset-shape-1 {
+    width: 500px;
+    height: 500px;
+    top: -150px;
+    right: -100px;
+}
+
+.sunset-shape-2 {
+    width: 400px;
+    height: 400px;
+    bottom: 200px;
+    left: -150px;
+}
+
+.sunset-shape-3 {
+    width: 300px;
+    height: 300px;
+    bottom: -100px;
+    right: 100px;
+}
+
+/* Header */
+.sunset-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 50px 60px;
+    z-index: 1;
+}
+
+.sunset-profile {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.sunset-avatar-wrapper {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+}
+
+.sunset-avatar-inner {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    overflow: hidden;
+    background: #1a1a1a;
+}
+
+.sunset-avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.sunset-avatar-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    font-weight: bold;
+    background: linear-gradient(135deg, #ff6b35, #f72585);
+    color: white;
+}
+
+.sunset-profile-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.sunset-name-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.sunset-name {
+    font-size: 34px;
+    font-weight: 700;
+}
+
+.sunset-handle {
+    font-size: 24px;
+    font-weight: 400;
+}
+
+.sunset-counter {
+    font-size: 28px;
+    font-weight: 700;
+    padding: 14px 28px;
+    border-radius: 50px;
+    color: white;
+}
+
+/* Content */
+.sunset-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 80px;
+    z-index: 1;
+}
+
+/* Cover Layout */
+.sunset-cover {
+    text-align: center;
+}
+
+.sunset-emoji-row {
+    margin-bottom: 30px;
+}
+
+.sunset-title {
+    font-size: 85px;
+    font-weight: 800;
+    line-height: 1.0;
+    margin-bottom: 40px;
+    text-transform: uppercase;
+    letter-spacing: -2px;
+}
+
+.sunset-pill-divider {
+    width: 150px;
+    height: 10px;
+    margin: 0 auto 40px;
+    border-radius: 10px;
+}
+
+.sunset-subtitle {
+    font-size: 38px;
+    font-weight: 400;
+    line-height: 1.4;
+    opacity: 0.9;
+}
+
+/* Body Layout */
+.sunset-body-container {
+    text-align: left;
+}
+
+.sunset-body-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 32px;
+    border-radius: 50px;
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 30px;
+}
+
+.sunset-body-card {
+    border-radius: 30px;
+    padding: 50px;
+}
+
+.sunset-body-text {
+    font-size: 38px;
+    line-height: 1.5;
+    white-space: pre-wrap;
+}
+
+/* CTA Layout */
+.sunset-cta {
+    text-align: center;
+}
+
+.sunset-cta-title {
+    font-size: 64px;
+    font-weight: 800;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+}
+
+.sunset-cta-text {
+    font-size: 36px;
+    margin-bottom: 50px;
+    opacity: 0.9;
+    line-height: 1.4;
+}
+
+.sunset-cta-button {
+    display: inline-block;
+    padding: 28px 80px;
+    font-size: 32px;
+    font-weight: 700;
+    border-radius: 60px;
+    color: white;
+    letter-spacing: 2px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+}
+
+/* Footer Wave */
+.sunset-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 80px;
+    z-index: 0;
+}
+
+.sunset-wave {
+    width: 100%;
+    height: 100%;
+}
