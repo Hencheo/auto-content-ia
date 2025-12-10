@@ -59,7 +59,7 @@ export function ChatInterface({ onGenerate, loading }: ChatInterfaceProps) {
         <div className="w-full">
           <div className="relative bg-black rounded-xl overflow-hidden">
             <textarea
-              className="w-full min-h-[60px] max-h-[200px] bg-transparent text-white placeholder:text-white/50 border-0 outline-none resize-none focus:ring-0 focus:outline-none leading-[1.4] text-sm sm:text-base"
+              className="w-full min-h-[60px] max-h-[200px] bg-transparent text-white placeholder:text-white/50 border-0 outline-none resize-none focus:ring-0 focus:outline-none leading-[1.4] text-base"
               style={{ paddingLeft: '1.25rem', paddingRight: '3.5rem', paddingTop: '1rem', paddingBottom: '1rem' }}
               placeholder={getPlaceholder()}
               value={input}
