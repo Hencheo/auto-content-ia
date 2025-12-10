@@ -9,6 +9,7 @@ interface GenerationContext {
   profession: string;
   product: string;
   audience: string;
+  voiceTone?: string;
 }
 
 interface GeneratedContent {

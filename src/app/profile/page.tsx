@@ -1,8 +1,9 @@
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useUser } from '@/contexts/UserContext';
 import Link from 'next/link';
+import { VOICE_TONES, VoiceToneId } from '@/lib/voiceTones';
 
 export default function ProfilePage() {
     const {
@@ -11,8 +12,11 @@ export default function ProfilePage() {
         avatar, setAvatar,
         profession, setProfession,
         product, setProduct,
-        audience, setAudience
+        audience, setAudience,
+        voiceTone, setVoiceTone
     } = useUser();
+
+    const [showSaved, setShowSaved] = useState(false);
 
     const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
@@ -23,6 +27,11 @@ export default function ProfilePage() {
             };
             reader.readAsDataURL(file);
         }
+    };
+
+    const handleSave = () => {
+        setShowSaved(true);
+        setTimeout(() => setShowSaved(false), 3000);
     };
 
     return (
@@ -84,7 +93,7 @@ export default function ProfilePage() {
                     </div>
 
                     <div className="profile-section-header">
-                        Negócio & IA
+                        Seu Negócio
                     </div>
 
                     <div className="input-group">
@@ -120,16 +129,48 @@ export default function ProfilePage() {
                         />
                     </div>
 
+                    <div className="profile-section-header">
+                        Tom de Voz da IA
+                    </div>
+
+                    <div className="voice-tone-grid">
+                        {VOICE_TONES.map((tone) => (
+                            <button
+                                key={tone.id}
+                                type="button"
+                                className={`voice-tone-button ${voiceTone === tone.id ? 'active' : ''}`}
+                                onClick={() => setVoiceTone(tone.id)}
+                            >
+                                <span className="voice-tone-emoji">{tone.emoji}</span>
+                                <span className="voice-tone-label">{tone.label}</span>
+                            </button>
+                        ))}
+                    </div>
+
+                    <p className="voice-tone-description">
+                        {VOICE_TONES.find(t => t.id === voiceTone)?.description}
+                    </p>
+
+                    <button
+                        type="button"
+                        className="save-button"
+                        onClick={handleSave}
+                    >
+                        Salvar Alterações
+                    </button>
+
                     <div style={{ height: '4rem' }}></div>
                     {/* Spacer for bottom scrolling */}
                 </div>
 
-                <div className="save-indicator">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M20 6L9 17l-5-5" />
-                    </svg>
-                    Alterações salvas
-                </div>
+                {showSaved && (
+                    <div className="save-indicator">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <path d="M20 6L9 17l-5-5" />
+                        </svg>
+                        Alterações salvas
+                    </div>
+                )}
             </div>
         </div>
     );

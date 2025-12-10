@@ -1,6 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { VoiceToneId, DEFAULT_VOICE_TONE } from '@/lib/voiceTones';
 
 interface UserContextType {
     name: string;
@@ -15,6 +16,8 @@ interface UserContextType {
     setProduct: (product: string) => void;
     audience: string;
     setAudience: (audience: string) => void;
+    voiceTone: VoiceToneId;
+    setVoiceTone: (voiceTone: VoiceToneId) => void;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -26,6 +29,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
     const [profession, setProfession] = useState('');
     const [product, setProduct] = useState('');
     const [audience, setAudience] = useState('');
+    const [voiceTone, setVoiceTone] = useState<VoiceToneId>(DEFAULT_VOICE_TONE);
     const [isLoaded, setIsLoaded] = useState(false);
 
     // Load from LocalStorage on mount
@@ -36,6 +40,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
         const savedProfession = localStorage.getItem('user_profession');
         const savedProduct = localStorage.getItem('user_product');
         const savedAudience = localStorage.getItem('user_audience');
+        const savedVoiceTone = localStorage.getItem('user_voice_tone');
 
         if (savedName) setName(savedName);
         if (savedHandle) setHandle(savedHandle);
@@ -43,6 +48,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
         if (savedProfession) setProfession(savedProfession);
         if (savedProduct) setProduct(savedProduct);
         if (savedAudience) setAudience(savedAudience);
+        if (savedVoiceTone) setVoiceTone(savedVoiceTone as VoiceToneId);
 
         setIsLoaded(true);
     }, []);
@@ -60,8 +66,9 @@ export function UserProvider({ children }: { children: ReactNode }) {
             localStorage.setItem('user_profession', profession);
             localStorage.setItem('user_product', product);
             localStorage.setItem('user_audience', audience);
+            localStorage.setItem('user_voice_tone', voiceTone);
         }
-    }, [name, handle, avatar, profession, product, audience, isLoaded]);
+    }, [name, handle, avatar, profession, product, audience, voiceTone, isLoaded]);
 
     return (
         <UserContext.Provider value={{
@@ -70,7 +77,8 @@ export function UserProvider({ children }: { children: ReactNode }) {
             avatar, setAvatar,
             profession, setProfession,
             product, setProduct,
-            audience, setAudience
+            audience, setAudience,
+            voiceTone, setVoiceTone
         }}>
             {children}
         </UserContext.Provider>

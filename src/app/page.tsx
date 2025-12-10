@@ -9,7 +9,7 @@ import { ResultDisplay } from '@/components/ResultDisplay';
 import { generateCarouselContent, generateCarouselFromArticle, generateStoryContent } from '@/lib/gemini';
 
 export default function Home() {
-    const { profession, product, audience, avatar } = useUser();
+    const { profession, product, audience, avatar, voiceTone } = useUser();
 
     // State
     const [loading, setLoading] = useState(false);
@@ -36,7 +36,7 @@ export default function Home() {
         abortControllerRef.current = controller;
 
         try {
-            const context = { profession, product, audience };
+            const context = { profession, product, audience, voiceTone };
             const isUrl = input.trim().startsWith('http');
             let data;
 

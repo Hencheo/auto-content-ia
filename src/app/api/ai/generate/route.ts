@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import Groq from "groq-sdk";
+import { getVoiceTone, BASE_CONTENT_INSTRUCTION, VoiceToneId, DEFAULT_VOICE_TONE } from '@/lib/voiceTones';
 
 // ============ CONFIGURAÇÃO DO PROVIDER (SERVER-SIDE ONLY) ============
 const AI_PROVIDER = process.env.AI_PROVIDER || 'gemini';
@@ -22,14 +23,19 @@ interface GenerateRequest {
         profession: string;
         product: string;
         audience: string;
+        voiceTone?: VoiceToneId;
     };
 }
 
 // ============ PROMPTS ============
-function buildCarouselPrompt(profession?: string, product?: string, audience?: string) {
+function buildCarouselPrompt(profession?: string, product?: string, audience?: string, voiceTone?: VoiceToneId) {
     const role = profession || 'Especialista na sua área';
     const target = audience || 'seu público-alvo ideal';
     const offering = product || 'seus produtos ou serviços';
+
+    // Obtém instrução de tom de voz
+    const tone = getVoiceTone(voiceTone || DEFAULT_VOICE_TONE);
+    const toneInstruction = tone?.promptInstruction || '';
 
     // Determina tipo de CTA baseado na profissão
     let ctaStyle = 'Me chama no direct para conversarmos';
@@ -49,6 +55,13 @@ function buildCarouselPrompt(profession?: string, product?: string, audience?: s
     return `
 Você é um ${role} com anos de experiência ajudando ${target}.
 Seu objetivo é criar carrosséis de ALTA CONVERSÃO para Instagram usando o framework SPIN SELLING combinado com storytelling persuasivo.
+
+========================================
+TOM DE VOZ (OBRIGATÓRIO)
+========================================
+${toneInstruction}
+
+${BASE_CONTENT_INSTRUCTION}
 
 Contexto do criador:
 - Profissão: ${role}
@@ -159,14 +172,25 @@ REGRAS DA LEGENDA (CAPTION)
 `;
 }
 
-function buildStoryPrompt(context?: { profession: string, product: string, audience: string }) {
+function buildStoryPrompt(context?: { profession: string, product: string, audience: string, voiceTone?: VoiceToneId }) {
     const target = context?.audience || 'o público geral';
     const role = context?.profession ? `Especialista em ${context.profession}` : 'Criador de Conteúdo';
+
+    // Obtém instrução de tom de voz
+    const tone = getVoiceTone(context?.voiceTone || DEFAULT_VOICE_TONE);
+    const toneInstruction = tone?.promptInstruction || '';
 
     return `
 Você é um ${role} e Storyteller profissional.
 Seu objetivo é transformar notícias e artigos em uma sequência envolvente de Instagram Stories (formato 9:16) para ${target}.
 O foco é RETENÇÃO e ENGAJAMENTO. Você deve pegar o fato principal e criar uma narrativa cativante.
+
+========================================
+TOM DE VOZ (OBRIGATÓRIO)
+========================================
+${toneInstruction}
+
+${BASE_CONTENT_INSTRUCTION}
 
 ESTRUTURA DOS STORIES (JSON):
 Retorne APENAS um JSON válido com esta estrutura:
@@ -306,11 +330,11 @@ export async function POST(req: NextRequest) {
 
         switch (type) {
             case 'carousel':
-                prompt = `${buildCarouselPrompt(context?.profession, context?.product, context?.audience)}\n\nTEMA DO USUÁRIO: ${content}\n\nGere o conteúdo do carrossel em JSON.`;
+                prompt = `${buildCarouselPrompt(context?.profession, context?.product, context?.audience, context?.voiceTone)}\n\nTEMA DO USUÁRIO: ${content}\n\nGere o conteúdo do carrossel em JSON.`;
                 break;
 
             case 'carousel-article':
-                prompt = `${buildCarouselPrompt(context?.profession, context?.product, context?.audience)}\n\nCONTEÚDO DO ARTIGO:\n${content}\n\nTAREFA: Analise o artigo acima, extraia os principais insights estratégicos e crie um carrossel educativo seguindo as regras de conteúdo. Gere o JSON.`;
+                prompt = `${buildCarouselPrompt(context?.profession, context?.product, context?.audience, context?.voiceTone)}\n\nCONTEÚDO DO ARTIGO:\n${content}\n\nTAREFA: Analise o artigo acima, extraia os principais insights estratégicos e crie um carrossel educativo seguindo as regras de conteúdo. Gere o JSON.`;
                 break;
 
             case 'story':
