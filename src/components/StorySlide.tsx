@@ -23,6 +23,7 @@ interface StorySlideProps {
     scale?: number;
     templateId?: StoryTemplateId;
     theme?: Theme;
+    sourceDomain?: string;  // Domínio da fonte para exibir no slide final
 }
 
 export function StorySlide(props: StorySlideProps) {
@@ -51,6 +52,7 @@ export function StorySlide(props: StorySlideProps) {
                         profile={props.profile}
                         theme={theme}
                         scale={1}
+                        sourceDomain={props.sourceDomain}
                     />
                 </div>
             );
@@ -69,8 +71,8 @@ export function StorySlide(props: StorySlideProps) {
                 overflow: 'hidden',
             }}
         >
-            {templateId === 'breaking-news' && <BreakingNewsTemplate {...props} />}
-            {templateId === 'modern-story' && <ModernStoryTemplate {...props} />}
+            {templateId === 'breaking-news' && <BreakingNewsTemplate {...props} sourceDomain={props.sourceDomain} />}
+            {templateId === 'modern-story' && <ModernStoryTemplate {...props} sourceDomain={props.sourceDomain} />}
         </div>
     );
 }

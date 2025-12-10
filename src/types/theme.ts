@@ -9,10 +9,10 @@ export interface ThemeStyles {
 }
 
 export interface ThemeLayout {
-    header: 'twitter' | 'minimal' | 'centered' | 'news' | 'none';
-    footer: 'bar' | 'progress' | 'none' | 'simple';
-    cover: 'centered' | 'big-bold' | 'news-headline' | 'minimal';
-    content: 'standard' | 'card' | 'news-body' | 'minimal';
+    header: 'twitter' | 'minimal' | 'centered' | 'news' | 'none' | 'badge' | 'chapter';
+    footer: 'bar' | 'progress' | 'none' | 'simple' | 'dots' | 'line' | 'elegant-dots';
+    cover: 'centered' | 'big-bold' | 'news-headline' | 'minimal' | 'dramatic' | 'glitch' | 'serif';
+    content: 'standard' | 'card' | 'news-body' | 'minimal' | 'alternating' | 'card-glow' | 'alternating-align';
 }
 
 export interface Theme {

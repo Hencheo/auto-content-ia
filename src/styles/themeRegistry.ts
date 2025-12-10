@@ -213,6 +213,69 @@ export const themes: Theme[] = [
             cover: 'minimal',
             content: 'card'
         }
+    },
+    {
+        id: 'dramatic-dark',
+        name: 'Dramatic Dark',
+        type: 'story',
+        templateComponent: 'DramaticDarkTemplate',
+        styles: {
+            background: '#0a0a0a',
+            text: '#ffffff',
+            accent: '#ff6b35', // laranja dramático
+            secondary: '#cccccc',
+            muted: '#555555',
+            border: '#333333',
+            fontFamily: 'Inter, sans-serif'
+        },
+        layout: {
+            header: 'none',
+            footer: 'dots',
+            cover: 'dramatic',
+            content: 'alternating'
+        }
+    },
+    {
+        id: 'neon-cyberpunk',
+        name: 'Neon Cyberpunk',
+        type: 'story',
+        templateComponent: 'NeonCyberpunkTemplate',
+        styles: {
+            background: '#0a0a0f',
+            text: '#ffffff',
+            accent: '#f472b6', // pink neon
+            secondary: '#c084fc', // purple
+            muted: '#4a4a5a',
+            border: '#7c3aed',
+            fontFamily: 'Inter, sans-serif'
+        },
+        layout: {
+            header: 'badge',
+            footer: 'line',
+            cover: 'glitch',
+            content: 'card-glow'
+        }
+    },
+    {
+        id: 'minimalist-elegant',
+        name: 'Minimalist Elegant',
+        type: 'story',
+        templateComponent: 'MinimalistElegantTemplate',
+        styles: {
+            background: '#faf9f7',
+            text: '#1a1a1a',
+            accent: '#c9a227', // dourado
+            secondary: '#666666',
+            muted: '#aaaaaa',
+            border: '#e5e5e5',
+            fontFamily: 'Playfair Display, Georgia, serif'
+        },
+        layout: {
+            header: 'chapter',
+            footer: 'elegant-dots',
+            cover: 'serif',
+            content: 'alternating-align'
+        }
     }
 ];
 

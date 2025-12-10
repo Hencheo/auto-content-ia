@@ -176,8 +176,9 @@ export function ContentEditor({
                                         total={slides.length}
                                         id={`editor-preview-${currentSlide}`}
                                         profile={profile}
-                                        templateId={theme.id === 'modern-story' ? 'modern-story' : 'breaking-news'}
+                                        theme={theme}
                                         scale={1}
+                                        sourceDomain={editedData?.sourceDomain}
                                     />
                                 ) : (() => {
                                     const ModularTemplate = getCarouselTemplate(theme);

@@ -60,6 +60,7 @@ export function SlideViewer({
                     slides={data.slides}
                     theme={theme}
                     profile={profile}
+                    sourceDomain={data.sourceDomain}
                 />
             )}
 

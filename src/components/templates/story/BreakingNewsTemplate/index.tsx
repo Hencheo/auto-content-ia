@@ -19,7 +19,8 @@ export function BreakingNewsTemplate({
     id,
     profile,
     theme,
-    scale = 1
+    scale = 1,
+    sourceDomain
 }: StoryTemplateProps) {
     const { styles } = theme;
 
@@ -115,6 +116,14 @@ export function BreakingNewsTemplate({
                                 👇 Responda abaixo
                             </div>
                         </div>
+                        {sourceDomain && (
+                            <div
+                                className="breaking-news-source"
+                                style={{ color: styles.muted }}
+                            >
+                                📰 Fonte: {sourceDomain}
+                            </div>
+                        )}
                     </div>
                 )}
             </div>

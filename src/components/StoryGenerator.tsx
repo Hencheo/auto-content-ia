@@ -71,7 +71,7 @@ export function StoryGenerator() {
             // Step 2: Generate Story Content
             setLoadingStep('Criando storytelling...');
             const content = `TÍTULO: ${scrapeData.title}\n\nCONTEÚDO: ${scrapeData.content}`;
-            const context = { profession, product, audience };
+            const context = { profession, product, audience, sourceUrl: url };
             const data = await generateStoryContent(content, controller.signal, context);
 
             if (controller.signal.aborted) return;
@@ -234,6 +234,7 @@ export function StoryGenerator() {
                                 profile={{ name, handle, image }}
                                 scale={0.3333} // Scale to fit 360px width
                                 templateId={selectedTemplate}
+                                sourceDomain={storyData.sourceDomain}
                             />
                         </div>
 
@@ -289,6 +290,7 @@ export function StoryGenerator() {
                                 profile={{ name, handle, image }}
                                 scale={1}
                                 templateId={selectedTemplate}
+                                sourceDomain={storyData.sourceDomain}
                             />
                         ))}
                     </div>

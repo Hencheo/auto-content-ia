@@ -15,9 +15,10 @@ interface StoryTemplateProps {
         handle: string;
         image: string | null;
     };
+    sourceDomain?: string;  // Domínio da fonte para exibir no slide final
 }
 
-export function BreakingNewsTemplate({ data, index, total, profile }: StoryTemplateProps) {
+export function BreakingNewsTemplate({ data, index, total, profile, sourceDomain }: StoryTemplateProps) {
     return (
         <div className="breaking-news-container">
             {/* Background Element */}
@@ -73,6 +74,11 @@ export function BreakingNewsTemplate({ data, index, total, profile }: StoryTempl
                                 👇 Responda abaixo
                             </div>
                         </div>
+                        {sourceDomain && (
+                            <div className="breaking-news-source">
+                                📰 Fonte: {sourceDomain}
+                            </div>
+                        )}
                     </div>
                 )}
             </div>
@@ -90,7 +96,7 @@ export function BreakingNewsTemplate({ data, index, total, profile }: StoryTempl
     );
 }
 
-export function ModernStoryTemplate({ data, index, total, profile }: StoryTemplateProps) {
+export function ModernStoryTemplate({ data, index, total, profile, sourceDomain }: StoryTemplateProps) {
     return (
 
         <div className="modern-story-container">
@@ -137,6 +143,11 @@ export function ModernStoryTemplate({ data, index, total, profile }: StoryTempla
                                 {data.body}
                             </p>
                         </div>
+                        {sourceDomain && (
+                            <div className="modern-story-source">
+                                📰 Fonte: {sourceDomain}
+                            </div>
+                        )}
                     </div>
                 )}
             </div>

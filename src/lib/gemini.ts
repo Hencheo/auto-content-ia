@@ -10,6 +10,7 @@ interface GenerationContext {
   product: string;
   audience: string;
   voiceTone?: string;
+  sourceUrl?: string;  // URL da fonte para stories
 }
 
 interface GeneratedContent {

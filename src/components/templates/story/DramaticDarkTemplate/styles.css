@@ -1,0 +1,227 @@
+/* ===========================================
+   DRAMATIC DARK TEMPLATE STYLES
+   Template: Cinematic dark drama theme
+   =========================================== */
+
+/* Container Principal */
+.dramatic-dark-container {
+    width: 1080px;
+    height: 1920px;
+    background-color: #0a0a0a;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 80px;
+    font-family: 'Inter', sans-serif;
+    position: relative;
+    overflow: hidden;
+    transform-origin: top left;
+}
+
+/* Background com gradiente dramático */
+.dramatic-dark-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:
+        radial-gradient(ellipse at 30% 0%, rgba(255, 100, 50, 0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at 70% 100%, rgba(255, 50, 50, 0.1) 0%, transparent 50%),
+        linear-gradient(180deg, #0a0a0a 0%, #1a0a0a 50%, #0a0a0a 100%);
+    z-index: 0;
+}
+
+/* Efeito de chamas laterais */
+.dramatic-dark-flames {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:
+        linear-gradient(90deg, rgba(255, 80, 30, 0.08) 0%, transparent 15%),
+        linear-gradient(270deg, rgba(255, 80, 30, 0.08) 0%, transparent 15%);
+    z-index: 0;
+}
+
+/* Header */
+.dramatic-dark-header {
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.dramatic-dark-accent-line {
+    width: 120px;
+    height: 6px;
+    background: #ff6b35;
+    border-radius: 3px;
+}
+
+/* Content Area */
+.dramatic-dark-content {
+    z-index: 1;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 40px 0;
+}
+
+/* === COVER SLIDE === */
+.dramatic-cover-wrapper {
+    text-align: center;
+}
+
+.dramatic-eyebrow {
+    font-size: 28px;
+    font-weight: 600;
+    letter-spacing: 8px;
+    text-transform: uppercase;
+    margin-bottom: 40px;
+    display: block;
+}
+
+.dramatic-title-main {
+    font-size: 100px;
+    font-weight: 900;
+    line-height: 1.05;
+    margin-bottom: 50px;
+    text-transform: uppercase;
+    letter-spacing: -2px;
+}
+
+.dramatic-divider {
+    height: 4px;
+    width: 60%;
+    margin: 0 auto 50px;
+}
+
+.dramatic-subtitle {
+    font-size: 44px;
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.4;
+}
+
+/* === CONTENT SLIDE === */
+.dramatic-content-wrapper {
+    padding: 20px 0;
+}
+
+.dramatic-content-wrapper.layout-a {
+    padding-left: 0;
+    padding-right: 60px;
+}
+
+.dramatic-content-wrapper.layout-b {
+    padding-left: 60px;
+    padding-right: 0;
+}
+
+.dramatic-content-title {
+    font-size: 52px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    margin-bottom: 50px;
+}
+
+.dramatic-content-body {
+    font-size: 56px;
+    line-height: 1.5;
+    font-weight: 300;
+}
+
+/* === HIGHLIGHT SLIDE === */
+.dramatic-highlight-wrapper {
+    text-align: center;
+    padding: 40px;
+}
+
+.dramatic-quote-mark {
+    font-size: 200px;
+    font-family: 'Georgia', serif;
+    line-height: 0.5;
+    opacity: 0.6;
+    margin-bottom: 20px;
+}
+
+.dramatic-highlight-text {
+    font-size: 72px;
+    font-weight: 700;
+    font-style: italic;
+    line-height: 1.3;
+    margin-bottom: 50px;
+}
+
+.dramatic-highlight-detail {
+    font-size: 40px;
+    font-weight: 300;
+    line-height: 1.5;
+}
+
+/* === CTA SLIDE === */
+.dramatic-cta-wrapper {
+    text-align: center;
+}
+
+.dramatic-cta-title {
+    font-size: 72px;
+    font-weight: 800;
+    margin-bottom: 60px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.dramatic-cta-box {
+    border: 3px solid;
+    padding: 60px 50px;
+    border-radius: 20px;
+    margin-bottom: 40px;
+}
+
+.dramatic-cta-text {
+    font-size: 48px;
+    font-weight: 500;
+    line-height: 1.5;
+}
+
+.dramatic-cta-arrow {
+    font-size: 80px;
+    animation: bounce 1.5s ease-in-out infinite;
+}
+
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(15px);
+    }
+}
+
+.dramatic-source {
+    margin-top: 40px;
+    font-size: 26px;
+}
+
+/* Footer / Progress - Dots Style */
+.dramatic-dark-footer {
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.dramatic-progress-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}

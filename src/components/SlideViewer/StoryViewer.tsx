@@ -11,9 +11,10 @@ interface StoryViewerProps {
         handle: string;
         image: string | null;
     };
+    sourceDomain?: string;
 }
 
-export function StoryViewer({ slides, theme, profile }: StoryViewerProps) {
+export function StoryViewer({ slides, theme, profile, sourceDomain }: StoryViewerProps) {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [scale, setScale] = useState<number | null>(null);
 
@@ -121,6 +122,7 @@ export function StoryViewer({ slides, theme, profile }: StoryViewerProps) {
                         theme={theme}
                         templateId={templateId as 'breaking-news' | 'modern-story'}
                         scale={1}
+                        sourceDomain={sourceDomain}
                     />
                 </div>
 

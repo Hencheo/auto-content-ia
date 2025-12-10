@@ -19,7 +19,8 @@ export function ModernStoryTemplate({
     id,
     profile,
     theme,
-    scale = 1
+    scale = 1,
+    sourceDomain
 }: StoryTemplateProps) {
     const { styles } = theme;
 
@@ -109,6 +110,14 @@ export function ModernStoryTemplate({
                                 {data.body}
                             </p>
                         </div>
+                        {sourceDomain && (
+                            <div
+                                className="modern-story-source"
+                                style={{ color: styles.secondary }}
+                            >
+                                📰 Fonte: {sourceDomain}
+                            </div>
+                        )}
                     </div>
                 )}
             </div>

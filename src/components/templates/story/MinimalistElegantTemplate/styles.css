@@ -1,0 +1,227 @@
+/* ===========================================
+   MINIMALIST ELEGANT TEMPLATE STYLES
+   Template: Sophisticated premium design
+   =========================================== */
+
+/* Container Principal */
+.minimal-elegant-container {
+    width: 1080px;
+    height: 1920px;
+    background-color: #faf9f7;
+    color: #1a1a1a;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 100px 80px;
+    font-family: 'Playfair Display', Georgia, serif;
+    position: relative;
+    overflow: hidden;
+    transform-origin: top left;
+}
+
+/* Decorative Lines */
+.minimal-line-top {
+    position: absolute;
+    top: 60px;
+    left: 80px;
+    right: 80px;
+    height: 1px;
+}
+
+.minimal-line-bottom {
+    position: absolute;
+    bottom: 60px;
+    left: 80px;
+    right: 80px;
+    height: 1px;
+}
+
+/* Header */
+.minimal-elegant-header {
+    z-index: 1;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.minimal-chapter {
+    font-size: 24px;
+    font-family: 'Inter', sans-serif;
+    letter-spacing: 4px;
+}
+
+/* Content */
+.minimal-elegant-content {
+    z-index: 1;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 60px 0;
+}
+
+/* === COVER SLIDE === */
+.minimal-cover-wrapper {
+    text-align: center;
+}
+
+.minimal-eyebrow {
+    font-size: 48px;
+    display: block;
+    margin-bottom: 50px;
+}
+
+.minimal-title-serif {
+    font-size: 88px;
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 60px;
+    font-style: italic;
+}
+
+.minimal-elegant-divider {
+    width: 80px;
+    height: 3px;
+    margin: 0 auto 60px;
+}
+
+.minimal-subtitle-light {
+    font-size: 40px;
+    font-weight: 400;
+    font-family: 'Inter', sans-serif;
+    line-height: 1.5;
+}
+
+/* === CONTENT SLIDE === */
+.minimal-content-wrapper {
+    padding: 0 20px;
+}
+
+.minimal-content-wrapper.align-left {
+    padding-right: 100px;
+}
+
+.minimal-content-wrapper.align-right {
+    padding-left: 100px;
+}
+
+.minimal-content-title {
+    font-size: 42px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 6px;
+    margin-bottom: 50px;
+    font-family: 'Inter', sans-serif;
+}
+
+.minimal-content-body {
+    font-size: 52px;
+    line-height: 1.6;
+    font-weight: 400;
+    font-family: 'Playfair Display', Georgia, serif;
+}
+
+/* === HIGHLIGHT SLIDE === */
+.minimal-highlight-wrapper {
+    text-align: center;
+    padding: 60px 40px;
+    position: relative;
+}
+
+.minimal-quote-open,
+.minimal-quote-close {
+    font-size: 120px;
+    font-family: 'Playfair Display', Georgia, serif;
+    line-height: 1;
+    opacity: 0.25;
+    display: block;
+}
+
+.minimal-quote-open {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.minimal-quote-close {
+    text-align: right;
+    margin-top: 20px;
+}
+
+.minimal-highlight-quote {
+    font-size: 64px;
+    font-weight: 500;
+    font-style: italic;
+    line-height: 1.4;
+    margin: 0 40px;
+}
+
+.minimal-highlight-author {
+    font-size: 32px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    margin-top: 50px;
+}
+
+/* === CTA SLIDE === */
+.minimal-cta-wrapper {
+    text-align: center;
+}
+
+.minimal-cta-title {
+    font-size: 72px;
+    font-weight: 600;
+    margin-bottom: 30px;
+    font-style: italic;
+}
+
+.minimal-cta-underline {
+    width: 120px;
+    height: 3px;
+    margin: 0 auto 50px;
+}
+
+.minimal-cta-body {
+    font-size: 44px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    line-height: 1.6;
+    margin-bottom: 60px;
+}
+
+.minimal-cta-icon {
+    font-size: 56px;
+    animation: gentleBounce 2s ease-in-out infinite;
+}
+
+@keyframes gentleBounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    50% {
+        transform: translateY(10px);
+        opacity: 0.7;
+    }
+}
+
+.minimal-source {
+    margin-top: 50px;
+    font-size: 24px;
+    font-family: 'Inter', sans-serif;
+    font-style: italic;
+}
+
+/* Footer / Progress */
+.minimal-elegant-footer {
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    align-items: center;
+}
+
+.minimal-progress-marker {
+    transition: all 0.3s ease;
+}

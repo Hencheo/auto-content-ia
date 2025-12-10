@@ -288,6 +288,7 @@ export function ResultDisplay({
                                 theme={currentTheme}
                                 templateId={currentTheme.id === 'modern-story' ? 'modern-story' : 'breaking-news'}
                                 scale={1}
+                                sourceDomain={result.sourceDomain}
                             />
                         );
                     }

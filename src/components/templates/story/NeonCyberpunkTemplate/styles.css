@@ -1,0 +1,299 @@
+/* ===========================================
+   NEON CYBERPUNK TEMPLATE STYLES
+   Template: Futuristic neon glow theme
+   =========================================== */
+
+/* Container Principal */
+.neon-cyber-container {
+    width: 1080px;
+    height: 1920px;
+    background-color: #0a0a0f;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 80px;
+    font-family: 'Inter', sans-serif;
+    position: relative;
+    overflow: hidden;
+    transform-origin: top left;
+}
+
+/* Background */
+.neon-cyber-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:
+        linear-gradient(180deg, #0a0a0f 0%, #1a0a2e 50%, #0a0a0f 100%);
+    z-index: 0;
+}
+
+/* Grid overlay */
+.neon-cyber-grid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+        linear-gradient(rgba(200, 100, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(200, 100, 255, 0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    z-index: 0;
+}
+
+/* Glowing orbs */
+.neon-cyber-glow-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    z-index: 0;
+}
+
+.neon-cyber-glow-orb.orb-1 {
+    width: 400px;
+    height: 400px;
+    background: rgba(244, 114, 182, 0.3);
+    top: -100px;
+    right: -100px;
+}
+
+.neon-cyber-glow-orb.orb-2 {
+    width: 500px;
+    height: 500px;
+    background: rgba(168, 85, 247, 0.25);
+    bottom: -150px;
+    left: -150px;
+}
+
+/* Header */
+.neon-cyber-header {
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.neon-cyber-badge {
+    border: 2px solid;
+    padding: 12px 40px;
+    border-radius: 50px;
+    background: rgba(10, 10, 15, 0.8);
+}
+
+.neon-cyber-badge-text {
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: 6px;
+    font-family: 'Courier New', monospace;
+}
+
+/* Content */
+.neon-cyber-content {
+    z-index: 1;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* === COVER SLIDE === */
+.neon-cover-wrapper {
+    text-align: center;
+}
+
+.neon-glitch-container {
+    position: relative;
+}
+
+.neon-title-glitch {
+    font-size: 90px;
+    font-weight: 900;
+    line-height: 1.1;
+    text-transform: uppercase;
+    letter-spacing: -1px;
+    margin-bottom: 50px;
+    animation: textFlicker 3s ease-in-out infinite;
+}
+
+@keyframes textFlicker {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    92% {
+        opacity: 1;
+    }
+
+    93% {
+        opacity: 0.8;
+    }
+
+    94% {
+        opacity: 1;
+    }
+
+    95% {
+        opacity: 0.9;
+    }
+
+    96% {
+        opacity: 1;
+    }
+}
+
+.neon-separator {
+    height: 4px;
+    width: 50%;
+    margin: 0 auto 50px;
+    border-radius: 2px;
+}
+
+.neon-subtitle {
+    font-size: 42px;
+    font-weight: 300;
+    line-height: 1.4;
+}
+
+/* === CONTENT SLIDE === */
+.neon-content-wrapper {
+    padding: 20px 0;
+}
+
+.neon-content-title {
+    font-size: 48px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 40px;
+    font-family: 'Courier New', monospace;
+}
+
+.neon-content-card {
+    border: 2px solid;
+    border-radius: 20px;
+    padding: 50px;
+}
+
+.neon-content-body {
+    font-size: 50px;
+    line-height: 1.6;
+    font-weight: 400;
+}
+
+.neon-word-glow {
+    font-weight: 700;
+    text-shadow: 0 0 20px currentColor;
+}
+
+/* === HIGHLIGHT SLIDE === */
+.neon-highlight-wrapper {
+    padding: 20px;
+}
+
+.neon-highlight-box {
+    border: 3px solid;
+    border-radius: 30px;
+    padding: 80px 60px;
+    position: relative;
+    background: rgba(10, 10, 15, 0.6);
+}
+
+.neon-highlight-label {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px 30px;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    font-family: 'Courier New', monospace;
+}
+
+.neon-highlight-text {
+    font-size: 64px;
+    font-weight: 700;
+    line-height: 1.3;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.neon-highlight-detail {
+    font-size: 38px;
+    text-align: center;
+    font-weight: 300;
+    line-height: 1.5;
+}
+
+/* === CTA SLIDE === */
+.neon-cta-wrapper {
+    text-align: center;
+}
+
+.neon-cta-title {
+    font-size: 68px;
+    font-weight: 800;
+    margin-bottom: 60px;
+    text-transform: uppercase;
+}
+
+.neon-cta-button {
+    padding: 50px 60px;
+    border-radius: 25px;
+    margin-bottom: 50px;
+}
+
+.neon-cta-text {
+    font-size: 46px;
+    font-weight: 600;
+    color: white;
+}
+
+.neon-cta-hint {
+    font-size: 32px;
+    letter-spacing: 2px;
+}
+
+.neon-blink {
+    animation: blink 1s ease-in-out infinite;
+}
+
+@keyframes blink {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.3;
+    }
+}
+
+.neon-source {
+    margin-top: 40px;
+    font-size: 24px;
+    font-family: 'Courier New', monospace;
+}
+
+/* Footer / Progress */
+.neon-cyber-footer {
+    z-index: 1;
+}
+
+.neon-progress-track {
+    height: 8px;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.neon-progress-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.3s ease;
+}

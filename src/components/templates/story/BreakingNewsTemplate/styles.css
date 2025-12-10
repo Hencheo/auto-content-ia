@@ -159,3 +159,11 @@
     height: 6px;
     border-radius: 3px;
 }
+
+/* Source Link */
+.breaking-news-source {
+    margin-top: 40px;
+    font-size: 28px;
+    color: #888;
+    text-align: center;
+}

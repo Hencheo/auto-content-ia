@@ -24,6 +24,7 @@ interface GenerateRequest {
         product: string;
         audience: string;
         voiceTone?: VoiceToneId;
+        sourceUrl?: string;  // URL da fonte para stories
     };
 }
 
@@ -172,7 +173,7 @@ REGRAS DA LEGENDA (CAPTION)
 `;
 }
 
-function buildStoryPrompt(context?: { profession: string, product: string, audience: string, voiceTone?: VoiceToneId }) {
+function buildStoryPrompt(context?: { profession: string, product: string, audience: string, voiceTone?: VoiceToneId, sourceUrl?: string }) {
     const target = context?.audience || 'o público geral';
     const role = context?.profession ? `Especialista em ${context.profession}` : 'Criador de Conteúdo';
 
@@ -180,10 +181,22 @@ function buildStoryPrompt(context?: { profession: string, product: string, audie
     const tone = getVoiceTone(context?.voiceTone || DEFAULT_VOICE_TONE);
     const toneInstruction = tone?.promptInstruction || '';
 
+    // Extrai domínio da URL se fornecido
+    let sourceDomain = '';
+    if (context?.sourceUrl) {
+        try {
+            const url = new URL(context.sourceUrl);
+            sourceDomain = url.hostname.replace('www.', '');
+        } catch {
+            sourceDomain = '';
+        }
+    }
+
     return `
-Você é um ${role} e Storyteller profissional.
-Seu objetivo é transformar notícias e artigos em uma sequência envolvente de Instagram Stories (formato 9:16) para ${target}.
-O foco é RETENÇÃO e ENGAJAMENTO. Você deve pegar o fato principal e criar uma narrativa cativante.
+Você é um ${role} e MESTRE em Storytelling para redes sociais.
+Seu objetivo é transformar notícias em uma NARRATIVA ENVOLVENTE de Instagram Stories para ${target}.
+
+⚠️ ATENÇÃO: Você NÃO vai apenas resumir a notícia. Você vai CONTAR UMA HISTÓRIA que prende a atenção do início ao fim.
 
 ========================================
 TOM DE VOZ (OBRIGATÓRIO)
@@ -192,37 +205,80 @@ ${toneInstruction}
 
 ${BASE_CONTENT_INSTRUCTION}
 
-ESTRUTURA DOS STORIES (JSON):
+========================================
+🎯 FRAMEWORK: HOOK → LOOP → REVEAL
+========================================
+
+Este é o segredo para Stories que VIRALIZAM:
+
+**📌 HOOK (Slide 1 - Cover)**
+Seu único objetivo é PARAR O SCROLL. Use um destes padrões:
+- ⚡ "Você não vai acreditar o que..." 
+- 🔥 "Isso vai mudar a forma como você vê..."
+- ❓ "Por que [X] está fazendo [Y]?"
+- 😱 "A verdade sobre [X] que ninguém te conta"
+- 🚨 "URGENTE: [algo impactante aconteceu]"
+O gancho deve criar CURIOSIDADE irresistível!
+
+**🔄 LOOP (Slides 2-5 - Desenvolvimento)**
+Cada slide termina com um MICRO-SUSPENSE que obriga a pessoa a continuar:
+- "Mas isso não é tudo..."
+- "E o pior ainda está por vir..."
+- "O que aconteceu depois chocou todo mundo..."
+- "Só que tem um detalhe..."
+- "E aqui que a história fica interessante..."
+
+REGRA DE OURO: 1 insight por slide, máximo 2 frases.
+Nunca entregue tudo de uma vez. Faça a pessoa PRECISAR do próximo slide.
+
+**🎁 REVEAL (Slides 6-7 - Conclusão + CTA)**
+- Entregue a revelação final ou conclusão da história
+- Adicione sua OPINIÃO ou ANÁLISE como especialista
+- Termine com pergunta que GERA RESPOSTA:
+  → "O que você acha? Comente 🔥 ou ❄️"
+  → "Você concorda? Me conta nos comentários"
+  → "Isso te surpreendeu? Responde aqui 👇"
+
+========================================
+ESTRUTURA JSON OBRIGATÓRIA
+========================================
+
 Retorne APENAS um JSON válido com esta estrutura:
 {
-  "theme": "Manchete Principal",
-  "caption": "Sugestão de texto para postar junto...",
+  "theme": "Manchete Principal (curta e impactante)",
+  "sourceDomain": "${sourceDomain || 'domínio da fonte se disponível'}",
+  "caption": "Legenda para o post...",
   "slides": [
-    { "type": "cover", "title": "Gancho Impactante", "subtitle": "Pergunta ou afirmação curiosa" },
-    { "type": "content", "title": "Contexto", "body": "Explicação resumida." },
-    { "type": "highlight", "title": "Ponto Chave", "body": "O detalhe mais importante." },
-    ...
-    { "type": "cta", "title": "Conclusão/Opinião", "body": "Pergunta para a audiência." }
+    { "type": "cover", "title": "HOOK - Gancho que para o scroll", "subtitle": "Complemento que gera curiosidade" },
+    { "type": "content", "title": "LOOP - Título curto", "body": "Desenvolvimento + micro-suspense no final" },
+    { "type": "content", "title": "LOOP - Título curto", "body": "Mais contexto + gancho para próximo" },
+    { "type": "highlight", "title": "LOOP - Ponto importante", "body": "Revelação parcial + suspense" },
+    { "type": "content", "title": "LOOP - Desenvolvimento", "body": "Mais detalhes + transição para reveal" },
+    { "type": "highlight", "title": "REVEAL - A grande revelação", "body": "Conclusão impactante da história" },
+    { "type": "cta", "title": "REVEAL - Sua opinião", "body": "Pergunta que gera engajamento" }
   ]
 }
 
-REGRAS DOS SLIDES (IMPORTANTE):
-1. NUNCA coloque hashtags (#) dentro dos slides - nem no title, subtitle ou body.
-2. Os slides devem ter texto limpo e impactante.
-3. Cada slide deve criar suspense para o próximo.
+========================================
+REGRAS CRÍTICAS
+========================================
 
-REGRAS DE STORYTELLING:
-1. NÃO apenas resuma. Conte uma história envolvente.
-2. Use "Ganchos" no primeiro slide para prender a atenção.
-3. Mantenha o texto CURTO. Máximo de 2 frases por slide.
-4. Use linguagem conversacional, como se estivesse contando para um amigo.
-5. Gere entre 5 a 8 slides.
-6. O último slide DEVE ter uma pergunta para gerar respostas.
-7. Crie tensão progressiva: cada slide mais interessante que o anterior.
+1. NUNCA coloque hashtags (#) dentro dos slides
+2. NUNCA resuma a notícia de forma seca - conte uma HISTÓRIA
+3. Cada slide DEVE terminar criando expectativa para o próximo
+4. Máximo 2 frases por slide - seja CONCISO
+5. Use linguagem conversacional, como se contasse para um amigo
+6. Gere entre 5 a 8 slides
+7. O slide final (CTA) DEVE ter pergunta que gera resposta
+8. O campo "sourceDomain" deve conter apenas o domínio da fonte original
 
-REGRAS DA CAPTION (se aplicável):
-1. Hashtags vão APENAS na caption, nunca nos slides.
-2. Use 5-8 hashtags relevantes ao tema.
+========================================
+REGRAS DA CAPTION
+========================================
+
+1. Hashtags vão APENAS na caption, nunca nos slides
+2. Use 5-8 hashtags relevantes ao tema
+3. A caption deve complementar a história, não repetí-la
 `;
 }
 
@@ -349,7 +405,18 @@ export async function POST(req: NextRequest) {
         }
 
         const text = await generateWithAI(prompt);
-        const parsed = safeParseJSON(text);
+        const parsed = safeParseJSON(text) as Record<string, unknown>;
+
+        // Para stories, garantir que o sourceDomain seja injetado diretamente
+        // (não depender da IA retornar esse campo)
+        if (type === 'story' && context?.sourceUrl) {
+            try {
+                const url = new URL(context.sourceUrl);
+                parsed.sourceDomain = url.hostname.replace('www.', '');
+            } catch {
+                // Se não conseguir extrair, deixa vazio
+            }
+        }
 
         return NextResponse.json(parsed);
 

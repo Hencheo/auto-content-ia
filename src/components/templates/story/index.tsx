@@ -11,6 +11,9 @@ import { Theme } from '@/types/theme';
 // Templates Modulares
 import { BreakingNewsTemplate } from './BreakingNewsTemplate';
 import { ModernStoryTemplate } from './ModernStoryTemplate';
+import { DramaticDarkTemplate } from './DramaticDarkTemplate';
+import { NeonCyberpunkTemplate } from './NeonCyberpunkTemplate';
+import { MinimalistElegantTemplate } from './MinimalistElegantTemplate';
 
 export interface StoryTemplateProps {
     data: {
@@ -29,12 +32,16 @@ export interface StoryTemplateProps {
     };
     theme: Theme;
     scale?: number;
+    sourceDomain?: string;  // Domínio da fonte para exibir no slide final
 }
 
 // Registro de templates modulares
 const templateRegistry: Record<string, React.ComponentType<StoryTemplateProps>> = {
     'BreakingNewsTemplate': BreakingNewsTemplate,
     'ModernStoryTemplate': ModernStoryTemplate,
+    'DramaticDarkTemplate': DramaticDarkTemplate,
+    'NeonCyberpunkTemplate': NeonCyberpunkTemplate,
+    'MinimalistElegantTemplate': MinimalistElegantTemplate,
 };
 
 /**

@@ -16,6 +16,8 @@ export interface GeneratedContent {
     caption: string;
     /** Array de slides */
     slides: Slide[];
+    /** Domínio da fonte para stories (opcional) */
+    sourceDomain?: string;
 }
 
 /** Conteúdo específico para carrossel */

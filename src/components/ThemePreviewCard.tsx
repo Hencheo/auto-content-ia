@@ -1,6 +1,8 @@
 import React from 'react';
 import { GenericSlide } from './renderer/GenericSlide';
 import { getCarouselTemplate } from './templates/carousel';
+import { getStoryTemplate } from './templates/story';
+import { StorySlide } from './StorySlide';
 import { Theme } from '@/types/theme';
 
 interface ThemePreviewCardProps {
@@ -35,7 +37,10 @@ export function ThemePreviewCard({
     if (!slideData) return null;
 
     // Checar se existe template modular para este tema
-    const ModularTemplate = getCarouselTemplate(theme);
+    // Para story, usar getStoryTemplate; para carousel, usar getCarouselTemplate
+    const ModularTemplate = isStory
+        ? getStoryTemplate(theme)
+        : getCarouselTemplate(theme);
 
     return (
         <div
@@ -53,27 +58,54 @@ export function ThemePreviewCard({
             }}>
                 <div className={`theme-preview-scaler-container ${isStory ? 'story-mode' : ''}`}>
                     <div className="theme-preview-slide-box">
-                        {/* Usa template modular se existir, senão usa GenericSlide */}
-                        {ModularTemplate ? (
-                            <ModularTemplate
-                                id={`preview-${theme.id}`}
-                                data={slideData}
-                                index={0}
-                                total={data.slides.length}
-                                profile={profile}
-                                theme={theme}
-                                scale={1}
-                            />
+                        {/* Para Story, usa StorySlide ou template modular de story */}
+                        {isStory ? (
+                            ModularTemplate ? (
+                                <ModularTemplate
+                                    id={`preview-${theme.id}`}
+                                    data={slideData}
+                                    index={0}
+                                    total={data.slides.length}
+                                    profile={profile}
+                                    theme={theme}
+                                    scale={1}
+                                    sourceDomain={data.sourceDomain}
+                                />
+                            ) : (
+                                <StorySlide
+                                    id={`preview-${theme.id}`}
+                                    data={slideData}
+                                    index={0}
+                                    total={data.slides.length}
+                                    profile={profile}
+                                    theme={theme}
+                                    scale={1}
+                                    sourceDomain={data.sourceDomain}
+                                />
+                            )
                         ) : (
-                            <GenericSlide
-                                id={`preview-${theme.id}`}
-                                data={slideData}
-                                index={0}
-                                total={data.slides.length}
-                                profile={profile}
-                                theme={theme}
-                                scale={1}
-                            />
+                            /* Para Carousel, usa template modular ou GenericSlide */
+                            ModularTemplate ? (
+                                <ModularTemplate
+                                    id={`preview-${theme.id}`}
+                                    data={slideData}
+                                    index={0}
+                                    total={data.slides.length}
+                                    profile={profile}
+                                    theme={theme}
+                                    scale={1}
+                                />
+                            ) : (
+                                <GenericSlide
+                                    id={`preview-${theme.id}`}
+                                    data={slideData}
+                                    index={0}
+                                    total={data.slides.length}
+                                    profile={profile}
+                                    theme={theme}
+                                    scale={1}
+                                />
+                            )
                         )}
                     </div>
                 </div>

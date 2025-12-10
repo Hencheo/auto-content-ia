@@ -142,3 +142,11 @@
     height: 6px;
     border-radius: 3px;
 }
+
+/* Source Link */
+.modern-story-source {
+    margin-top: 40px;
+    font-size: 28px;
+    color: #666;
+    text-align: center;
+}

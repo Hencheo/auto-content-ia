@@ -172,6 +172,13 @@
     background: #333333;
 }
 
+.breaking-news-source {
+    margin-top: 40px;
+    font-size: 28px;
+    color: #888;
+    text-align: center;
+}
+
 
 /* ===========================================
    MODERN STORY TEMPLATE
@@ -323,4 +330,11 @@
 
 .modern-story-progress.inactive {
     background: rgba(0, 0, 0, 0.2);
+}
+
+.modern-story-source {
+    margin-top: 40px;
+    font-size: 28px;
+    color: #666;
+    text-align: center;
 }
