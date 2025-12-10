@@ -117,10 +117,10 @@ export default function Home() {
                     <div className="home-content">
                         <div className="hide-on-mobile home-intro">
                             <h1 className="home-title">
-                                O que vamos criar hoje?
+                                Crie conteúdos para redes sociais
                             </h1>
                             <p className="home-subtitle">
-                                Transforme suas ideias em conteúdo viral em segundos.
+                                Carrosséis, Stories e Posts gerados por IA em segundos.
                             </p>
                         </div>
                         <ChatInterface onGenerate={handleGenerate} loading={loading} />

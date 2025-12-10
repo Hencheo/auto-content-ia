@@ -10,14 +10,15 @@ import { GenericSlide } from './renderer/GenericSlide';
 import { getCarouselTemplate } from './templates/carousel';
 import { StorySlide } from './StorySlide';
 import { ContentEditor } from './ContentEditor';
+import { GeneratedContent, Slide } from '@/types';
 
 interface ResultDisplayProps {
-    result: any;
+    result: GeneratedContent;
     format: 'carousel' | 'story' | 'post';
     themeId: string;
     onThemeChange: (themeId: string) => void;
     onBack: () => void;
-    onUpdate: (newData: any) => void;
+    onUpdate: (newData: GeneratedContent) => void;
 }
 
 export function ResultDisplay({
@@ -273,7 +274,7 @@ export function ResultDisplay({
 
             {/* Container Invisível para Export (slides em tamanho real) */}
             <div className="export-container-hidden">
-                {result.slides.map((slide: any, index: number) => {
+                {result.slides.map((slide: Slide, index: number) => {
                     // Para stories
                     if (format === 'story') {
                         return (

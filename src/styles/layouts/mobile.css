@@ -1,0 +1,72 @@
+/**
+ * Mobile Layout CSS - AutoContent
+ * Estilos responsivos para dispositivos móveis
+ * 
+ * BREAKPOINTS:
+ * - sm: 375px  (Mobile pequeno)
+ * - md: 768px  (Tablet)
+ */
+
+/* =====================================================
+   TABLET & MOBILE (max-width: 768px)
+   ===================================================== */
+@media (max-width: 768px) {
+
+    /* Container - usando especificidade aumentada */
+    body .container,
+    .main-wrapper .container {
+        padding: 2rem 1rem;
+    }
+
+    /* Page Title - usando especificidade aumentada */
+    body .page-title,
+    .main-wrapper .page-title {
+        font-size: 2rem;
+    }
+
+    .grid-responsive {
+        grid-template-columns: 1fr;
+    }
+
+    .flex-responsive {
+        flex-direction: column;
+    }
+
+    .preview-wrapper {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .preview-container {
+        width: 100%;
+        max-width: 350px;
+        height: 437px;
+    }
+
+    /* Ajuste de escala do slide para mobile */
+    .preview-container>div {
+        transform: scale(0.23);
+    }
+
+    /* Utility: esconder em mobile */
+    .hide-on-mobile {
+        display: none;
+    }
+}
+
+/* =====================================================
+   MOBILE PEQUENO (max-width: 375px)
+   ===================================================== */
+@media (max-width: 375px) {
+    .theme-card-wrapper {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
+    .theme-card-container {
+        transform: scale(0.85);
+        transform-origin: center top;
+        margin-bottom: -15%;
+    }
+}

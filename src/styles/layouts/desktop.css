@@ -1,0 +1,16 @@
+/**
+ * Desktop Layout CSS - AutoContent
+ * Estilos específicos para desktop
+ */
+
+@media (min-width: 769px) {
+    .carousel-container {
+        padding: 2rem calc(50% - 160px);
+        justify-content: center;
+    }
+
+    .theme-card-wrapper {
+        width: auto;
+        max-width: none;
+    }
+}

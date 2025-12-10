@@ -7,6 +7,7 @@ import { toPng } from 'html-to-image';
 import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
 import { useUser } from '@/contexts/UserContext';
+import { GeneratedContent, Slide as SlideType } from '@/types';
 
 export function CarouselGenerator() {
     const { name, handle, avatar: image, profession, product, audience } = useUser();
@@ -15,7 +16,7 @@ export function CarouselGenerator() {
     const [url, setUrl] = useState('');
     const [loading, setLoading] = useState(false);
     const [loadingStep, setLoadingStep] = useState('');
-    const [carouselData, setCarouselData] = useState<any>(null);
+    const [carouselData, setCarouselData] = useState<GeneratedContent | null>(null);
 
     // Abort Controller Ref
     const abortControllerRef = useRef<AbortController | null>(null);
@@ -392,7 +393,7 @@ export function CarouselGenerator() {
 
                     {/* Hidden Container for Export (Full Scale) */}
                     <div className="export-container-hidden">
-                        {carouselData.slides.map((slide: any, index: number) => (
+                        {carouselData.slides.map((slide: SlideType, index: number) => (
                             <Slide
                                 key={index}
                                 id={`slide-${index}`}

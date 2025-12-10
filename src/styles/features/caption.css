@@ -1,0 +1,48 @@
+/**
+ * Caption Display Styles
+ * Estilos para exibição de legendas
+ */
+
+.caption-container {
+    padding: 0 1rem;
+    max-width: 800px;
+    font-size: 1rem;
+}
+
+.caption-copy-btn {
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    font-size: 0.8rem;
+    padding: 0.4rem 0.8rem;
+}
+
+.caption-text {
+    white-space: pre-wrap;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.caption-toggle-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    padding: 0;
+}
+
+.caption-toggle-text-muted {
+    color: var(--text-muted);
+    font-weight: normal;
+}
+
+.caption-toggle-text-accent {
+    color: var(--accent-gold);
+    font-weight: bold;
+}

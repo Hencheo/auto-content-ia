@@ -1,0 +1,26 @@
+/**
+ * Styles Index - AutoContent
+ * Importação centralizada de todos os módulos CSS
+ */
+
+/* Base Styles */
+@import './base/reset.css';
+@import './base/variables.css';
+@import './base/typography.css';
+
+/* Component Styles */
+@import './components/buttons.css';
+@import './components/cards.css';
+@import './components/forms.css';
+
+/* Utilities */
+@import './utilities.css';
+
+/* Layout Styles */
+@import './layouts/mobile.css';
+@import './layouts/desktop.css';
+
+/* Feature Styles */
+@import './features/result-display.css';
+@import './features/floating-actions.css';
+@import './features/carousel.css';

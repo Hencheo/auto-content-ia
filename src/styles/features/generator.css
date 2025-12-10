@@ -1,0 +1,131 @@
+/**
+ * Generator & Editor Styles
+ * Estilos da página de geração de conteúdo
+ */
+
+.generator-page-title {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    color: var(--accent-gold);
+    text-align: center;
+}
+
+.generator-section-title {
+    margin-bottom: 1rem;
+    color: var(--text-secondary);
+}
+
+.generator-card {
+    margin-bottom: 2rem;
+}
+
+.template-selection-container {
+    display: flex;
+    gap: 1rem;
+}
+
+.template-select-btn {
+    flex: 1;
+    padding: 1rem;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    text-align: center;
+    background-color: var(--bg-primary);
+    color: white;
+    border: 2px solid var(--border-color);
+    transition: all 0.2s ease;
+}
+
+.template-select-btn.active {
+    border-color: var(--accent-gold);
+}
+
+.template-select-btn.modern-clean {
+    background-color: #f1f5f9;
+    color: #0f172a;
+}
+
+.template-select-btn.breaking-news {
+    background-color: #000;
+    color: white;
+}
+
+.template-select-btn.modern-story {
+    background-color: #fff;
+    color: #000;
+}
+
+.input-type-toggle-container {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.input-type-btn {
+    flex: 1;
+    padding: 0.5rem;
+    border-radius: var(--radius-md);
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    background-color: var(--bg-card);
+    color: var(--text-secondary);
+}
+
+.input-type-btn.active {
+    background-color: var(--accent-gold);
+    color: black;
+}
+
+.generator-input {
+    flex: 1;
+    padding: 1rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-card);
+    color: var(--text-primary);
+    font-size: 1rem;
+}
+
+.generator-textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-color);
+    background: var(--bg-primary);
+    color: white;
+    resize: vertical;
+}
+
+.preview-nav-btn {
+    padding: 1rem;
+    border-radius: 50%;
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+}
+
+.preview-nav-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.preview-slide-container {
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+    position: relative;
+}
+
+.export-container-hidden {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+}
+
+.editor-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}

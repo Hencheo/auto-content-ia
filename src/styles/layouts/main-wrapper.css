@@ -1,0 +1,18 @@
+/**
+ * Main Wrapper Layout
+ * Estilos do wrapper principal da aplicação
+ */
+
+.main-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+}
+
+@media (max-width: 768px) {
+    .main-wrapper {
+        padding: 0.5rem;
+        overflow-x: hidden;
+    }
+}

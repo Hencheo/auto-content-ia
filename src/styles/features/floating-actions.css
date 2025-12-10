@@ -1,0 +1,390 @@
+/**
+ * Floating Actions CSS - AutoContent
+ * Estilos dos botões flutuantes
+ */
+
+/* --- Floating Action Pill --- */
+.mobile-floating-actions {
+    position: fixed;
+    bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+    left: 50%;
+    transform: translateX(-50%);
+    -webkit-transform: translateX(-50%);
+    border-radius: 50px;
+    padding: 0.5rem 1.5rem;
+    display: flex;
+    gap: 1.5rem;
+    z-index: 1000;
+    width: max-content;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    isolation: isolate;
+}
+
+/* Pseudo-elemento para background + blur */
+.mobile-floating-actions::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(45, 43, 44, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 50px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    z-index: -1;
+}
+
+/* Estados do botão flutuante */
+.mobile-floating-actions.visible {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.mobile-floating-actions.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.mobile-floating-btn {
+    --round: 0.5rem;
+    cursor: pointer;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    transition: all 0.25s ease;
+    background: rgba(45, 43, 44, 0.95);
+    border-radius: var(--round);
+    border: none;
+    outline: none;
+    padding: 8px 12px;
+    min-width: 40px;
+    z-index: 1;
+    color: white;
+}
+
+.mobile-floating-btn::before {
+    content: "";
+    position: absolute;
+    inset: 1px;
+    transition: all 0.5s ease-in-out;
+    border-radius: calc(var(--round) - 1px);
+    background: linear-gradient(177.95deg,
+            rgba(255, 255, 255, 0.08) 0%,
+            rgba(255, 255, 255, 0) 100%);
+    z-index: 0;
+}
+
+.mobile-floating-btn:active {
+    transform: scale(0.95);
+}
+
+/* Efeito Fold (canto superior direito) */
+.mobile-floating-btn .fold {
+    z-index: 1;
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 0.8rem;
+    width: 0.8rem;
+    display: inline-block;
+    transition: all 0.5s ease-in-out;
+    background: radial-gradient(100% 75% at 55%,
+            rgba(212, 175, 55, 0.6) 0%,
+            rgba(212, 175, 55, 0) 100%);
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+    border-bottom-left-radius: 0.4rem;
+    border-top-right-radius: var(--round);
+}
+
+.mobile-floating-btn .fold::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 150%;
+    height: 150%;
+    transform: rotate(45deg) translateX(0%) translateY(-12px);
+    background-color: var(--bg-primary);
+    pointer-events: none;
+}
+
+.mobile-floating-btn:hover .fold {
+    margin-top: -0.8rem;
+    margin-right: -0.8rem;
+}
+
+/* Partículas flutuantes */
+.mobile-floating-btn .points_wrapper {
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    position: absolute;
+    z-index: 1;
+}
+
+.mobile-floating-btn .points_wrapper .point {
+    bottom: -6px;
+    position: absolute;
+    animation: floating-points infinite ease-in-out;
+    pointer-events: none;
+    width: 2px;
+    height: 2px;
+    background-color: var(--accent-gold);
+    border-radius: 9999px;
+}
+
+@keyframes floating-points {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    85% {
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateY(-40px);
+        opacity: 0;
+    }
+}
+
+.mobile-floating-btn .points_wrapper .point:nth-child(1) {
+    left: 10%;
+    animation-duration: 2.35s;
+    animation-delay: 0.2s;
+}
+
+.mobile-floating-btn .points_wrapper .point:nth-child(2) {
+    left: 30%;
+    opacity: 0.7;
+    animation-duration: 2.5s;
+    animation-delay: 0.5s;
+}
+
+.mobile-floating-btn .points_wrapper .point:nth-child(3) {
+    left: 50%;
+    opacity: 0.8;
+    animation-duration: 2.2s;
+    animation-delay: 0.1s;
+}
+
+.mobile-floating-btn .points_wrapper .point:nth-child(4) {
+    left: 70%;
+    opacity: 0.6;
+    animation-duration: 2.05s;
+}
+
+.mobile-floating-btn .points_wrapper .point:nth-child(5) {
+    left: 90%;
+    animation-duration: 1.9s;
+}
+
+/* Ícone do botão */
+.mobile-floating-btn .btn-icon {
+    z-index: 2;
+    position: relative;
+    color: white;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease-in-out;
+}
+
+.mobile-floating-btn:hover .btn-icon {
+    color: var(--accent-gold);
+    transform: scale(1.1);
+}
+
+/* Botão Primário (Download) */
+.mobile-floating-btn.primary {
+    background: rgba(45, 43, 44, 0.95);
+}
+
+.mobile-floating-btn.primary .btn-icon {
+    color: var(--accent-gold);
+}
+
+.mobile-floating-btn.primary:hover .btn-icon {
+    color: white;
+}
+
+/* ========================================
+   FORMAT BUTTONS (Home Page - NeonButton)
+   Same visual style as mobile-floating-btn
+   ======================================== */
+
+.format-btn {
+    --round: 0.65rem;
+    cursor: pointer;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    transition: all 0.25s ease;
+    background: rgba(45, 43, 44, 0.95);
+    border-radius: var(--round);
+    border: none;
+    outline: none;
+    padding: 10px 20px;
+    min-width: 90px;
+    z-index: 1;
+    color: white;
+}
+
+.format-btn::before {
+    content: "";
+    position: absolute;
+    inset: 1px;
+    transition: all 0.5s ease-in-out;
+    border-radius: calc(var(--round) - 1px);
+    background: linear-gradient(177.95deg,
+            rgba(255, 255, 255, 0.08) 0%,
+            rgba(255, 255, 255, 0) 100%);
+    z-index: 0;
+}
+
+.format-btn:active {
+    transform: scale(0.95);
+}
+
+/* Efeito Fold (canto superior direito) */
+.format-btn .fold {
+    z-index: 1;
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 0.8rem;
+    width: 0.8rem;
+    display: inline-block;
+    transition: all 0.5s ease-in-out;
+    background: radial-gradient(100% 75% at 55%,
+            rgba(212, 175, 55, 0.6) 0%,
+            rgba(212, 175, 55, 0) 100%);
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+    border-bottom-left-radius: 0.4rem;
+    border-top-right-radius: var(--round);
+}
+
+.format-btn .fold::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 150%;
+    height: 150%;
+    transform: rotate(45deg) translateX(0%) translateY(-12px);
+    background-color: var(--bg-primary);
+    pointer-events: none;
+}
+
+.format-btn:hover .fold {
+    margin-top: -0.8rem;
+    margin-right: -0.8rem;
+}
+
+/* Partículas flutuantes */
+.format-btn .points_wrapper {
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    position: absolute;
+    z-index: 1;
+}
+
+.format-btn .points_wrapper .point {
+    bottom: -6px;
+    position: absolute;
+    animation: floating-points infinite ease-in-out;
+    pointer-events: none;
+    width: 2px;
+    height: 2px;
+    background-color: var(--accent-gold);
+    border-radius: 9999px;
+}
+
+.format-btn .points_wrapper .point:nth-child(1) {
+    left: 10%;
+    animation-duration: 2.35s;
+    animation-delay: 0.2s;
+}
+
+.format-btn .points_wrapper .point:nth-child(2) {
+    left: 30%;
+    opacity: 0.7;
+    animation-duration: 2.5s;
+    animation-delay: 0.5s;
+}
+
+.format-btn .points_wrapper .point:nth-child(3) {
+    left: 50%;
+    opacity: 0.8;
+    animation-duration: 2.2s;
+    animation-delay: 0.1s;
+}
+
+.format-btn .points_wrapper .point:nth-child(4) {
+    left: 70%;
+    opacity: 0.6;
+    animation-duration: 2.05s;
+}
+
+.format-btn .points_wrapper .point:nth-child(5) {
+    left: 90%;
+    animation-duration: 1.9s;
+}
+
+/* Label do botão */
+.format-btn .btn-label {
+    z-index: 2;
+    position: relative;
+    color: white;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    transition: all 0.2s ease-in-out;
+}
+
+.format-btn:hover .btn-label {
+    color: var(--accent-gold);
+}
+
+/* Estado Ativo */
+.format-btn.active {
+    background: rgba(60, 58, 59, 0.95);
+    box-shadow: 0 0 12px rgba(212, 175, 55, 0.3);
+}
+
+.format-btn.active .btn-label {
+    color: var(--accent-gold);
+}
+
+.format-btn.active .fold {
+    background: radial-gradient(100% 75% at 55%,
+            rgba(212, 175, 55, 0.9) 0%,
+            rgba(212, 175, 55, 0.2) 100%);
+}
+
+/* Container dos botões de formato */
+.format-buttons-container {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    padding-top: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+@media (min-width: 640px) {
+    .format-buttons-container {
+        gap: 0.75rem;
+        padding-top: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+}

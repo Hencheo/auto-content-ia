@@ -6,15 +6,16 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { X, ChevronLeft, ChevronRight, Save, Image, Trash2 } from 'lucide-react';
 import { GenericSlide } from './renderer/GenericSlide';
+import { getCarouselTemplate } from './templates/carousel';
 import { StorySlide } from './StorySlide';
-import { Theme } from '@/types/theme';
+import { Theme, GeneratedContent, Slide } from '@/types';
 import styles from './ContentEditor.module.css';
 
 interface ContentEditorProps {
     isOpen: boolean;
     onClose: () => void;
-    data: any;
-    onUpdate: (newData: any) => void;
+    data: GeneratedContent;
+    onUpdate: (newData: GeneratedContent) => void;
     theme: Theme;
     format: 'carousel' | 'story';
     profile: {
@@ -34,7 +35,7 @@ export function ContentEditor({
     profile
 }: ContentEditorProps) {
     const [currentSlide, setCurrentSlide] = useState(0);
-    const [editedData, setEditedData] = useState<any>(null);
+    const [editedData, setEditedData] = useState<GeneratedContent | null>(null);
     const [hasChanges, setHasChanges] = useState(false);
 
     // Ref para o input de arquivo (deve estar antes de qualquer return)
@@ -178,17 +179,30 @@ export function ContentEditor({
                                         templateId={theme.id === 'modern-story' ? 'modern-story' : 'breaking-news'}
                                         scale={1}
                                     />
-                                ) : (
-                                    <GenericSlide
-                                        data={currentSlideData}
-                                        index={currentSlide}
-                                        total={slides.length}
-                                        id={`editor-preview-${currentSlide}`}
-                                        profile={profile}
-                                        theme={theme}
-                                        scale={1}
-                                    />
-                                )}
+                                ) : (() => {
+                                    const ModularTemplate = getCarouselTemplate(theme);
+                                    return ModularTemplate ? (
+                                        <ModularTemplate
+                                            data={currentSlideData}
+                                            index={currentSlide}
+                                            total={slides.length}
+                                            id={`editor-preview-${currentSlide}`}
+                                            profile={profile}
+                                            theme={theme}
+                                            scale={1}
+                                        />
+                                    ) : (
+                                        <GenericSlide
+                                            data={currentSlideData}
+                                            index={currentSlide}
+                                            total={slides.length}
+                                            id={`editor-preview-${currentSlide}`}
+                                            profile={profile}
+                                            theme={theme}
+                                            scale={1}
+                                        />
+                                    );
+                                })()}
                             </div>
                         </div>
 

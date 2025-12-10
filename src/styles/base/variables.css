@@ -1,0 +1,62 @@
+/**
+ * CSS Variables - AutoContent
+ * Paleta de cores, espaçamentos e border-radius
+ */
+
+:root {
+    /* Premium Financial Palette */
+    --bg-primary: #1a1819;
+    /* Slate 950 */
+    --bg-secondary: #272526;
+    /* Dark Brownish Grey */
+    --bg-card: #2d2b2c;
+    /* Lighter Brownish Grey */
+
+    --text-primary: #f8fafc;
+    /* Slate 50 */
+    --text-secondary: #cbd5e1;
+    /* Slate 300 */
+    --text-muted: #31353c;
+    /* Slate 500 */
+
+    --accent-gold: #fbbf24;
+    /* Amber 400 */
+    --accent-gold-hover: #d97706;
+    /* Amber 600 */
+
+    --accent-green: #21af24;
+    /* Emerald 500 */
+    --accent-danger: #ef4444;
+    /* Red 500 */
+
+    --border-color: #ffc002;
+    /* Slate 700 */
+
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 16px;
+
+    /* =====================================================
+       BREAKPOINTS - Sistema Consistente
+       Nota: CSS vars não funcionam em @media, mas servem
+       como documentação central do sistema de design.
+       
+       Valores:
+       - sm: 375px  (Mobile pequeno - iPhone SE)
+       - md: 768px  (Tablet / Mobile landscape)
+       - lg: 1024px (Desktop)
+       - xl: 1280px (Desktop grande)
+       ===================================================== */
+    --breakpoint-sm: 375px;
+    --breakpoint-md: 768px;
+    --breakpoint-lg: 1024px;
+    --breakpoint-xl: 1280px;
+
+    /* =====================================================
+       TOUCH TARGETS - Acessibilidade
+       Tamanho mínimo recomendado: 44x44px (WCAG 2.1)
+       ===================================================== */
+    --touch-target-min: 44px;
+    --touch-target-sm: 36px;
+    --touch-target-lg: 48px;
+}

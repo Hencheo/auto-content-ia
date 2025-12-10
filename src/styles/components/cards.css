@@ -1,0 +1,123 @@
+/**
+ * Cards CSS - AutoContent
+ * Estilos de cards e tema preview
+ */
+
+.card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+}
+
+.theme-card.selected {
+    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
+    z-index: 10;
+}
+
+/* --- Simple Theme Preview Card --- */
+.theme-preview-card-simple {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    border: 1px solid transparent;
+    background-color: var(--bg-card);
+    transition: all 0.3s ease;
+}
+
+.theme-preview-card-simple.selected {
+    border: 2px solid var(--accent-gold);
+    transform: scale(1.02);
+}
+
+/* Specific Layout for Story Mode (Tight Border) */
+.theme-preview-card-simple.story-mode {
+    width: fit-content;
+    margin: 0 auto;
+}
+
+/* Specific Layout for Carousel Mode (Tight Border) */
+.theme-preview-card-simple.carousel-mode {
+    width: fit-content;
+    margin: 0 auto;
+}
+
+/* Specific Border for Story Mode */
+.theme-preview-card-simple.story-mode.selected {
+    border-width: 4px;
+}
+
+/* Specific Border for Carousel Mode */
+.theme-preview-card-simple.carousel-mode.selected {
+    border-width: 4px;
+}
+
+.theme-card-badge {
+    position: absolute;
+    bottom: 0.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    pointer-events: none;
+    z-index: 10;
+    white-space: nowrap;
+}
+
+/* --- Responsive Theme Scaler --- */
+.theme-preview-scaler-container {
+    width: 300px;
+    height: 375px;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.theme-preview-slide-box {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1080px;
+    height: 1350px;
+    transform: scale(0.2777);
+    transform-origin: top left;
+    transition: transform 0.3s ease;
+}
+
+@media (max-width: 375px) {
+    .theme-preview-scaler-container {
+        width: 250px;
+        height: 312px;
+    }
+
+    .theme-preview-slide-box {
+        transform: scale(0.231);
+    }
+}
+
+/* Story Mode 9:16 Aspect Ratio - Reduced Size */
+.theme-preview-scaler-container.story-mode {
+    width: 240px;
+    height: 427px;
+}
+
+.theme-preview-scaler-container.story-mode .theme-preview-slide-box {
+    transform: scale(0.2222);
+    height: 1920px;
+}
+
+@media (max-width: 375px) {
+    .theme-preview-scaler-container.story-mode {
+        width: 220px;
+        height: 391px;
+    }
+
+    .theme-preview-scaler-container.story-mode .theme-preview-slide-box {
+        transform: scale(0.2037);
+    }
+}
