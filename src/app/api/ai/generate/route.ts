@@ -47,68 +47,115 @@ function buildCarouselPrompt(profession?: string, product?: string, audience?: s
     }
 
     return `
-Você é um ${role}.
-Seu público alvo são ${target}.
-Seu objetivo é criar conteúdo para carrosséis do Instagram que eduquem e engajem sobre ${offering}.
+Você é um ${role} com anos de experiência ajudando ${target}.
+Seu objetivo é criar carrosséis de ALTA CONVERSÃO para Instagram usando o framework SPIN SELLING combinado com storytelling persuasivo.
 
-ESTRUTURA DO CARROSSEL (JSON):
-Retorne APENAS um JSON válido com esta estrutura:
+Contexto do criador:
+- Profissão: ${role}
+- Público-alvo: ${target}
+- Oferta: ${offering}
+
+========================================
+FRAMEWORK SPIN + PAS PARA CARROSSÉIS
+========================================
+
+Use esta metodologia poderosa para criar conteúdo que VENDE:
+
+**S (Situação)** → Mostre que você ENTENDE o contexto do público
+**P (Problema)** → Identifique a DOR específica que enfrentam
+**I (Implicação)** → Revele os RISCOS e CONSEQUÊNCIAS de não resolver
+**N (Need-Payoff)** → Apresente a SOLUÇÃO e os benefícios
+
+========================================
+ESTRUTURA OBRIGATÓRIA DOS SLIDES
+========================================
+
+SLIDE 1 - COVER (Gancho):
+- Promessa ousada OU pergunta provocativa
+- Deve PARAR O SCROLL imediatamente
+- Exemplo: "3 erros que estão destruindo seu [X]" ou "Por que 90% das pessoas falham em [X]"
+
+SLIDE 2 - SITUAÇÃO (S):
+- Mostre que você entende o dia-a-dia do público
+- Valide a realidade deles com empatia
+- Crie conexão: "Você é like eu ou alguém que você conhece?"
+
+SLIDE 3 - PROBLEMA (P):
+- Revele o problema REAL (não o superficial)
+- Seja específico e técnico (gera autoridade)
+- Tom: "A verdade que ninguém te conta..."
+
+SLIDE 4 - IMPLICAÇÃO (I) - ⚠️ RISCOS:
+- Este é o slide mais importante!
+- Mostre as CONSEQUÊNCIAS de não resolver
+- Use dados, estatísticas ou casos reais
+- Crie URGÊNCIA: "Se você não resolver isso agora..."
+
+SLIDE 5 - INSIGHT EXCLUSIVO:
+- Compartilhe conhecimento que só EXPERTS têm
+- Pode ser uma técnica, framework ou segredo do mercado
+- Tom de autoridade: "Na minha experiência de X anos..."
+
+SLIDE 6 - SOLUÇÃO (N - Need-Payoff):
+- Apresente O CAMINHO para resolver
+- Posicione o criador como quem tem a resposta
+- Benefícios claros e tangíveis
+
+SLIDE 7 - CTA:
+- Chamada para ação específica
+- Não seja genérico. Crie senso de oportunidade.
+- Estilo recomendado: "${ctaStyle}"
+
+========================================
+ESTRUTURA JSON OBRIGATÓRIA
+========================================
+
+Retorne APENAS um JSON válido:
 {
   "theme": "Título do Tema",
-  "caption": "Legenda completa formatada conforme regras abaixo...",
+  "caption": "Legenda completa...",
   "slides": [
     { "type": "cover", "title": "Gancho Forte", "subtitle": "Subtítulo provocativo" },
-    { "type": "content", "title": "Título do Slide", "body": "Texto curto e direto." },
-    ...
-    { "type": "cta", "title": "Chamada para Ação", "body": "Texto final" }
+    { "type": "content", "title": "Situação Atual", "body": "Contexto empático." },
+    { "type": "content", "title": "O Problema Real", "body": "Dor específica." },
+    { "type": "highlight", "title": "⚠️ Riscos de Ignorar", "body": "Consequências sérias." },
+    { "type": "content", "title": "O Que Experts Sabem", "body": "Conhecimento exclusivo." },
+    { "type": "highlight", "title": "A Solução", "body": "Como resolver." },
+    { "type": "cta", "title": "Próximo Passo", "body": "Chamada para ação." }
   ]
 }
 
-REGRAS DOS SLIDES (IMPORTANTE):
-1. O carrossel deve ter entre 5 a 7 slides.
-2. NUNCA coloque hashtags (#) dentro dos slides - nem no title, subtitle ou body.
-3. Os slides devem ter texto limpo, profissional e visualmente agradável.
-4. Cada slide deve criar curiosidade para o próximo (storytelling progressivo).
-5. Estrutura recomendada:
-   - Slide 1 (Cover): Promessa ou pergunta intrigante que prende atenção
-   - Slides 2-4 (Content): Desenvolva a promessa com valor real e insights
-   - Slide 5-6 (Highlight): Ponto de virada ou insight mais poderoso
-   - Slide Final (CTA): Convite para ação de forma natural e profissional
+========================================
+REGRAS DE OURO
+========================================
 
-REGRAS DE CONTEÚDO:
-1. Seja direto e autoritário, mas elegante.
-2. Use gatilhos de urgência e exclusividade quando apropriado.
-3. Adapte a linguagem para o público: ${target}.
-4. Evite clichês. Fale de resultados reais e transformações.
-5. O último slide ANTES do CTA deve ter o insight mais valioso.
+1. NUNCA use hashtags (#) dentro dos slides
+2. Tom: Autoridade + Empatia (você é expert MAS entende a dor)
+3. Cada slide deve fazer o leitor PRECISAR ver o próximo
+4. Use números e dados quando possível (credibilidade)
+5. O slide de IMPLICAÇÃO é crucial: gere desconforto construtivo
+6. Linguagem adaptada para: ${target}
 
-REGRAS DA LEGENDA (CAPTION) - ESTRUTURA OBRIGATÓRIA:
-A legenda DEVE seguir esta formatação exata:
+========================================
+REGRAS DA LEGENDA (CAPTION)
+========================================
 
-1. GANCHO (1-2 linhas): Pergunta provocativa ou afirmação impactante que para o scroll
+1. GANCHO (1-2 linhas): Pergunta ou afirmação que para o scroll
 
 2. [linha vazia]
 
-3. DESENVOLVIMENTO (3-5 parágrafos curtos de 2-3 frases cada):
-   - Expanda a ideia principal com valor real
-   - Use parágrafos curtos separados por linha vazia
-   - Pode usar emojis estratégicos (máximo 3-5 no total)
+3. DESENVOLVIMENTO (3-5 parágrafos curtos):
+   - Expanda com valor real
+   - Use emojis estratégicos (máximo 5)
+   - Parágrafos de 2-3 frases
 
 4. [linha vazia]
 
-5. CTA (1-2 linhas): Chamada para ação personalizada
-   - Estilo sugerido para este usuário: "${ctaStyle}"
-   - NUNCA use CTAs genéricos como "me siga" ou "curta o post"
-   - Crie senso de urgência ou exclusividade
+5. CTA: "${ctaStyle}"
 
 6. [linha vazia]
 
-7. HASHTAGS (5-8 hashtags): 
-   - Relevantes ao nicho e ao tema
-   - Separadas por espaço
-   - APENAS aqui, nunca nos slides
-
-Tom geral: Conversacional mas profissional. Adaptado para ${target}.
+7. HASHTAGS: 5-8 hashtags relevantes (APENAS aqui, nunca nos slides)
 `;
 }
 
