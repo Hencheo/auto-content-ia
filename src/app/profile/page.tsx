@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { useUser } from '@/contexts/UserContext';
 import Link from 'next/link';
 import { VOICE_TONES, VoiceToneId } from '@/lib/voiceTones';
+import { STORAGE_PROVIDERS } from '@/lib/storageProviders';
 
 export default function ProfilePage() {
     const {
@@ -13,7 +14,8 @@ export default function ProfilePage() {
         profession, setProfession,
         product, setProduct,
         audience, setAudience,
-        voiceTone, setVoiceTone
+        voiceTone, setVoiceTone,
+        storageProvider, setStorageProvider
     } = useUser();
 
     const [showSaved, setShowSaved] = useState(false);
@@ -149,6 +151,28 @@ export default function ProfilePage() {
 
                     <p className="voice-tone-description">
                         {VOICE_TONES.find(t => t.id === voiceTone)?.description}
+                    </p>
+
+                    <div className="profile-section-header">
+                        Local de Salvamento
+                    </div>
+
+                    <div className="storage-provider-grid">
+                        {STORAGE_PROVIDERS.map((provider) => (
+                            <button
+                                key={provider.id}
+                                type="button"
+                                className={`storage-provider-button ${storageProvider === provider.id ? 'active' : ''}`}
+                                onClick={() => setStorageProvider(provider.id)}
+                            >
+                                <span className="storage-provider-icon">{provider.icon}</span>
+                                <span className="storage-provider-label">{provider.name}</span>
+                            </button>
+                        ))}
+                    </div>
+
+                    <p className="storage-provider-description">
+                        {STORAGE_PROVIDERS.find(p => p.id === storageProvider)?.description}
                     </p>
 
                     <button

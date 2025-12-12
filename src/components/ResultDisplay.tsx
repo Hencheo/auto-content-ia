@@ -5,7 +5,7 @@ import { CaptionDisplay } from './CaptionDisplay';
 import { useUser } from '@/contexts/UserContext';
 import { ChevronLeft, Edit, Download, Eye, Check, Copy } from 'lucide-react';
 import { SlideViewer } from './SlideViewer/SlideViewer';
-import { downloadSlidesAsZip } from '@/lib/downloadUtils';
+import { getStorageProvider } from '@/lib/storageProviders';
 import { GenericSlide } from './renderer/GenericSlide';
 import { getCarouselTemplate } from './templates/carousel';
 import { StorySlide } from './StorySlide';
@@ -29,7 +29,7 @@ export function ResultDisplay({
     onBack,
     onUpdate
 }: ResultDisplayProps) {
-    const { name, handle, avatar: image } = useUser();
+    const { name, handle, avatar: image, storageProvider } = useUser();
     const [selectedThemeId, setSelectedThemeId] = useState<string>(themeId || 'financial-dark');
     const [activeIndex, setActiveIndex] = useState(0);
     const [showFullCaption, setShowFullCaption] = useState(false);
@@ -92,16 +92,33 @@ export function ResultDisplay({
             // Pequeno delay para garantir que os slides de export foram renderizados
             await new Promise(resolve => setTimeout(resolve, 300));
 
-            await downloadSlidesAsZip({
+            // Usar o provider selecionado pelo usuário
+            const provider = getStorageProvider(storageProvider);
+
+            // Extrair título do cover slide (primeiro slide) para nome do arquivo
+            const coverSlide = result.slides[0];
+            const contentTitle = coverSlide?.title || coverSlide?.subtitle || result.theme || 'conteudo';
+
+            const saveResult = await provider.save({
                 slides: result.slides,
-                theme: result.theme || 'conteudo',
+                contentTitle: contentTitle,
                 caption: result.caption,
                 format: format as 'carousel' | 'story',
                 slideIdPrefix: 'export-slide'
             });
+
+            if (!saveResult.success) {
+                throw new Error(saveResult.message);
+            }
+
+            // Feedback de sucesso (opcional para Drive)
+            if (storageProvider === 'google-drive' && saveResult.url) {
+                alert(`✅ Salvo no Google Drive!\n${saveResult.message}`);
+            }
         } catch (error) {
             console.error('Erro no download:', error);
-            alert('Erro ao gerar download. Tente novamente.');
+            const message = error instanceof Error ? error.message : 'Erro ao gerar download. Tente novamente.';
+            alert(message);
         } finally {
             setIsDownloading(false);
         }

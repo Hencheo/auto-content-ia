@@ -149,6 +149,7 @@ REGRAS DE OURO
 4. Use números e dados quando possível (credibilidade)
 5. O slide de IMPLICAÇÃO é crucial: gere desconforto construtivo
 6. Linguagem adaptada para: ${target}
+7. ⚠️ CONSISTÊNCIA OBRIGATÓRIA: Se o cover promete "X erros", "X dicas", "X passos", "X motivos", etc., você DEVE listar e explicar CADA UM desses X itens nos slides de conteúdo. Exemplo: Se o título é "3 erros que destroem seu negócio", os slides DEVEM apresentar Erro 1, Erro 2 e Erro 3 claramente. NUNCA faça uma promessa numérica no cover que não é cumprida nos slides.
 
 ========================================
 REGRAS DA LEGENDA (CAPTION)

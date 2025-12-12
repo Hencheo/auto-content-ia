@@ -289,3 +289,58 @@
 .save-button:active {
     transform: translateY(0);
 }
+
+/* Storage Provider Selection */
+.storage-provider-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.storage-provider-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem 0.75rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--text-secondary);
+}
+
+.storage-provider-button:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.storage-provider-button.active {
+    background: rgba(251, 191, 36, 0.15);
+    border-color: var(--accent-gold);
+    color: var(--text-primary);
+}
+
+.storage-provider-button.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.storage-provider-icon {
+    font-size: 1.75rem;
+}
+
+.storage-provider-label {
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.storage-provider-description {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    text-align: center;
+    margin-bottom: 2rem;
+    font-style: italic;
+}
